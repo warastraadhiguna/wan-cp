@@ -20,6 +20,8 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PortfolioItemResource extends Resource
 {
@@ -71,7 +73,30 @@ class PortfolioItemResource extends Resource
                     ->disk('public')
                     ->directory('portfolio-items')
                     ->visibility('public')
-                    ->fetchFileInformation(false)
+                    ->fetchFileInformation()
+                    ->getUploadedFileUsing(static function (FileUpload $component, string $file, string|array|null $storedFileNames): ?array {
+                        if (Str::startsWith($file, ['http://', 'https://'])) {
+                            return [
+                                'name' => is_array($storedFileNames) ? ($storedFileNames[$file] ?? basename($file)) : ($storedFileNames ?? basename($file)),
+                                'size' => 0,
+                                'type' => null,
+                                'url' => $file,
+                            ];
+                        }
+
+                        $storage = Storage::disk('public');
+
+                        if (! $storage->exists($file)) {
+                            return null;
+                        }
+
+                        return [
+                            'name' => is_array($storedFileNames) ? ($storedFileNames[$file] ?? basename($file)) : ($storedFileNames ?? basename($file)),
+                            'size' => rescue(fn (): int => $storage->size($file), 0, report: false),
+                            'type' => rescue(fn (): ?string => $storage->mimeType($file), null, report: false),
+                            'url' => route('uploads.show', ['path' => $file]),
+                        ];
+                    })
                     ->image()
                     ->imageEditor()
                     ->openable()
