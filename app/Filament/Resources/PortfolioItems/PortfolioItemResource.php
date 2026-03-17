@@ -71,6 +71,7 @@ class PortfolioItemResource extends Resource
                     ->disk('public')
                     ->directory('portfolio-items')
                     ->visibility('public')
+                    ->fetchFileInformation(false)
                     ->image()
                     ->imageEditor()
                     ->openable()
