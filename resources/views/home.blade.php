@@ -96,9 +96,22 @@
             background-color: transparent !important;
             border-bottom: 1px solid transparent;
         }
+        .navbar > .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 0.75rem;
+        }
+        .navbar .navbar-brand {
+            flex: 1 1 auto;
+            min-width: 0;
+            margin-right: 0;
+        }
         .navbar .logo-text {
             color: #ffffff;
             transition: color 0.3s ease;
+            white-space: nowrap;
         }
         .navbar .nav-link {
             color: rgba(255, 255, 255, 0.85);
@@ -116,11 +129,30 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
         .navbar .navbar-toggler {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            width: 46px;
+            height: 46px;
+            padding: 0;
             border-color: rgba(255, 255, 255, 0.3);
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
         }
         /* Ikon Toggler Putih (Transparan) */
         .navbar .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            display: block;
+            width: 20px;
+            height: 2px;
+            border-radius: 999px;
+            background-image: none;
+            background-color: currentColor;
+            box-shadow: 0 -6px 0 currentColor, 0 6px 0 currentColor;
         }
 
         /* Language Dropdown saat Transparan */
@@ -160,10 +192,12 @@
         }
         .navbar.scrolled .navbar-toggler {
             border-color: rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.92);
+            color: rgba(15, 23, 42, 0.82);
         }
         /* Ikon Toggler Gelap (Scrolled) */
         .navbar.scrolled .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2815, 23, 42, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: none;
         }
         
         /* Language Dropdown saat Scrolled */
@@ -199,6 +233,71 @@
         .navbar.scrolled .logo-mark {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.12));
             border-color: rgba(59, 130, 246, 0.14);
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar > .container {
+                flex-wrap: wrap;
+                padding-right: calc(var(--bs-gutter-x) * 0.5 + 3.75rem);
+            }
+            .navbar .navbar-brand {
+                max-width: calc(100% - 4.5rem);
+            }
+            .navbar .navbar-toggler {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                transform: none;
+                z-index: 1035;
+            }
+            .navbar .navbar-collapse {
+                position: fixed;
+                left: var(--wa-mobile-nav-left, 0.75rem);
+                top: var(--wa-mobile-nav-top, 5rem);
+                width: var(--wa-mobile-nav-width, calc(100vw - 1.5rem));
+                flex-basis: auto;
+                max-height: var(--wa-mobile-nav-max-height, calc(100vh - 6rem));
+                padding: 1rem;
+                overflow-y: auto;
+                border: 1px solid rgba(226, 232, 240, 0.9);
+                border-radius: 1.25rem;
+                background: rgba(255, 255, 255, 0.98);
+                box-shadow: 0 20px 45px rgba(15, 23, 42, 0.16);
+                backdrop-filter: blur(16px);
+                z-index: 1030;
+                transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+            }
+            .navbar .navbar-collapse.collapse:not(.show) {
+                display: block;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transform: translateY(-0.5rem);
+            }
+            .navbar .navbar-collapse.collapse.show,
+            .navbar .navbar-collapse.collapsing {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+            .navbar .navbar-collapse.collapsing {
+                height: auto !important;
+            }
+            .navbar .navbar-nav {
+                align-items: stretch !important;
+                gap: 0.25rem;
+            }
+            .navbar .navbar-nav .nav-link {
+                padding: 0.7rem 0.25rem;
+            }
+            .navbar .navbar-nav .btn {
+                width: 100%;
+            }
+            .navbar .lang-dropdown .dropdown-menu {
+                width: 100%;
+            }
         }
 
         /* Latar Belakang Abstrak Hero */
@@ -536,6 +635,12 @@
             font-weight: 700;
         }
         @media (max-width: 767.98px) {
+            .navbar {
+                padding: 1rem 0;
+            }
+            .navbar .logo-text {
+                font-size: 1.05rem !important;
+            }
             .projects-modal .modal-dialog {
                 max-width: calc(100vw - 1rem);
                 margin: 0.5rem auto;
@@ -583,7 +688,7 @@
 <body data-bs-spy="scroll" data-bs-target="#navbarNav" data-bs-root-margin="0px 0px -40%" tabindex="0">
 
     <!-- Navigation -->
-    <nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top" data-aos="fade-down" data-aos-duration="1000">
+    <nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
                 <span class="logo-mark">
@@ -1036,20 +1141,85 @@
             offset: 50         // Jarak mulai animasi saat elemen mendekati layar
         });
 
-        // Efek transparan ke putih pada Navbar saat di-scroll
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('mainNavbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+        const navbar = document.getElementById('mainNavbar');
+        const navbarCollapse = document.getElementById('navbarNav');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const mobileMenuBreakpoint = 992;
+
+        function updateNavbarCollapsePosition() {
+            if (window.innerWidth < mobileMenuBreakpoint) {
+                const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+                const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                const viewportOffsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
+                const viewportOffsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
+                const navbarRect = navbar.getBoundingClientRect();
+                const horizontalPadding = 12;
+                const collapseLeft = viewportOffsetLeft + horizontalPadding;
+                const collapseWidth = Math.max(280, viewportWidth - (horizontalPadding * 2));
+                const collapseTop = Math.max(viewportOffsetTop + 12, navbarRect.bottom + 12);
+                const collapseMaxHeight = Math.max(220, viewportOffsetTop + viewportHeight - collapseTop - 12);
+
+                document.documentElement.style.setProperty('--wa-mobile-nav-left', `${collapseLeft}px`);
+                document.documentElement.style.setProperty('--wa-mobile-nav-width', `${collapseWidth}px`);
+                document.documentElement.style.setProperty('--wa-mobile-nav-top', `${collapseTop}px`);
+                document.documentElement.style.setProperty('--wa-mobile-nav-max-height', `${collapseMaxHeight}px`);
             } else {
-                navbar.classList.remove('scrolled');
+                document.documentElement.style.removeProperty('--wa-mobile-nav-left');
+                document.documentElement.style.removeProperty('--wa-mobile-nav-width');
+                document.documentElement.style.removeProperty('--wa-mobile-nav-top');
+                document.documentElement.style.removeProperty('--wa-mobile-nav-max-height');
             }
-        });
+        }
+
+        function updateNavbarTogglerPosition() {
+            if (!navbarToggler) {
+                return;
+            }
+
+            if (window.innerWidth < mobileMenuBreakpoint) {
+                const viewportWidth = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+                const viewportOffsetLeft = window.visualViewport ? window.visualViewport.offsetLeft : 0;
+                const viewportOffsetTop = window.visualViewport ? window.visualViewport.offsetTop : 0;
+                const buttonWidth = navbarToggler.offsetWidth || 46;
+                const horizontalPadding = 16;
+
+                navbarToggler.style.left = `${Math.max(horizontalPadding, viewportOffsetLeft + viewportWidth - buttonWidth - horizontalPadding)}px`;
+                navbarToggler.style.right = 'auto';
+                navbarToggler.style.top = `${viewportOffsetTop + 16}px`;
+            } else {
+                navbarToggler.style.left = '';
+                navbarToggler.style.right = '';
+                navbarToggler.style.top = '';
+            }
+        }
+
+        function updateNavbarState() {
+            const isMobileViewport = window.innerWidth < mobileMenuBreakpoint;
+            const isMenuOpen = isMobileViewport && navbarCollapse.classList.contains('show');
+            const shouldUseScrolledState = window.scrollY > 50 || isMenuOpen;
+
+            navbar.classList.toggle('scrolled', shouldUseScrolledState);
+            updateNavbarCollapsePosition();
+            updateNavbarTogglerPosition();
+        }
+
+        // Sinkronkan state navbar saat load, scroll, resize, dan ketika menu mobile dibuka/tutup.
+        window.addEventListener('scroll', updateNavbarState, { passive: true });
+        window.addEventListener('resize', updateNavbarState);
+        window.addEventListener('load', updateNavbarState);
+        window.addEventListener('pageshow', updateNavbarState);
+        navbarCollapse.addEventListener('shown.bs.collapse', updateNavbarState);
+        navbarCollapse.addEventListener('hidden.bs.collapse', updateNavbarState);
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateNavbarCollapsePosition);
+            window.visualViewport.addEventListener('scroll', updateNavbarCollapsePosition);
+            window.visualViewport.addEventListener('resize', updateNavbarTogglerPosition);
+            window.visualViewport.addEventListener('scroll', updateNavbarTogglerPosition);
+        }
 
         // Tutup otomatis menu mobile (HP) saat link diklik
         document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar .btn').forEach(link => {
             link.addEventListener('click', () => {
-                const navbarCollapse = document.getElementById('navbarNav');
                 if (navbarCollapse.classList.contains('show')) {
                     document.querySelector('.navbar-toggler').click();
                 }
@@ -1088,6 +1258,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('wa_preferred_lang') || 'en';
             changeLanguage(savedLang);
+            updateNavbarState();
         });
     </script>
 </body>
