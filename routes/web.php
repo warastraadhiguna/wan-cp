@@ -12,5 +12,7 @@ Route::post('/contact-messages', [ContactMessageController::class, 'store'])
     ->middleware('throttle:contact-messages')
     ->name('contact-messages.store');
 
+Route::view('/tools/image-editor', 'tools.image-editor')->name('tools.image-editor');
+
 Route::get('/', HomeController::class)->name('home');
 Route::get('/home', HomeController::class);

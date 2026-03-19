@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warastra Adhiguna - Digitally Customize Your Needs</title>
-    <meta name="description" content="Profil perusahaan Warastra Adhiguna (WAn), penyedia solusi teknologi informasi, pengembangan software, dan implementasi jaringan.">
     @php($faviconVersion = filemtime(public_path('favicon.ico')))
+    <title>{{ $seo['title'] ?? 'Warastra Adhiguna' }}</title>
+    <meta name="description" content="{{ $seo['description'] ?? '' }}">
+    <meta name="keywords" content="{{ $seo['keywords'] ?? '' }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Warastra Adhiguna">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="{{ $seo['canonical_url'] ?? route('home') }}">
+    <meta property="og:locale" content="{{ $seo['og_locale'] ?? 'id_ID' }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Warastra Adhiguna">
+    <meta property="og:title" content="{{ $seo['title'] ?? 'Warastra Adhiguna' }}">
+    <meta property="og:description" content="{{ $seo['description'] ?? '' }}">
+    <meta property="og:url" content="{{ $seo['canonical_url'] ?? route('home') }}">
+    <meta property="og:image" content="{{ $seo['image'] ?? asset('logo.png') }}">
+    <meta property="og:image:alt" content="Warastra Adhiguna IT Solution di Salatiga, Jawa Tengah">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $seo['title'] ?? 'Warastra Adhiguna' }}">
+    <meta name="twitter:description" content="{{ $seo['description'] ?? '' }}">
+    <meta name="twitter:image" content="{{ $seo['image'] ?? asset('logo.png') }}">
+    <meta name="twitter:image:alt" content="Warastra Adhiguna IT Solution di Salatiga, Jawa Tengah">
+    <script type="application/ld+json">{!! json_encode($seo['schema'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}</script>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico').'?v='.$faviconVersion }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png').'?v='.filemtime(public_path('favicon-32x32.png')) }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico').'?v='.$faviconVersion }}">
@@ -129,7 +148,6 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
         .navbar .navbar-toggler {
-            display: inline-flex;
             align-items: center;
             justify-content: center;
             flex: 0 0 auto;
@@ -244,6 +262,7 @@
                 max-width: calc(100% - 4.5rem);
             }
             .navbar .navbar-toggler {
+                display: inline-flex;
                 position: fixed;
                 top: 1rem;
                 right: 1rem;
@@ -705,6 +724,14 @@
                     <li class="nav-item"><a class="nav-link" href="#about" data-i18n="navAbout">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services" data-i18n="navServices">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="#portfolio" data-i18n="navPortfolio">Portfolio</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tools
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ route('tools.image-editor') }}">Image Editor</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
                         <a href="#contact" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" data-i18n="navContact">Contact Us</a>
                     </li>
@@ -723,6 +750,7 @@
         </div>
     </nav>
 
+    <main>
     <!-- Hero Section -->
     <section id="home" class="hero-section">
         
@@ -730,13 +758,13 @@
         <div id="heroSlider" class="carousel slide carousel-fade position-absolute top-0 start-0 w-100 h-100" data-bs-ride="carousel" data-bs-pause="false" data-bs-interval="4000" style="z-index: 0;">
             <div class="carousel-inner w-100 h-100">
                 <div class="carousel-item active w-100 h-100">
-                    <img src="{{ $content['hero_slide_1_url'] }}" class="hero-carousel-img" alt="Hero slide 1">
+                    <img src="{{ $content['hero_slide_1_url'] }}" class="hero-carousel-img" alt="Warastra Adhiguna IT Solution di Salatiga, Jawa Tengah">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img src="{{ $content['hero_slide_2_url'] }}" class="hero-carousel-img" alt="Hero slide 2">
+                    <img src="{{ $content['hero_slide_2_url'] }}" class="hero-carousel-img" alt="Layanan pengembangan software dan solusi digital Warastra Adhiguna">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img src="{{ $content['hero_slide_3_url'] }}" class="hero-carousel-img" alt="Hero slide 3">
+                    <img src="{{ $content['hero_slide_3_url'] }}" class="hero-carousel-img" alt="Implementasi jaringan dan sistem IT Warastra Adhiguna">
                 </div>
             </div>
             <!-- Lapisan gelap tipis agar teks putih sangat terbaca (Opacity 50%) -->
@@ -811,7 +839,7 @@
                 <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
                     <div class="position-relative">
                         <div class="position-absolute w-100 h-100 rounded-4" style="background: linear-gradient(to top right, var(--wa-blue), var(--wa-emerald)); transform: rotate(3deg); opacity: 0.1; filter: blur(20px);"></div>
-                        <img src="{{ $content['about_image_url'] }}" alt="Tentang Warastra Adhiguna" class="img-fluid rounded-4 position-relative border border-white shadow-lg">
+                        <img src="{{ $content['about_image_url'] }}" alt="Profil Warastra Adhiguna, perusahaan IT Solution di Salatiga, Jawa Tengah" class="img-fluid rounded-4 position-relative border border-white shadow-lg">
                     </div>
                 </div>
             </div>
@@ -1116,6 +1144,8 @@
         </div>
     </section>
 
+    </main>
+
     <!-- Footer -->
     <footer class="py-4 text-center border-top" style="border-color: var(--wa-border) !important; background-color: #f1f5f9;">
         <div class="container">
@@ -1218,7 +1248,7 @@
         }
 
         // Tutup otomatis menu mobile (HP) saat link diklik
-        document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar .btn').forEach(link => {
+        document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle), .navbar .dropdown-item, .navbar .btn').forEach(link => {
             link.addEventListener('click', () => {
                 if (navbarCollapse.classList.contains('show')) {
                     document.querySelector('.navbar-toggler').click();

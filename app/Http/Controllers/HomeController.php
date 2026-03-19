@@ -32,6 +32,7 @@ class HomeController extends Controller
                 fn (array $item): ?string => $item['badge_id'] ?? $item['badge_en'] ?? null,
                 $portfolioItems,
             )))),
+            'seo' => $this->buildSeoData($content, $services),
             'translations' => $this->buildTranslations($content, $services, $portfolioItems),
         ]);
     }
@@ -226,6 +227,102 @@ class HomeController extends Controller
         }
 
         return $translations;
+    }
+
+    protected function buildSeoData(array $content, array $services): array
+    {
+        $canonicalUrl = route('home');
+        $locationId = trim((string) ($content['contact_location_value_id'] ?? 'Salatiga, Jawa Tengah'));
+        $serviceKeywords = array_values(array_filter(array_map(
+            fn (array $service): ?string => $service['title_id'] ?? $service['title_en'] ?? null,
+            $services,
+        )));
+
+        $title = 'Warastra Adhiguna | IT Solution Salatiga, Jawa Tengah';
+        $description = "Warastra Adhiguna adalah perusahaan IT Solution di {$locationId} yang menyediakan konsultasi IT, pengembangan software, sistem client-server, dan implementasi jaringan untuk kebutuhan bisnis.";
+        $keywords = implode(', ', array_unique(array_filter([
+            'Warastra Adhiguna',
+            'WAn',
+            'IT Solution Salatiga',
+            'Jasa IT Salatiga',
+            'Software House Salatiga',
+            'IT Solution Jawa Tengah',
+            ...$serviceKeywords,
+        ])));
+
+        $heroImage = trim((string) ($content['hero_slide_1_url'] ?? ''));
+        $image = Str::startsWith($heroImage, ['http://', 'https://'])
+            ? $heroImage
+            : ($heroImage !== '' ? asset(ltrim($heroImage, '/')) : asset('logo.png'));
+
+        $instagramUrl = $content['contact_instagram_url'] ?? null;
+        $sameAs = filled($instagramUrl) && $instagramUrl !== '#'
+            ? [$instagramUrl]
+            : [];
+
+        $serviceCatalog = array_map(
+            fn (array $service): array => [
+                '@type' => 'Offer',
+                'itemOffered' => array_filter([
+                    '@type' => 'Service',
+                    'name' => $service['title_id'] ?? $service['title_en'] ?? null,
+                    'description' => $service['description_id'] ?? $service['description_en'] ?? null,
+                ]),
+            ],
+            $services,
+        );
+
+        $schema = array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => ['Organization', 'ProfessionalService'],
+            'name' => 'Warastra Adhiguna',
+            'alternateName' => 'WAn',
+            'url' => $canonicalUrl,
+            'logo' => asset('logo.png'),
+            'image' => $image,
+            'description' => $description,
+            'email' => $content['contact_email'] ?? null,
+            'foundingDate' => '2016',
+            'address' => [
+                '@type' => 'PostalAddress',
+                'addressLocality' => 'Salatiga',
+                'addressRegion' => 'Jawa Tengah',
+                'addressCountry' => 'ID',
+            ],
+            'areaServed' => [
+                [
+                    '@type' => 'City',
+                    'name' => 'Salatiga',
+                ],
+                [
+                    '@type' => 'AdministrativeArea',
+                    'name' => 'Jawa Tengah',
+                ],
+            ],
+            'sameAs' => $sameAs ?: null,
+            'knowsAbout' => $serviceKeywords ?: null,
+            'hasOfferCatalog' => $serviceCatalog ? [
+                '@type' => 'OfferCatalog',
+                'name' => 'Layanan IT Solution Warastra Adhiguna',
+                'itemListElement' => $serviceCatalog,
+            ] : null,
+            'contactPoint' => filled($content['contact_email'] ?? null) ? [
+                '@type' => 'ContactPoint',
+                'contactType' => 'customer support',
+                'email' => $content['contact_email'],
+                'availableLanguage' => ['id', 'en'],
+            ] : null,
+        ], fn ($value) => ! blank($value));
+
+        return [
+            'title' => $title,
+            'description' => $description,
+            'keywords' => $keywords,
+            'canonical_url' => $canonicalUrl,
+            'image' => $image,
+            'og_locale' => app()->getLocale() === 'id' ? 'id_ID' : 'en_US',
+            'schema' => $schema,
+        ];
     }
 
     protected function resolveImageSource(?string $path): ?string
