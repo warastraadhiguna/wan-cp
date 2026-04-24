@@ -13,6 +13,7 @@ Route::post('/contact-messages', [ContactMessageController::class, 'store'])
     ->name('contact-messages.store');
 
 Route::view('/tools/image-editor', 'tools.image-editor')->name('tools.image-editor');
+Route::view('/tools/sunday-school-game', 'tools.sunday-school-game')->name('tools.sunday-school-game');
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/home', HomeController::class);
