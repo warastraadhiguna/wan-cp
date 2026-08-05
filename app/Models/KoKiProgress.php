@@ -15,6 +15,7 @@ class KoKiProgress extends Model
         'grade',
         'last_phase',
         'current_level',
+        'approved_levels',
         'initial_answer',
         'completed_levels',
         'attempt_count',
@@ -37,6 +38,7 @@ class KoKiProgress extends Model
         return [
             'grade' => 'integer',
             'current_level' => 'integer',
+            'approved_levels' => 'array',
             'initial_answer' => 'array',
             'completed_levels' => 'array',
             'attempt_count' => 'integer',

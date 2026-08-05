@@ -29,6 +29,7 @@ class KoKiProgressService
             'grade' => (int) $data['grade'],
             'last_phase' => 'opening',
             'current_level' => 1,
+            'approved_levels' => [1],
             'completed_levels' => [],
             'attempt_count' => 0,
             'level_attempts' => [],
@@ -90,6 +91,73 @@ class KoKiProgressService
         }
 
         $progress->save();
+
+        return $progress->refresh();
+    }
+
+    /** @return list<int> */
+    public function approvedLevels(KoKiProgress $progress): array
+    {
+        $approvedLevels = $progress->approved_levels;
+
+        // Progress lama dibuat sebelum fitur persetujuan tersedia.
+        if ($approvedLevels === null) {
+            $approvedLevels = range(1, max(1, (int) $progress->current_level));
+        }
+
+        $approvedLevels[] = 1;
+        $approvedLevels = array_map('intval', $approvedLevels);
+        $approvedLevels = array_values(array_unique(array_filter(
+            $approvedLevels,
+            fn (int $level): bool => $level >= 1 && $level <= 4,
+        )));
+        sort($approvedLevels);
+
+        return $approvedLevels;
+    }
+
+    public function canAccessLevel(KoKiProgress $progress, int $level): bool
+    {
+        return in_array($level, $this->approvedLevels($progress), true);
+    }
+
+    public function approveNextLevel(KoKiProgress $progress, int $targetLevel): ?KoKiProgress
+    {
+        $approvedLevels = $this->approvedLevels($progress);
+        $expectedLevel = max($approvedLevels) + 1;
+        $completedLevels = array_map('intval', $progress->completed_levels ?? []);
+
+        if ($targetLevel !== $expectedLevel || ! in_array($targetLevel - 1, $completedLevels, true)) {
+            return null;
+        }
+
+        $approvedLevels[] = $targetLevel;
+        $progress->forceFill([
+            'approved_levels' => array_values(array_unique($approvedLevels)),
+            'current_level' => $targetLevel,
+        ])->save();
+
+        return $progress->refresh();
+    }
+
+    public function revokeLatestLevel(KoKiProgress $progress): ?KoKiProgress
+    {
+        $approvedLevels = $this->approvedLevels($progress);
+        $latestLevel = max($approvedLevels);
+
+        if ($latestLevel <= 1 || in_array($latestLevel, $progress->completed_levels ?? [], true)) {
+            return null;
+        }
+
+        $approvedLevels = array_values(array_filter(
+            $approvedLevels,
+            fn (int $level): bool => $level !== $latestLevel,
+        ));
+
+        $progress->forceFill([
+            'approved_levels' => $approvedLevels,
+            'current_level' => min((int) $progress->current_level, max($approvedLevels)),
+        ])->save();
 
         return $progress->refresh();
     }

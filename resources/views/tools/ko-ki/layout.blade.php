@@ -56,7 +56,7 @@
         }
 
         .koki-page {
-            padding: 7rem 0 4rem;
+            padding: 5.75rem 0 2.5rem;
         }
 
         .koki-card {
@@ -267,6 +267,27 @@
             list-style: none;
         }
 
+        .koki-game-card .koki-grid {
+            width: min(100%, 30rem, calc(100vh - 13.5rem));
+        }
+
+        .koki-game-card .koki-command-button {
+            min-height: 3.1rem;
+        }
+
+        .koki-game-card .koki-program-list {
+            max-height: 9rem;
+        }
+
+        .koki-game-card .koki-dialogue {
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+        }
+
+        [data-missions] {
+            scroll-margin-top: 5.5rem;
+        }
+
         .koki-program-command {
             display: grid;
             grid-template-columns: 2rem 1fr auto;
@@ -318,6 +339,29 @@
             .koki-brand-logo {
                 width: 2.6rem;
                 height: 2.6rem;
+            }
+        }
+
+        @media (min-width: 992px) and (max-height: 850px) {
+            .koki-activity-header {
+                margin-bottom: 0.9rem !important;
+            }
+
+            .koki-activity-header .koki-eyebrow {
+                margin-bottom: 0 !important;
+            }
+
+            .koki-activity-header h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.15rem !important;
+            }
+
+            .koki-game-card {
+                padding: 1rem !important;
+            }
+
+            .koki-game-card .row {
+                --bs-gutter-y: 0.75rem;
             }
         }
 

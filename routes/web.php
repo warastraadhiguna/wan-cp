@@ -26,6 +26,7 @@ Route::prefix('/tools/wan-ko-ki')->name('tools.ko-ki.')->controller(KoKiControll
     Route::post('/aktivitas/mulai', 'beginActivity')->name('activity.start');
     Route::get('/aktivitas', 'activity')->name('activity');
     Route::patch('/progress', 'update')->name('progress.update');
+    Route::get('/misi/status', 'levelStatus')->middleware('throttle:60,1')->name('levels.status');
     Route::get('/laboratorium', 'laboratory')->name('laboratory');
     Route::patch('/laboratorium/progress', 'updateLaboratory')->name('laboratory.update');
     Route::post('/selesai', 'finish')->name('finish');

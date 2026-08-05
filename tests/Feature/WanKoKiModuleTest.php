@@ -239,6 +239,8 @@ class WanKoKiModuleTest extends TestCase
             'completed_level' => 1,
         ])->assertOk();
 
+        $progress->forceFill(['approved_levels' => [1, 2]])->save();
+
         $this->patchJson(route('tools.ko-ki.progress.update'), [
             'last_phase' => 'activity',
             'current_level' => 2,
@@ -256,6 +258,76 @@ class WanKoKiModuleTest extends TestCase
         $this->assertSame(['MOVE_FORWARD', 'MOVE_FORWARD'], $progress->level_programs[1]);
         $this->assertSame(['MOVE_FORWARD', 'TURN_RIGHT', 'MOVE_FORWARD'], $progress->level_programs[2]);
         $this->assertSame(2, $progress->attempt_count);
+    }
+
+    public function test_admin_approval_unlocks_the_next_mission_for_the_student_session(): void
+    {
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Ari',
+            'grade' => 4,
+            'last_phase' => 'activity',
+            'current_level' => 1,
+            'approved_levels' => [1],
+            'completed_levels' => [1],
+            'started_at' => now(),
+        ]);
+
+        $service = app(KoKiProgressService::class);
+        $this->assertNotNull($service->approveNextLevel($progress, 2));
+
+        $this->withSession([KoKiProgressService::SESSION_KEY => $progress->getKey()])
+            ->getJson(route('tools.ko-ki.levels.status'))
+            ->assertOk()
+            ->assertJsonPath('current_level', 2)
+            ->assertJsonPath('approved_levels', [1, 2]);
+
+        $this->assertSame(2, $progress->refresh()->current_level);
+        $this->assertSame([1, 2], $progress->approved_levels);
+    }
+
+    public function test_admin_can_cancel_an_unused_mission_approval(): void
+    {
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Dara',
+            'grade' => 4,
+            'last_phase' => 'activity',
+            'current_level' => 2,
+            'approved_levels' => [1, 2],
+            'completed_levels' => [1],
+            'started_at' => now(),
+        ]);
+
+        $result = app(KoKiProgressService::class)->revokeLatestLevel($progress);
+
+        $this->assertNotNull($result);
+        $this->assertSame([1], $progress->refresh()->approved_levels);
+        $this->assertSame(1, $progress->current_level);
+    }
+
+    public function test_student_cannot_save_a_locked_mission_or_skip_the_approval_order(): void
+    {
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Tia',
+            'grade' => 5,
+            'last_phase' => 'activity',
+            'current_level' => 1,
+            'approved_levels' => [1],
+            'completed_levels' => [1],
+            'started_at' => now(),
+        ]);
+
+        $this->withSession([KoKiProgressService::SESSION_KEY => $progress->getKey()])
+            ->patchJson(route('tools.ko-ki.progress.update'), [
+                'last_phase' => 'activity',
+                'current_level' => 2,
+                'last_program' => ['MOVE_FORWARD'],
+            ])
+            ->assertForbidden();
+
+        $this->assertNull(app(KoKiProgressService::class)->approveNextLevel($progress, 3));
+
+        $this->assertSame(1, $progress->refresh()->current_level);
+        $this->assertNull($progress->last_program);
     }
 
     public function test_student_cannot_finish_before_all_missions_are_complete(): void

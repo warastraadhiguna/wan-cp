@@ -43,6 +43,7 @@ if (root) {
     let predictions = parseData('predictions', {});
     let levelStates = parseData('levelStates', {});
     let completedLevels = parseData('completedLevels', []);
+    let approvedLevels = parseData('approvedLevels', [1]).map(Number);
     let currentConfig = sandboxConfig;
     let currentLevel = null;
     let program = [];
@@ -79,7 +80,10 @@ if (root) {
         sandboxElement.hidden = true;
         missionsElement.hidden = false;
         loadLevel(currentLevelId);
-        missionsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        if (window.matchMedia('(max-width: 991.98px)').matches) {
+            missionsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     });
 
     root.querySelector('[data-show-sandbox]').addEventListener('click', () => {
@@ -172,10 +176,24 @@ if (root) {
     nextLevelButton.addEventListener('click', () => {
         if (!currentLevel || currentLevel.id >= LEVELS.length) return;
 
-        currentLevelId = currentLevel.id + 1;
-        persist({ current_level: currentLevelId });
-        loadLevel(currentLevelId);
+        const targetLevel = currentLevel.id + 1;
+
+        if (approvedLevels.includes(targetLevel)) {
+            enterLevel(targetLevel);
+
+            return;
+        }
+
+        checkLevelAccess(true);
     });
+
+    window.setInterval(() => {
+        const nextLevel = (currentLevel?.id ?? 0) + 1;
+
+        if (isCurrentLevelCompleted() && nextLevel <= LEVELS.length && !approvedLevels.includes(nextLevel)) {
+            checkLevelAccess();
+        }
+    }, 4000);
 
     bonusButton.addEventListener('click', () => {
         if (currentLevel?.id !== 4) return;
@@ -433,11 +451,56 @@ if (root) {
             messages.push('Bonus ini opsional dan tidak menghambat penyelesaian misi.');
         }
 
+        const nextLevel = currentLevel.id + 1;
+        const nextLevelIsApproved = approvedLevels.includes(nextLevel);
+
+        if (nextLevel <= LEVELS.length && !nextLevelIsApproved) {
+            messages.push(`Tunggu admin mengizinkan Misi ${nextLevel} dari halaman admin.`);
+        }
+
         showMessages(messages, 'success');
         nextLevelButton.hidden = currentLevel.id >= LEVELS.length;
+        root.querySelector('[data-next-level-label]').textContent = nextLevelIsApproved
+            ? 'Lanjut ke Misi Berikutnya'
+            : `Cek Izin Admin untuk Misi ${nextLevel}`;
+        nextLevelButton.querySelector('i').className = nextLevelIsApproved
+            ? 'bi bi-arrow-right-circle-fill me-1'
+            : 'bi bi-hourglass-split me-1';
         bonusButton.hidden = !bonus || bonusAchieved;
         laboratoryButton.hidden = currentLevel.id < LEVELS.length;
         setStatus('Misi selesai. Progress sudah disimpan.');
+    }
+
+    async function checkLevelAccess(announce = false) {
+        try {
+            const response = await fetch(root.dataset.levelStatusUrl, {
+                credentials: 'same-origin',
+                headers: { Accept: 'application/json' },
+            });
+
+            if (!response.ok) throw new Error();
+
+            const responseData = await response.json();
+            const previousApprovals = [...approvedLevels];
+            approvedLevels = responseData.approved_levels.map(Number);
+            const targetLevel = currentLevel.id + 1;
+
+            if (approvedLevels.includes(targetLevel) && !previousApprovals.includes(targetLevel)) {
+                showSuccess();
+                setStatus(`Izin admin diterima. Misi ${targetLevel} sudah dapat dibuka.`);
+            } else if (announce && !approvedLevels.includes(targetLevel)) {
+                setStatus(`Misi ${targetLevel} masih menunggu izin admin.`);
+            }
+        } catch {
+            if (announce) setStatus('Status izin belum dapat diperiksa. Coba lagi.');
+        }
+    }
+
+    function enterLevel(levelId) {
+        currentLevelId = levelId;
+        persist({ current_level: currentLevelId });
+        loadLevel(currentLevelId);
+        setStatus(`Izin diterima. Misi ${currentLevelId} sudah dibuka.`);
     }
 
     function showMessages(messages, type) {

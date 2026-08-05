@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\ContactMessages\ContactMessageResource;
+use App\Filament\Resources\KoKiProgresses\KoKiProgressResource;
 use App\Models\ContactMessage;
+use App\Models\KoKiProgress;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -37,6 +39,39 @@ class AdminPanelTest extends TestCase
         $this->actingAs($admin)
             ->get('/admin/contact-messages')
             ->assertOk();
+    }
+
+    public function test_authenticated_admin_can_manage_wan_ko_ki_progress(): void
+    {
+        $admin = User::factory()->create([
+            'is_admin' => true,
+        ]);
+        KoKiProgress::query()->create([
+            'student_name' => 'Naya',
+            'grade' => 4,
+            'last_phase' => 'activity',
+            'current_level' => 1,
+            'approved_levels' => [1],
+            'completed_levels' => [1],
+            'started_at' => now(),
+        ]);
+
+        $this->actingAs($admin)
+            ->get(KoKiProgressResource::getUrl('index'))
+            ->assertOk()
+            ->assertSee('Naya')
+            ->assertSee('Menunggu izin Misi 2');
+    }
+
+    public function test_non_admin_cannot_access_wan_ko_ki_management(): void
+    {
+        $user = User::factory()->create([
+            'is_admin' => false,
+        ]);
+
+        $this->actingAs($user)
+            ->get(KoKiProgressResource::getUrl('index'))
+            ->assertForbidden();
     }
 
     public function test_contact_messages_navigation_badge_counts_only_unread_messages(): void

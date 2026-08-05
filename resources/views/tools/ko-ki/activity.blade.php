@@ -12,10 +12,12 @@
         data-predictions='@json($progress->predictions ?? [])'
         data-level-states='@json($progress->level_states ?? [])'
         data-completed-levels='@json($progress->completed_levels ?? [])'
+        data-approved-levels='@json($approvedLevels)'
         data-save-url="{{ route('tools.ko-ki.progress.update') }}"
+        data-level-status-url="{{ route('tools.ko-ki.levels.status') }}"
         data-laboratory-url="{{ route('tools.ko-ki.laboratory') }}"
     >
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+        <div class="koki-activity-header d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-3">
             <div>
                 <p class="koki-eyebrow mb-2">Pertemuan 1 · Eksperimen</p>
                 <h1 class="display-6 koki-title mb-2">Halo, {{ $progress->student_name }}!</h1>
@@ -26,11 +28,11 @@
             </span>
         </div>
 
-        <section class="koki-card p-3 p-md-4 mb-4">
-            <div class="row g-4 align-items-start">
+        <section class="koki-card koki-game-card p-3 p-md-4 mb-3">
+            <div class="row g-3 align-items-start">
                 <div class="col-lg-7 d-flex flex-column align-items-center">
                     <div class="koki-grid" data-grid aria-label="Grid pergerakan Ko-Ki Bot"></div>
-                    <p class="alert alert-light border rounded-4 w-100 mt-3 mb-0 text-center fw-semibold" data-engine-status aria-live="polite">
+                    <p class="alert alert-light border rounded-4 w-100 mt-2 mb-0 py-2 text-center fw-semibold" data-engine-status aria-live="polite">
                         Coba beri Ko-Ki satu perintah.
                     </p>
                 </div>
@@ -99,7 +101,7 @@
 
                         <p class="small koki-muted">Klik command untuk menambahkannya ke program.</p>
 
-                        <div class="row g-2 mb-3">
+                        <div class="row g-2 mb-2">
                             <div class="col-12">
                                 <button class="btn btn-primary koki-btn-primary koki-command-button w-100" type="button" data-add-command="MOVE_FORWARD">Maju</button>
                             </div>
@@ -111,27 +113,31 @@
                             </div>
                         </div>
 
-                        <div class="border rounded-4 bg-light p-3 mb-3">
+                        <div class="border rounded-4 bg-light p-2 mb-2">
                             <p class="text-center koki-muted mb-0" data-empty-program>Program masih kosong.</p>
                             <ol class="koki-program-list" data-program-list aria-label="Daftar command program"></ol>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-success btn-lg rounded-pill fw-bold" type="button" data-run>
-                                <i class="bi bi-play-fill me-1" aria-hidden="true"></i> Jalankan
-                            </button>
-                            <button class="btn btn-primary koki-btn-primary rounded-pill fw-bold" type="button" data-step>Langkah Satu per Satu</button>
-                            <button class="btn btn-outline-danger rounded-pill" type="button" data-stop>Hentikan</button>
-                            <div class="row g-2">
-                                <div class="col-12 col-sm-4">
-                                    <button class="btn btn-outline-secondary rounded-pill w-100" type="button" data-reset-robot>Reset Robot</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-secondary rounded-pill w-100" type="button" data-undo>Undo</button>
-                                </div>
-                                <div class="col-6 col-sm-4">
-                                    <button class="btn btn-outline-secondary rounded-pill w-100" type="button" data-clear>Hapus Semua</button>
-                                </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button class="btn btn-success rounded-pill fw-bold w-100 h-100" type="button" data-run>
+                                    <i class="bi bi-play-fill me-1" aria-hidden="true"></i> Jalankan
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-primary koki-btn-primary rounded-pill fw-bold w-100 h-100" type="button" data-step>Langkah Satu per Satu</button>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <button class="btn btn-outline-danger btn-sm rounded-pill w-100 h-100" type="button" data-stop>Hentikan</button>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-reset-robot>Reset Robot</button>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-undo>Undo</button>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-clear>Hapus Semua</button>
                             </div>
                         </div>
 
@@ -139,7 +145,8 @@
                             <div data-feedback-messages></div>
                             <div class="d-grid gap-2 mt-3">
                                 <button class="btn btn-success rounded-pill fw-bold" type="button" data-next-level hidden>
-                                    Lanjut ke Misi Berikutnya
+                                    <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>
+                                    <span data-next-level-label>Cek Izin Admin</span>
                                 </button>
                                 <button class="btn btn-outline-success rounded-pill fw-bold" type="button" data-bonus-retry hidden>
                                     Coba Bonus Opsional

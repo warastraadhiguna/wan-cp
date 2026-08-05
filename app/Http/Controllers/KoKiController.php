@@ -183,7 +183,10 @@ class KoKiController extends Controller
             return redirect()->to($this->resumeUrl($progress));
         }
 
-        return view('tools.ko-ki.activity', compact('progress'));
+        return view('tools.ko-ki.activity', [
+            'progress' => $progress,
+            'approvedLevels' => $this->progressService->approvedLevels($progress),
+        ]);
     }
 
     public function update(UpdateKoKiProgressRequest $request): JsonResponse|RedirectResponse
@@ -196,7 +199,15 @@ class KoKiController extends Controller
                 : redirect()->route('tools.ko-ki.welcome');
         }
 
-        $progress = $this->progressService->update($progress, $request->validated());
+        $data = $request->validated();
+
+        if (! $this->progressService->canAccessLevel($progress, (int) $data['current_level'])) {
+            return response()->json([
+                'message' => 'Misi ini masih dikunci. Minta izin admin terlebih dahulu.',
+            ], 403);
+        }
+
+        $progress = $this->progressService->update($progress, $data);
 
         if ($request->expectsJson()) {
             return response()->json([
@@ -208,6 +219,20 @@ class KoKiController extends Controller
         return redirect()
             ->route('tools.ko-ki.activity')
             ->with('status', 'Progress berhasil disimpan.');
+    }
+
+    public function levelStatus(Request $request): JsonResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return response()->json(['message' => 'Session belajar tidak ditemukan.'], 409);
+        }
+
+        return response()->json([
+            'current_level' => $progress->current_level,
+            'approved_levels' => $this->progressService->approvedLevels($progress),
+        ]);
     }
 
     public function finish(CompleteKoKiProgressRequest $request): RedirectResponse
