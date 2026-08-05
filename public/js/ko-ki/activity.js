@@ -43,7 +43,7 @@ if (root) {
     let predictions = parseData('predictions', {});
     let levelStates = parseData('levelStates', {});
     let completedLevels = parseData('completedLevels', []);
-    let approvedLevels = parseData('approvedLevels', [1]).map(Number);
+    let approvedLevels = parseData('approvedLevels', []).map(Number);
     let currentConfig = sandboxConfig;
     let currentLevel = null;
     let program = [];
@@ -77,6 +77,12 @@ if (root) {
     });
 
     root.querySelector('[data-show-missions]').addEventListener('click', () => {
+        if (!approvedLevels.includes(1)) {
+            checkLevelAccess(true);
+
+            return;
+        }
+
         sandboxElement.hidden = true;
         missionsElement.hidden = false;
         loadLevel(currentLevelId);
@@ -190,7 +196,12 @@ if (root) {
     window.setInterval(() => {
         const nextLevel = (currentLevel?.id ?? 0) + 1;
 
-        if (isCurrentLevelCompleted() && nextLevel <= LEVELS.length && !approvedLevels.includes(nextLevel)) {
+        const waitingForFirstMission = !sandboxElement.hidden && !approvedLevels.includes(1);
+        const waitingForNextMission = isCurrentLevelCompleted()
+            && nextLevel <= LEVELS.length
+            && !approvedLevels.includes(nextLevel);
+
+        if (waitingForFirstMission || waitingForNextMission) {
             checkLevelAccess();
         }
     }, 4000);
@@ -483,11 +494,17 @@ if (root) {
             const responseData = await response.json();
             const previousApprovals = [...approvedLevels];
             approvedLevels = responseData.approved_levels.map(Number);
-            const targetLevel = currentLevel.id + 1;
+            const targetLevel = currentLevel ? currentLevel.id + 1 : 1;
 
             if (approvedLevels.includes(targetLevel) && !previousApprovals.includes(targetLevel)) {
-                showSuccess();
-                setStatus(`Izin admin diterima. Misi ${targetLevel} sudah dapat dibuka.`);
+                if (targetLevel === 1 && !sandboxElement.hidden) {
+                    root.querySelector('[data-show-missions-label]').textContent = 'Masuk ke Misi 1';
+                    root.querySelector('[data-show-missions-icon]').className = 'bi bi-arrow-right-circle-fill me-1';
+                    setStatus('Izin admin diterima. Tekan Masuk ke Misi 1.');
+                } else {
+                    showSuccess();
+                    setStatus(`Izin admin diterima. Misi ${targetLevel} sudah dapat dibuka.`);
+                }
             } else if (announce && !approvedLevels.includes(targetLevel)) {
                 setStatus(`Misi ${targetLevel} masih menunggu izin admin.`);
             }

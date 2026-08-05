@@ -156,24 +156,36 @@ class KoKiProgressResource extends Resource
 
     private static function nextLevel(KoKiProgress $record): int
     {
-        return min(4, max(static::approvedLevels($record)) + 1);
+        $approvedLevels = static::approvedLevels($record);
+
+        return $approvedLevels === [] ? 1 : min(4, max($approvedLevels) + 1);
     }
 
     private static function canApprove(KoKiProgress $record): bool
     {
         $nextLevel = static::nextLevel($record);
 
+        $approvedLevels = static::approvedLevels($record);
+        $previousLevelIsComplete = $nextLevel === 1
+            || in_array($nextLevel - 1, $record->completed_levels ?? [], true);
+
         return $record->completed_at === null
-            && max(static::approvedLevels($record)) < 4
-            && in_array($nextLevel - 1, $record->completed_levels ?? [], true);
+            && ($approvedLevels === [] || max($approvedLevels) < 4)
+            && $record->last_phase === 'activity'
+            && $previousLevelIsComplete;
     }
 
     private static function canRevoke(KoKiProgress $record): bool
     {
-        $latestLevel = max(static::approvedLevels($record));
+        $approvedLevels = static::approvedLevels($record);
 
-        return $latestLevel > 1
-            && ! in_array($latestLevel, $record->completed_levels ?? [], true);
+        if ($approvedLevels === []) {
+            return false;
+        }
+
+        $latestLevel = max($approvedLevels);
+
+        return ! in_array($latestLevel, $record->completed_levels ?? [], true);
     }
 
     private static function accessLabel(KoKiProgress $record): string
@@ -186,7 +198,13 @@ class KoKiProgressResource extends Resource
             return 'Menunggu izin Misi '.static::nextLevel($record);
         }
 
-        $latestLevel = max(static::approvedLevels($record));
+        $approvedLevels = static::approvedLevels($record);
+
+        if ($approvedLevels === []) {
+            return 'Menunggu izin Misi 1';
+        }
+
+        $latestLevel = max($approvedLevels);
 
         return $latestLevel >= 4 ? 'Semua misi terbuka' : 'Misi '.$latestLevel.' diizinkan';
     }

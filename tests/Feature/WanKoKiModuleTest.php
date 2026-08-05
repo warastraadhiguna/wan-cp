@@ -48,6 +48,7 @@ class WanKoKiModuleTest extends TestCase
             'grade' => 4,
             'last_phase' => 'opening',
         ]);
+        $this->assertSame([], KoKiProgress::query()->sole()->approved_levels);
 
         $this->get(route('tools.ko-ki.opening'))
             ->assertOk()
@@ -155,6 +156,9 @@ class WanKoKiModuleTest extends TestCase
         $this->post(route('tools.ko-ki.activity.start'))
             ->assertRedirect(route('tools.ko-ki.activity'));
 
+        $progress = KoKiProgress::query()->sole();
+        app(KoKiProgressService::class)->approveNextLevel($progress, 1);
+
         $this->patch(route('tools.ko-ki.progress.update'), [
             'last_phase' => 'activity',
             'current_level' => 1,
@@ -163,7 +167,7 @@ class WanKoKiModuleTest extends TestCase
             'completed_level' => 1,
         ])->assertRedirect(route('tools.ko-ki.activity'));
 
-        $progress = KoKiProgress::query()->sole();
+        $progress->refresh();
 
         $this->assertCount(4, $progress->initial_answer);
         $this->assertSame([1], $progress->completed_levels);
@@ -296,6 +300,31 @@ class WanKoKiModuleTest extends TestCase
 
         $this->assertSame(2, $progress->refresh()->current_level);
         $this->assertSame([1, 2], $progress->approved_levels);
+    }
+
+    public function test_sandbox_requires_admin_approval_before_mission_one(): void
+    {
+        $this->startStudent();
+        $this->answerAllInitialQuestions();
+        $this->post(route('tools.ko-ki.activity.start'));
+
+        $progress = KoKiProgress::query()->sole();
+
+        $this->get(route('tools.ko-ki.activity'))
+            ->assertOk()
+            ->assertSee('Cek Izin Admin');
+
+        $this->patchJson(route('tools.ko-ki.progress.update'), [
+            'last_phase' => 'activity',
+            'current_level' => 1,
+            'last_program' => ['MOVE_FORWARD'],
+        ])->assertForbidden();
+
+        $this->assertNotNull(app(KoKiProgressService::class)->approveNextLevel($progress, 1));
+
+        $this->getJson(route('tools.ko-ki.levels.status'))
+            ->assertOk()
+            ->assertJsonPath('approved_levels', [1]);
     }
 
     public function test_admin_can_cancel_an_unused_mission_approval(): void

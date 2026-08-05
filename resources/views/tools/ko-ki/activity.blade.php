@@ -68,7 +68,8 @@
                                 Kembali ke Awal
                             </button>
                             <button class="btn btn-primary koki-btn-primary btn-lg rounded-pill px-4" type="button" data-show-missions>
-                                Lanjut ke Misi
+                                <i class="bi bi-hourglass-split me-1" data-show-missions-icon aria-hidden="true"></i>
+                                <span data-show-missions-label>{{ in_array(1, $approvedLevels, true) ? 'Masuk ke Misi 1' : 'Cek Izin Admin' }}</span>
                             </button>
                         </div>
                     </div>

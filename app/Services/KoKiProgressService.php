@@ -29,7 +29,7 @@ class KoKiProgressService
             'grade' => (int) $data['grade'],
             'last_phase' => 'opening',
             'current_level' => 1,
-            'approved_levels' => [1],
+            'approved_levels' => [],
             'completed_levels' => [],
             'attempt_count' => 0,
             'level_attempts' => [],
@@ -105,7 +105,6 @@ class KoKiProgressService
             $approvedLevels = range(1, max(1, (int) $progress->current_level));
         }
 
-        $approvedLevels[] = 1;
         $approvedLevels = array_map('intval', $approvedLevels);
         $approvedLevels = array_values(array_unique(array_filter(
             $approvedLevels,
@@ -124,10 +123,13 @@ class KoKiProgressService
     public function approveNextLevel(KoKiProgress $progress, int $targetLevel): ?KoKiProgress
     {
         $approvedLevels = $this->approvedLevels($progress);
-        $expectedLevel = max($approvedLevels) + 1;
+        $expectedLevel = $approvedLevels === [] ? 1 : max($approvedLevels) + 1;
         $completedLevels = array_map('intval', $progress->completed_levels ?? []);
 
-        if ($targetLevel !== $expectedLevel || ! in_array($targetLevel - 1, $completedLevels, true)) {
+        $previousLevelIsComplete = $targetLevel === 1
+            || in_array($targetLevel - 1, $completedLevels, true);
+
+        if ($targetLevel !== $expectedLevel || ! $previousLevelIsComplete) {
             return null;
         }
 
@@ -143,9 +145,14 @@ class KoKiProgressService
     public function revokeLatestLevel(KoKiProgress $progress): ?KoKiProgress
     {
         $approvedLevels = $this->approvedLevels($progress);
+
+        if ($approvedLevels === []) {
+            return null;
+        }
+
         $latestLevel = max($approvedLevels);
 
-        if ($latestLevel <= 1 || in_array($latestLevel, $progress->completed_levels ?? [], true)) {
+        if (in_array($latestLevel, $progress->completed_levels ?? [], true)) {
             return null;
         }
 
@@ -156,7 +163,9 @@ class KoKiProgressService
 
         $progress->forceFill([
             'approved_levels' => $approvedLevels,
-            'current_level' => min((int) $progress->current_level, max($approvedLevels)),
+            'current_level' => $approvedLevels === []
+                ? 1
+                : min((int) $progress->current_level, max($approvedLevels)),
         ])->save();
 
         return $progress->refresh();

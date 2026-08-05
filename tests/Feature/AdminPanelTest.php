@@ -51,8 +51,8 @@ class AdminPanelTest extends TestCase
             'grade' => 4,
             'last_phase' => 'activity',
             'current_level' => 1,
-            'approved_levels' => [1],
-            'completed_levels' => [1],
+            'approved_levels' => [],
+            'completed_levels' => [],
             'started_at' => now(),
         ]);
 
@@ -60,7 +60,8 @@ class AdminPanelTest extends TestCase
             ->get(KoKiProgressResource::getUrl('index'))
             ->assertOk()
             ->assertSee('Naya')
-            ->assertSee('Menunggu izin Misi 2');
+            ->assertSee('Menunggu izin Misi 1')
+            ->assertSee('Izinkan Misi 1');
     }
 
     public function test_non_admin_cannot_access_wan_ko_ki_management(): void
