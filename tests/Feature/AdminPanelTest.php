@@ -19,6 +19,11 @@ class AdminPanelTest extends TestCase
         $this->get('/admin/login')->assertOk();
     }
 
+    public function test_admin_sidebar_can_be_collapsed_on_desktop(): void
+    {
+        $this->assertTrue(filament()->getPanel('admin')->isSidebarCollapsibleOnDesktop());
+    }
+
     public function test_authenticated_admin_can_access_home_content_page(): void
     {
         $admin = User::factory()->create([

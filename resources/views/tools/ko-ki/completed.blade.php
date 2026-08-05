@@ -22,7 +22,7 @@
 
                 <div class="row g-3 text-start mb-4">
                     @foreach ([
-                        ['icon' => 'bi-check-circle-fill', 'label' => 'Misi selesai', 'value' => count($progress->completed_levels ?? []).' dari 4'],
+                        ['icon' => 'bi-check-circle-fill', 'label' => 'Misi selesai', 'value' => count($progress->completed_levels ?? []).' dari 7'],
                         ['icon' => 'bi-play-circle-fill', 'label' => 'Program dijalankan', 'value' => $progress->attempt_count.' kali'],
                         ['icon' => 'bi-bug-fill', 'label' => 'Bug diperbaiki', 'value' => ($progress->level_states[3]['corrected_bug'] ?? false) ? 'Sudah' : 'Belum tercatat'],
                         ['icon' => 'bi-chat-square-text-fill', 'label' => 'Refleksi dikirim', 'value' => filled($progress->reflection) ? 'Sudah' : 'Belum'],

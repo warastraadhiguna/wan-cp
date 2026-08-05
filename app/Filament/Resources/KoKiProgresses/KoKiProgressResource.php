@@ -57,7 +57,7 @@ class KoKiProgressResource extends Resource
                     ->formatStateUsing(fn (int $state): string => 'Misi '.$state),
                 TextColumn::make('completed_count')
                     ->label('Selesai')
-                    ->state(fn (KoKiProgress $record): string => count($record->completed_levels ?? []).' dari 4'),
+                    ->state(fn (KoKiProgress $record): string => count($record->completed_levels ?? []).' dari '.KoKiProgressService::MISSION_COUNT),
                 TextColumn::make('access_status')
                     ->label('Izin berikutnya')
                     ->badge()
@@ -158,7 +158,7 @@ class KoKiProgressResource extends Resource
     {
         $approvedLevels = static::approvedLevels($record);
 
-        return $approvedLevels === [] ? 1 : min(4, max($approvedLevels) + 1);
+        return $approvedLevels === [] ? 1 : min(KoKiProgressService::MISSION_COUNT, max($approvedLevels) + 1);
     }
 
     private static function canApprove(KoKiProgress $record): bool
@@ -170,7 +170,7 @@ class KoKiProgressResource extends Resource
             || in_array($nextLevel - 1, $record->completed_levels ?? [], true);
 
         return $record->completed_at === null
-            && ($approvedLevels === [] || max($approvedLevels) < 4)
+            && ($approvedLevels === [] || max($approvedLevels) < KoKiProgressService::MISSION_COUNT)
             && $record->last_phase === 'activity'
             && $previousLevelIsComplete;
     }
@@ -206,6 +206,6 @@ class KoKiProgressResource extends Resource
 
         $latestLevel = max($approvedLevels);
 
-        return $latestLevel >= 4 ? 'Semua misi terbuka' : 'Misi '.$latestLevel.' diizinkan';
+        return $latestLevel >= KoKiProgressService::MISSION_COUNT ? 'Semua misi terbuka' : 'Misi '.$latestLevel.' diizinkan';
     }
 }

@@ -127,21 +127,6 @@ if (root) {
         interpreter.run();
     });
 
-    root.querySelector('[data-step]').addEventListener('click', () => {
-        if (!canExecuteProgram()) return;
-
-        if (interpreter.pointer >= program.length) {
-            prepareExecution();
-        }
-
-        if (interpreter.pointer === 0) {
-            recordAttempt();
-        }
-
-        interpreter.step();
-        updateControls();
-    });
-
     root.querySelector('[data-stop]').addEventListener('click', () => {
         interpreter.stop();
         setStatus('Program dihentikan. Kamu dapat melanjutkan langkah demi langkah atau mereset robot.');
@@ -661,7 +646,6 @@ if (root) {
             button.disabled = !editable;
         });
         root.querySelector('[data-run]').disabled = !executable;
-        root.querySelector('[data-step]').disabled = !executable;
         root.querySelector('[data-stop]').disabled = !interpreter.isRunning;
         root.querySelector('[data-undo]').disabled = !editable || program.length === 0;
         root.querySelector('[data-clear]').disabled = !editable || program.length === 0;

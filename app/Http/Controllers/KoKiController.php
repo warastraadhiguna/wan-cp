@@ -251,10 +251,10 @@ class KoKiController extends Controller
             return redirect()->route('tools.ko-ki.welcome');
         }
 
-        if (! in_array(4, $progress->completed_levels ?? [], true)) {
+        if (! in_array(KoKiProgressService::MISSION_COUNT, $progress->completed_levels ?? [], true)) {
             return redirect()
                 ->route('tools.ko-ki.activity')
-                ->with('status', 'Selesaikan empat misi sebelum mengakhiri pertemuan.');
+                ->with('status', 'Selesaikan tujuh misi sebelum mengakhiri pertemuan.');
         }
 
         if (! ($progress->lab_state['completed'] ?? false)) {
@@ -280,10 +280,10 @@ class KoKiController extends Controller
             return redirect()->route('tools.ko-ki.completed');
         }
 
-        if (! in_array(4, $progress->completed_levels ?? [], true)) {
+        if (! in_array(KoKiProgressService::MISSION_COUNT, $progress->completed_levels ?? [], true)) {
             return redirect()
                 ->route('tools.ko-ki.activity')
-                ->with('status', 'Selesaikan empat misi sebelum membuka laboratorium.');
+                ->with('status', 'Selesaikan tujuh misi sebelum membuka laboratorium.');
         }
 
         if ($progress->last_phase !== 'laboratory') {
@@ -305,8 +305,8 @@ class KoKiController extends Controller
             return response()->json(['message' => 'Session belajar tidak ditemukan.'], 409);
         }
 
-        if (! in_array(4, $progress->completed_levels ?? [], true)) {
-            return response()->json(['message' => 'Empat misi belum selesai.'], 409);
+        if (! in_array(KoKiProgressService::MISSION_COUNT, $progress->completed_levels ?? [], true)) {
+            return response()->json(['message' => 'Tujuh misi belum selesai.'], 409);
         }
 
         $data = $request->validated();

@@ -10,7 +10,7 @@
         data-save-url="{{ route('tools.ko-ki.laboratory.update') }}"
     >
         <div class="text-center mb-4">
-            <p class="koki-eyebrow mb-2">Setelah Empat Misi</p>
+            <p class="koki-eyebrow mb-2">Setelah Tujuh Misi</p>
             <h1 class="display-5 koki-title mb-2">Laboratorium Perintah Aneh</h1>
             <p class="lead koki-muted mb-0">Coba berikan perintah yang biasa dan yang belum dikenal Ko-Ki.</p>
         </div>

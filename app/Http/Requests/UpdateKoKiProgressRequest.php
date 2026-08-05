@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Services\KoKiProgressService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -30,11 +31,11 @@ class UpdateKoKiProgressRequest extends FormRequest
     {
         return [
             'last_phase' => ['required', 'string', Rule::in(['activity'])],
-            'current_level' => ['required', 'integer', 'between:1,4'],
+            'current_level' => ['required', 'integer', 'between:1,'.KoKiProgressService::MISSION_COUNT],
             'last_program' => ['sometimes', 'array', 'max:100'],
             'last_program.*' => ['string', Rule::in(['MOVE_FORWARD', 'TURN_LEFT', 'TURN_RIGHT'])],
             'increment_attempt' => ['sometimes', 'boolean'],
-            'completed_level' => ['sometimes', 'integer', 'between:1,4', 'same:current_level'],
+            'completed_level' => ['sometimes', 'integer', 'between:1,'.KoKiProgressService::MISSION_COUNT, 'same:current_level'],
             'prediction' => [
                 'sometimes',
                 'nullable',

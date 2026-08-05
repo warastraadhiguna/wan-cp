@@ -10,6 +10,8 @@ class KoKiProgressService
 {
     public const SESSION_KEY = 'ko_ki.progress_id';
 
+    public const MISSION_COUNT = 7;
+
     public function current(Request $request): ?KoKiProgress
     {
         $progressId = $request->session()->get(self::SESSION_KEY);
@@ -108,7 +110,7 @@ class KoKiProgressService
         $approvedLevels = array_map('intval', $approvedLevels);
         $approvedLevels = array_values(array_unique(array_filter(
             $approvedLevels,
-            fn (int $level): bool => $level >= 1 && $level <= 4,
+            fn (int $level): bool => $level >= 1 && $level <= self::MISSION_COUNT,
         )));
         sort($approvedLevels);
 
@@ -122,6 +124,10 @@ class KoKiProgressService
 
     public function approveNextLevel(KoKiProgress $progress, int $targetLevel): ?KoKiProgress
     {
+        if ($targetLevel < 1 || $targetLevel > self::MISSION_COUNT) {
+            return null;
+        }
+
         $approvedLevels = $this->approvedLevels($progress);
         $expectedLevel = $approvedLevels === [] ? 1 : max($approvedLevels) + 1;
         $completedLevels = array_map('intval', $progress->completed_levels ?? []);

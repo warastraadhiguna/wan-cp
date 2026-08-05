@@ -120,13 +120,10 @@
                         </div>
 
                         <div class="row g-2">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <button class="btn btn-success rounded-pill fw-bold w-100 h-100" type="button" data-run>
                                     <i class="bi bi-play-fill me-1" aria-hidden="true"></i> Jalankan
                                 </button>
-                            </div>
-                            <div class="col-6">
-                                <button class="btn btn-primary koki-btn-primary rounded-pill fw-bold w-100 h-100" type="button" data-step>Langkah Satu per Satu</button>
                             </div>
                             <div class="col-6 col-sm-3">
                                 <button class="btn btn-outline-danger btn-sm rounded-pill w-100 h-100" type="button" data-stop>Hentikan</button>

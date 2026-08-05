@@ -87,8 +87,8 @@
                             <h2 class="h5 fw-bold">Rencana waktu · maksimal 60 menit</h2>
                             <ul class="small mb-0 ps-3 koki-muted">
                                 <li>Pembukaan dan pertanyaan · 8 menit</li>
-                                <li>Sandbox · 7 menit</li>
-                                <li>Empat misi · 30 menit</li>
+                                <li>Sandbox · 5 menit</li>
+                                <li>Tujuh misi · 32 menit</li>
                                 <li>Laboratorium · 10 menit</li>
                                 <li>Exit ticket dan refleksi · 5 menit</li>
                             </ul>

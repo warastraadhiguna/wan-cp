@@ -67,6 +67,8 @@ test('interpreter executes commands one at a time', () => {
 });
 
 test('all configured minimum solutions reach their targets', () => {
+    assert.equal(LEVELS.length, 7);
+
     for (const level of LEVELS) {
         const robot = new GridRobot({ ...level.grid, start: level.start, obstacles: level.obstacles });
 
@@ -75,6 +77,15 @@ test('all configured minimum solutions reach their targets', () => {
         assert.equal(robot.state.x, level.target.x, `${level.title} target x`);
         assert.equal(robot.state.y, level.target.y, `${level.title} target y`);
     }
+});
+
+test('missions five to seven increase the route complexity', () => {
+    const advancedMissions = LEVELS.slice(4);
+
+    assert.deepEqual(advancedMissions.map((level) => level.id), [5, 6, 7]);
+    assert.ok(advancedMissions[0].minimumSolution.length > LEVELS[3].minimumSolution.length);
+    assert.ok(advancedMissions[1].minimumSolution.length > advancedMissions[0].minimumSolution.length);
+    assert.ok(advancedMissions.every((level) => level.obstacles.length > 0));
 });
 
 test('mission 3 starter program misses the target', () => {

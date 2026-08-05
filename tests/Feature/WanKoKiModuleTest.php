@@ -180,7 +180,7 @@ class WanKoKiModuleTest extends TestCase
             ->assertOk()
             ->assertSee('Aku bergerak karena kamu memberiku perintah.')
             ->assertSee('Putar hanya mengubah arahku.')
-            ->assertSee('Langkah Satu per Satu')
+            ->assertDontSee('Langkah Satu per Satu')
             ->assertSee('Hapus Semua');
     }
 
@@ -210,7 +210,7 @@ class WanKoKiModuleTest extends TestCase
         $this->post(route('tools.ko-ki.activity.start'));
 
         KoKiProgress::query()->sole()->forceFill([
-            'completed_levels' => [1, 2, 3, 4],
+            'completed_levels' => [1, 2, 3, 4, 5, 6, 7],
             'level_states' => [3 => ['corrected_bug' => true]],
             'lab_state' => ['completed' => true],
         ])->save();
@@ -346,6 +346,34 @@ class WanKoKiModuleTest extends TestCase
         $this->assertSame(1, $progress->current_level);
     }
 
+    public function test_seventh_mission_can_be_approved_and_completed(): void
+    {
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Rani',
+            'grade' => 5,
+            'last_phase' => 'activity',
+            'current_level' => 6,
+            'approved_levels' => [1, 2, 3, 4, 5, 6],
+            'completed_levels' => [1, 2, 3, 4, 5, 6],
+            'started_at' => now(),
+        ]);
+
+        $this->assertNotNull(app(KoKiProgressService::class)->approveNextLevel($progress, 7));
+
+        $this->withSession([KoKiProgressService::SESSION_KEY => $progress->getKey()])
+            ->patchJson(route('tools.ko-ki.progress.update'), [
+                'last_phase' => 'activity',
+                'current_level' => 7,
+                'last_program' => ['MOVE_FORWARD', 'TURN_RIGHT', 'MOVE_FORWARD'],
+                'increment_attempt' => true,
+                'completed_level' => 7,
+            ])
+            ->assertOk();
+
+        $this->assertSame([1, 2, 3, 4, 5, 6, 7], $progress->refresh()->completed_levels);
+        $this->assertSame(7, $progress->current_level);
+    }
+
     public function test_student_cannot_save_a_locked_mission_or_skip_the_approval_order(): void
     {
         $progress = KoKiProgress::query()->create([
@@ -414,13 +442,13 @@ class WanKoKiModuleTest extends TestCase
         ], $progress->refresh()->level_states[3]);
     }
 
-    public function test_laboratory_is_only_available_after_four_missions(): void
+    public function test_laboratory_is_only_available_after_seven_missions(): void
     {
         $progress = KoKiProgress::query()->create([
             'student_name' => 'Nina',
             'grade' => 4,
             'last_phase' => 'activity',
-            'completed_levels' => [1, 2, 3],
+            'completed_levels' => [1, 2, 3, 4, 5, 6],
             'started_at' => now(),
         ]);
 
@@ -428,11 +456,12 @@ class WanKoKiModuleTest extends TestCase
             ->get(route('tools.ko-ki.laboratory'))
             ->assertRedirect(route('tools.ko-ki.activity'));
 
-        $progress->forceFill(['completed_levels' => [1, 2, 3, 4]])->save();
+        $progress->forceFill(['completed_levels' => [1, 2, 3, 4, 5, 6, 7]])->save();
 
         $this->get(route('tools.ko-ki.laboratory'))
             ->assertOk()
             ->assertSee('Laboratorium Perintah Aneh')
+            ->assertSee('Setelah Tujuh Misi')
             ->assertSee('Manusia menentukan tujuan dan membuat program.')
             ->assertSee('Komputer membantu menjalankan program.')
             ->assertSee('Program adalah kumpulan perintah untuk komputer.')
@@ -586,7 +615,7 @@ class WanKoKiModuleTest extends TestCase
             'student_name' => 'Lala',
             'grade' => 4,
             'last_phase' => 'laboratory',
-            'completed_levels' => [1, 2, 3, 4],
+            'completed_levels' => [1, 2, 3, 4, 5, 6, 7],
             'lab_state' => $labState,
             'started_at' => now(),
         ]);
