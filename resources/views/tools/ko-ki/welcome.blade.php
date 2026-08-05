@@ -55,8 +55,9 @@
                                 <label class="form-label fw-semibold" for="grade">Kelas</label>
                                 <select class="form-select @error('grade') is-invalid @enderror" id="grade" name="grade" required>
                                     <option value="">Pilih kelas</option>
-                                    <option value="4" @selected(old('grade') === '4')>Kelas 4</option>
-                                    <option value="5" @selected(old('grade') === '5')>Kelas 5</option>
+                                    @foreach (range(1, 6) as $grade)
+                                        <option value="{{ $grade }}" @selected((int) old('grade') === $grade)>Kelas {{ $grade }}</option>
+                                    @endforeach
                                 </select>
                                 @error('grade')
                                     <div class="invalid-feedback">{{ $message }}</div>

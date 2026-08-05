@@ -19,9 +19,12 @@ class AdminPanelTest extends TestCase
         $this->get('/admin/login')->assertOk();
     }
 
-    public function test_admin_sidebar_can_be_collapsed_on_desktop(): void
+    public function test_admin_uses_top_navigation(): void
     {
-        $this->assertTrue(filament()->getPanel('admin')->isSidebarCollapsibleOnDesktop());
+        $panel = filament()->getPanel('admin');
+
+        $this->assertTrue($panel->hasTopNavigation());
+        $this->assertFalse($panel->isSidebarCollapsibleOnDesktop());
     }
 
     public function test_authenticated_admin_can_access_home_content_page(): void
@@ -54,6 +57,9 @@ class AdminPanelTest extends TestCase
         KoKiProgress::query()->create([
             'student_name' => 'Naya',
             'grade' => 4,
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 1,
             'last_phase' => 'activity',
             'current_level' => 1,
             'approved_levels' => [],
@@ -65,8 +71,10 @@ class AdminPanelTest extends TestCase
             ->get(KoKiProgressResource::getUrl('index'))
             ->assertOk()
             ->assertSee('Naya')
+            ->assertSee('S1 · U1 · P1')
             ->assertSee('Menunggu izin Misi 1')
-            ->assertSee('Izinkan Misi 1');
+            ->assertSee('Izinkan Misi 1')
+            ->assertSee('Hapus data');
     }
 
     public function test_non_admin_cannot_access_wan_ko_ki_management(): void

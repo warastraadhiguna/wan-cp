@@ -30,7 +30,7 @@
                         <p class="koki-muted mb-0">Mulai dari mengenal peran manusia, komputer, dan program.</p>
                     </div>
                     <div class="text-md-end">
-                        <span class="badge rounded-pill text-bg-light border px-3 py-2">Kelas 4–5</span>
+                        <span class="badge rounded-pill text-bg-light border px-3 py-2">Kelas 1–6</span>
                     </div>
                 </div>
 

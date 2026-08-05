@@ -13,6 +13,9 @@ class KoKiProgress extends Model
         'user_id',
         'student_name',
         'grade',
+        'semester',
+        'unit',
+        'meeting',
         'last_phase',
         'current_level',
         'approved_levels',
@@ -28,7 +31,6 @@ class KoKiProgress extends Model
         'exit_ticket',
         'exit_ticket_answers',
         'reflection',
-        'reflection_choice',
         'started_at',
         'completed_at',
     ];
@@ -37,6 +39,9 @@ class KoKiProgress extends Model
     {
         return [
             'grade' => 'integer',
+            'semester' => 'integer',
+            'unit' => 'integer',
+            'meeting' => 'integer',
             'current_level' => 'integer',
             'approved_levels' => 'array',
             'initial_answer' => 'array',

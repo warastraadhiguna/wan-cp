@@ -12,6 +12,7 @@ if (root) {
     });
     const grid = root.querySelector('[data-lab-grid]');
     const dialog = root.querySelector('[data-lab-dialog]');
+    const commandPicker = root.querySelector('[data-strange-picker]');
     const questionStage = root.querySelector('[data-strange-question]');
     const questionFeedback = root.querySelector('[data-strange-feedback]');
     const classificationStage = root.querySelector('[data-classification-stage]');
@@ -27,9 +28,10 @@ if (root) {
     buildGrid();
     renderRobot();
     renderCommands();
-    renderQuestion();
     renderCurrentStage();
     updateReflectionCount();
+
+    window.setInterval(checkProgressExists, 5000);
 
     reflection.addEventListener('input', updateReflectionCount);
 
@@ -85,25 +87,35 @@ if (root) {
                     dialog.textContent = 'Aku belum memiliki program untuk melakukan itu.';
                 }
 
-                await persist({ action: 'try_command', command: command.id });
-                questionStage.hidden = false;
+                const response = await persist({ action: 'try_command', command: command.id });
+
+                if (response && !command.implemented) {
+                    renderCurrentStage();
+                }
             });
             container.append(button);
         });
     }
 
-    function renderQuestion() {
-        root.querySelector('[data-strange-prompt]').textContent = configuration.question.prompt;
+    function renderQuestion(commandId) {
+        const command = configuration.commands.find((item) => item.id === commandId);
+
+        if (!command || command.implemented) return;
+
+        root.querySelector('[data-strange-prompt]').textContent = command.prompt;
         const container = root.querySelector('[data-strange-options]');
         container.replaceChildren();
+        questionFeedback.hidden = true;
 
-        configuration.question.options.forEach((option) => {
+        configuration.answer_options.forEach((option) => {
             const column = document.createElement('div');
             column.className = 'col-sm-6';
             const button = document.createElement('button');
             button.className = 'btn btn-outline-primary koki-command-button w-100';
             button.type = 'button';
-            button.textContent = option.label;
+            button.textContent = option.value === 'dislikes_command'
+                ? command.dislike_label
+                : option.label;
             button.addEventListener('click', async () => {
                 if (requestPending) return;
 
@@ -127,7 +139,15 @@ if (root) {
     }
 
     function renderCurrentStage() {
-        questionStage.hidden = (state.tried_commands ?? []).length === 0;
+        const selectedCommand = state.selected_strange_command;
+        const shouldShowQuestion = Boolean(selectedCommand) && !state.strange_completed;
+
+        commandPicker.hidden = shouldShowQuestion;
+        questionStage.hidden = !shouldShowQuestion;
+
+        if (shouldShowQuestion) {
+            renderQuestion(selectedCommand);
+        }
 
         if (state.completed) {
             root.querySelector('[data-strange-stage]').hidden = true;
@@ -170,6 +190,7 @@ if (root) {
 
     function buildGrid() {
         grid.style.setProperty('--grid-columns', 5);
+        grid.style.setProperty('--grid-rows', 1);
         grid.style.aspectRatio = '5 / 1';
         grid.replaceChildren();
 
@@ -209,6 +230,13 @@ if (root) {
                 },
                 body: JSON.stringify(payload),
             });
+
+            if (response.status === 409) {
+                window.location.assign(root.dataset.entryUrl);
+
+                return null;
+            }
+
             const responseData = await response.json();
 
             if (!response.ok) {
@@ -249,6 +277,21 @@ if (root) {
 
     function updateReflectionCount() {
         reflectionCount.textContent = reflection.value.length;
+    }
+
+    async function checkProgressExists() {
+        try {
+            const response = await fetch(root.dataset.statusUrl, {
+                credentials: 'same-origin',
+                headers: { Accept: 'application/json' },
+            });
+
+            if (response.status === 409) {
+                window.location.assign(root.dataset.entryUrl);
+            }
+        } catch {
+            // Gangguan jaringan sementara tidak mengubah progress yang sedang tampil.
+        }
     }
 
     function parseData(key, fallback) {

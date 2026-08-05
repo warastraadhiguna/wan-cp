@@ -8,6 +8,8 @@
         data-configuration='@json($laboratory)'
         data-state='@json($labState)'
         data-save-url="{{ route('tools.ko-ki.laboratory.update') }}"
+        data-status-url="{{ route('tools.ko-ki.levels.status') }}"
+        data-entry-url="{{ route('tools.ko-ki.welcome') }}"
     >
         <div class="text-center mb-4">
             <p class="koki-eyebrow mb-2">Setelah Tujuh Misi</p>
@@ -24,17 +26,19 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <p class="koki-eyebrow mb-2">Percobaan bebas</p>
-                    <h2 class="h3 fw-bold mb-3">Apa yang dapat dilakukan Ko-Ki?</h2>
-                    <div class="d-grid gap-2" data-strange-commands></div>
-                </div>
-            </div>
+                    <div data-strange-picker>
+                        <p class="koki-eyebrow mb-2">Percobaan bebas</p>
+                        <h2 class="h3 fw-bold mb-3">Apa yang dapat dilakukan Ko-Ki?</h2>
+                        <div class="d-grid gap-2" data-strange-commands></div>
+                    </div>
 
-            <div class="border-top mt-5 pt-4" data-strange-question hidden>
-                <p class="koki-eyebrow mb-2">Pertanyaan laboratorium</p>
-                <h2 class="h3 fw-bold mb-4" data-strange-prompt></h2>
-                <div class="row g-3" data-strange-options></div>
-                <p class="alert rounded-4 mt-3 mb-0" data-strange-feedback aria-live="polite" hidden></p>
+                    <div data-strange-question hidden>
+                        <p class="koki-eyebrow mb-2">Pertanyaan laboratorium</p>
+                        <h2 class="h3 fw-bold mb-4" data-strange-prompt></h2>
+                        <div class="row g-3" data-strange-options></div>
+                        <p class="alert rounded-4 mt-3 mb-0" data-strange-feedback aria-live="polite" hidden></p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -142,21 +146,6 @@
                             @enderror
                             <span class="small koki-muted"><span data-reflection-count>0</span>/200</span>
                         </div>
-                    </div>
-
-                    <div class="koki-answer mb-4">
-                        <input
-                            id="reflection-choice"
-                            name="reflection_choice"
-                            type="radio"
-                            value="Agar tahu apa yang harus dilakukan"
-                            @checked(old('reflection_choice', $progress->reflection_choice) === 'Agar tahu apa yang harus dilakukan')
-                            required
-                        >
-                        <label for="reflection-choice">Agar tahu apa yang harus dilakukan</label>
-                        @error('reflection_choice')
-                            <p class="text-danger small mt-2 mb-0">{{ $message }}</p>
-                        @enderror
                     </div>
 
                     @error('exit_ticket_answers')

@@ -7,8 +7,6 @@ use Illuminate\Validation\Rule;
 
 class CompleteKoKiProgressRequest extends FormRequest
 {
-    public const REFLECTION_CHOICE = 'Agar tahu apa yang harus dilakukan';
-
     public function authorize(): bool
     {
         return true;
@@ -18,7 +16,6 @@ class CompleteKoKiProgressRequest extends FormRequest
     {
         $this->merge([
             'reflection' => trim(strip_tags((string) $this->input('reflection'))),
-            'reflection_choice' => trim(strip_tags((string) $this->input('reflection_choice'))),
         ]);
     }
 
@@ -30,7 +27,6 @@ class CompleteKoKiProgressRequest extends FormRequest
             'exit_ticket_answers.q2' => ['required', 'string', Rule::in(['true'])],
             'exit_ticket_answers.q3' => ['required', 'string', Rule::in(['not_quite'])],
             'reflection' => ['bail', 'required', 'string', 'min:3', 'max:200'],
-            'reflection_choice' => ['required', 'string', Rule::in([self::REFLECTION_CHOICE])],
         ];
     }
 
@@ -47,8 +43,6 @@ class CompleteKoKiProgressRequest extends FormRequest
             'reflection.required' => 'Refleksi wajib diisi.',
             'reflection.min' => 'Refleksi minimal 3 karakter.',
             'reflection.max' => 'Refleksi maksimal 200 karakter.',
-            'reflection_choice.required' => 'Pilih alasan komputer membutuhkan program.',
-            'reflection_choice.in' => 'Pilihan refleksi tidak valid.',
         ];
     }
 }

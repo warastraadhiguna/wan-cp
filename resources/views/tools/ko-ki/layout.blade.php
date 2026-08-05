@@ -33,6 +33,12 @@
             box-shadow: 0 10px 35px rgba(23, 32, 51, 0.14);
         }
 
+        .koki-navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .koki-brand-logo {
             width: 3rem;
             height: 3rem;
@@ -204,10 +210,12 @@
 
         .koki-grid {
             --grid-columns: 6;
+            --grid-rows: 6;
             display: grid;
             width: min(100%, 34rem);
             aspect-ratio: 1;
             grid-template-columns: repeat(var(--grid-columns), 1fr);
+            grid-template-rows: repeat(var(--grid-rows), 1fr);
             overflow: hidden;
             border: 4px solid var(--koki-ink);
             border-radius: 1.25rem;
@@ -241,15 +249,19 @@
 
         .koki-robot {
             position: absolute;
-            inset: 8%;
+            top: 50%;
+            left: 50%;
             display: grid;
+            width: 72%;
+            height: auto;
+            aspect-ratio: 1;
             place-items: center;
             border: 3px solid #203fa7;
             border-radius: 24%;
             background: var(--koki-yellow);
             box-shadow: 0 5px 0 rgba(32, 63, 167, 0.25);
             font-size: clamp(1.15rem, 5vw, 2.4rem);
-            transition: inset 0.15s ease;
+            transform: translate(-50%, -50%);
             z-index: 2;
         }
 
@@ -278,12 +290,32 @@
 
         .koki-program-list {
             display: grid;
-            max-height: 19rem;
+            max-height: 14rem;
             gap: 0.65rem;
             margin: 0;
-            padding: 0;
+            padding: 0 0.35rem 0 0;
+            overflow-x: hidden;
             overflow-y: auto;
+            overscroll-behavior: contain;
+            scrollbar-color: var(--koki-blue) #dfe8f5;
+            scrollbar-width: thin;
             list-style: none;
+            align-content: start;
+        }
+
+        .koki-program-list::-webkit-scrollbar {
+            width: 0.55rem;
+        }
+
+        .koki-program-list::-webkit-scrollbar-track {
+            border-radius: 999px;
+            background: #dfe8f5;
+        }
+
+        .koki-program-list::-webkit-scrollbar-thumb {
+            border: 2px solid #dfe8f5;
+            border-radius: 999px;
+            background: var(--koki-blue);
         }
 
         .koki-game-card .koki-grid {
@@ -295,7 +327,35 @@
         }
 
         .koki-game-card .koki-program-list {
-            max-height: 9rem;
+            max-height: none;
+        }
+
+        .koki-program-box {
+            display: flex;
+            height: clamp(14rem, 40vh, 22rem);
+            flex-direction: column;
+        }
+
+        .koki-program-box .koki-program-list {
+            min-height: 0;
+            flex: 1;
+        }
+
+        .koki-program-box > [data-empty-program]:not([hidden]) {
+            margin: auto !important;
+        }
+
+        .koki-mission-panel {
+            min-width: 0;
+        }
+
+        .koki-mission-panel .koki-answer label {
+            min-height: 3.4rem;
+            padding: 0.7rem 0.9rem;
+        }
+
+        [data-ko-ki-game].is-mission-mode .koki-activity-header {
+            display: none !important;
         }
 
         .koki-game-card .koki-dialogue {
@@ -309,7 +369,8 @@
 
         .koki-program-command {
             display: grid;
-            grid-template-columns: 2rem 1fr auto;
+            min-width: 0;
+            grid-template-columns: 2rem minmax(0, 1fr);
             align-items: center;
             gap: 0.75rem;
             padding: 0.75rem;
@@ -330,11 +391,6 @@
             font-weight: 800;
         }
 
-        .koki-program-command code {
-            color: var(--koki-muted);
-            font-size: 0.72rem;
-        }
-
         .koki-program-command.is-active {
             border-color: #f2af00;
             background: #fff7d6;
@@ -347,12 +403,12 @@
         }
 
         @media (max-width: 575.98px) {
-            .koki-program-command {
-                grid-template-columns: 2rem 1fr;
+            .koki-fullscreen-label {
+                display: none;
             }
 
-            .koki-program-command code {
-                grid-column: 2;
+            .koki-program-command {
+                grid-template-columns: 2rem 1fr;
             }
 
             .koki-brand-logo {
@@ -384,6 +440,28 @@
             }
         }
 
+        @media (min-width: 992px) {
+            .koki-mission-panel {
+                display: flex;
+                height: min(calc(100vh - 7rem), 42rem);
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .koki-mission-panel [data-program-builder] {
+                display: flex;
+                min-height: 0;
+                flex: 1;
+                flex-direction: column;
+            }
+
+            .koki-mission-panel .koki-program-box {
+                height: auto;
+                min-height: 12rem;
+                flex: 1;
+            }
+        }
+
         .form-control,
         .form-select {
             border-color: #cfd9ea;
@@ -405,9 +483,15 @@
                 <img class="koki-brand-logo" src="{{ asset('wan-ko-ki.png') }}" alt="Logo WAn Ko-Ki">
                 <span>WAn Ko-Ki</span>
             </a>
-            <a class="btn btn-sm btn-outline-light rounded-pill px-3" href="{{ route('home') }}">
-                <i class="bi bi-house-door me-1" aria-hidden="true"></i> Beranda
-            </a>
+            <div class="koki-navbar-actions">
+                <button class="btn btn-sm btn-outline-light rounded-pill px-3" type="button" data-koki-fullscreen>
+                    <i class="bi bi-arrows-fullscreen me-sm-1" data-koki-fullscreen-icon aria-hidden="true"></i>
+                    <span class="koki-fullscreen-label" data-koki-fullscreen-label>Layar Penuh</span>
+                </button>
+                <a class="btn btn-sm btn-outline-light rounded-pill px-3" href="{{ route('home') }}">
+                    <i class="bi bi-house-door me-1" aria-hidden="true"></i> Beranda
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -424,6 +508,62 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (() => {
+            const button = document.querySelector('[data-koki-fullscreen]');
+            const label = document.querySelector('[data-koki-fullscreen-label]');
+            const icon = document.querySelector('[data-koki-fullscreen-icon]');
+            const preferenceKey = 'wan-ko-ki.fullscreen-preferred';
+
+            if (!button || !document.documentElement.requestFullscreen) {
+                button?.setAttribute('hidden', '');
+
+                return;
+            }
+
+            const updateButton = () => {
+                const isFullscreen = Boolean(document.fullscreenElement);
+                label.textContent = isFullscreen ? 'Keluar Layar Penuh' : 'Layar Penuh';
+                icon.className = isFullscreen
+                    ? 'bi bi-fullscreen-exit me-sm-1'
+                    : 'bi bi-arrows-fullscreen me-sm-1';
+
+            };
+
+            const enterFullscreen = async () => {
+                if (document.fullscreenElement) return;
+
+                try {
+                    await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
+                    sessionStorage.setItem(preferenceKey, '1');
+                } catch {
+                    // Browser akan mengizinkan lagi setelah interaksi pengguna berikutnya.
+                }
+            };
+
+            button.addEventListener('click', async () => {
+                if (document.fullscreenElement) {
+                    sessionStorage.setItem(preferenceKey, '0');
+                    await document.exitFullscreen();
+
+                    return;
+                }
+
+                await enterFullscreen();
+            });
+
+            document.addEventListener('fullscreenchange', () => {
+                updateButton();
+            });
+
+            if (sessionStorage.getItem(preferenceKey) !== '0') {
+                document.addEventListener('pointerdown', enterFullscreen, { capture: true, once: true });
+                enterFullscreen();
+            }
+
+            updateButton();
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>

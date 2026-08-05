@@ -9,11 +9,14 @@ use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -52,6 +55,10 @@ class KoKiProgressResource extends Resource
                     ->label('Kelas')
                     ->badge()
                     ->formatStateUsing(fn (int $state): string => 'Kelas '.$state),
+                TextColumn::make('curriculum')
+                    ->label('Materi')
+                    ->badge()
+                    ->state(fn (KoKiProgress $record): string => "S{$record->semester} · U{$record->unit} · P{$record->meeting}"),
                 TextColumn::make('current_level')
                     ->label('Misi aktif')
                     ->formatStateUsing(fn (int $state): string => 'Misi '.$state),
@@ -71,6 +78,29 @@ class KoKiProgressResource extends Resource
                     ->dateTime('d M Y H:i')
                     ->sortable(),
             ])
+            ->filters([
+                SelectFilter::make('semester')
+                    ->label('Semester')
+                    ->default(1)
+                    ->options([1 => 'Semester 1', 2 => 'Semester 2']),
+                SelectFilter::make('unit')
+                    ->label('Unit')
+                    ->default(1)
+                    ->options(fn (): array => collect(range(1, 12))
+                        ->mapWithKeys(fn (int $unit): array => [$unit => 'Unit '.$unit])
+                        ->all()),
+                SelectFilter::make('meeting')
+                    ->label('Pertemuan')
+                    ->default(1)
+                    ->options(fn (): array => collect(range(1, 24))
+                        ->mapWithKeys(fn (int $meeting): array => [$meeting => 'Pertemuan '.$meeting])
+                        ->all()),
+                SelectFilter::make('grade')
+                    ->label('Kelas')
+                    ->options(fn (): array => collect(range(1, 6))
+                        ->mapWithKeys(fn (int $grade): array => [$grade => 'Kelas '.$grade])
+                        ->all()),
+            ])
             ->recordActions([
                 Action::make('approveNextLevel')
                     ->label(fn (KoKiProgress $record): string => 'Izinkan Misi '.static::nextLevel($record))
@@ -87,6 +117,11 @@ class KoKiProgressResource extends Resource
                             ->success()
                             ->send();
                     }),
+                DeleteAction::make()
+                    ->label('Hapus data')
+                    ->modalHeading('Hapus progress siswa?')
+                    ->modalDescription('Progress akan dihapus permanen. Browser siswa dapat memulai pertemuan ini dari awal.')
+                    ->successNotificationTitle('Progress siswa berhasil dihapus'),
                 Action::make('revokeLatestLevel')
                     ->label('Batalkan izin')
                     ->icon('heroicon-o-lock-closed')
@@ -126,6 +161,11 @@ class KoKiProgressResource extends Resource
                                 ->send();
                         })
                         ->deselectRecordsAfterCompletion(),
+                    DeleteBulkAction::make()
+                        ->label('Hapus data terpilih')
+                        ->modalHeading('Hapus progress siswa terpilih?')
+                        ->modalDescription('Semua progress terpilih akan dihapus permanen. Browser siswa terkait dapat memulai dari awal.')
+                        ->successNotificationTitle('Progress siswa terpilih berhasil dihapus'),
                 ]),
             ]);
     }

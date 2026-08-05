@@ -15,6 +15,7 @@
         data-approved-levels='@json($approvedLevels)'
         data-save-url="{{ route('tools.ko-ki.progress.update') }}"
         data-level-status-url="{{ route('tools.ko-ki.levels.status') }}"
+        data-entry-url="{{ route('tools.ko-ki.welcome') }}"
         data-laboratory-url="{{ route('tools.ko-ki.laboratory') }}"
     >
         <div class="koki-activity-header d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-2 mb-3">
@@ -35,6 +36,40 @@
                     <p class="alert alert-light border rounded-4 w-100 mt-2 mb-0 py-2 text-center fw-semibold" data-engine-status aria-live="polite">
                         Coba beri Ko-Ki satu perintah.
                     </p>
+                    <div class="koki-program-controls row g-2 w-100 mx-0 mt-1" data-mission-controls hidden>
+                        <div class="col-12">
+                            <button class="btn btn-success rounded-pill fw-bold w-100" type="button" data-run>
+                                <i class="bi bi-play-fill me-1" aria-hidden="true"></i> Jalankan
+                            </button>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <button class="btn btn-outline-danger btn-sm rounded-pill w-100 h-100" type="button" data-stop>Hentikan</button>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-reset-robot>Reset Robot</button>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-undo>Hapus 1</button>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-clear>Hapus Semua</button>
+                        </div>
+                    </div>
+                    <div class="alert rounded-4 w-100 mt-2 mb-0" data-mission-feedback hidden>
+                        <div data-feedback-messages></div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-success rounded-pill fw-bold" type="button" data-next-level hidden>
+                                <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>
+                                <span data-next-level-label>Cek Izin Admin</span>
+                            </button>
+                            <button class="btn btn-outline-success rounded-pill fw-bold" type="button" data-bonus-retry hidden>
+                                Coba Bonus Opsional
+                            </button>
+                            <a class="btn btn-success rounded-pill fw-bold" href="{{ route('tools.ko-ki.laboratory') }}" data-open-laboratory hidden>
+                                Lanjut ke Laboratorium
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-5">
@@ -74,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div data-missions hidden>
+                    <div class="koki-mission-panel" data-missions hidden>
                         <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
                             <div>
                                 <p class="koki-eyebrow mb-2" data-level-progress></p>
@@ -100,9 +135,10 @@
                             </button>
                         </div>
 
-                        <p class="small koki-muted">Klik command untuk menambahkannya ke program.</p>
+                        <div data-program-builder>
+                            <p class="small koki-muted mb-2">Klik perintah untuk menambahkannya ke program.</p>
 
-                        <div class="row g-2 mb-2">
+                            <div class="row g-2 mb-2">
                             <div class="col-12">
                                 <button class="btn btn-primary koki-btn-primary koki-command-button w-100" type="button" data-add-command="MOVE_FORWARD">Maju</button>
                             </div>
@@ -112,47 +148,17 @@
                             <div class="col-6">
                                 <button class="btn btn-outline-primary koki-command-button w-100" type="button" data-add-command="TURN_RIGHT">Putar Kanan</button>
                             </div>
-                        </div>
+                            </div>
 
-                        <div class="border rounded-4 bg-light p-2 mb-2">
-                            <p class="text-center koki-muted mb-0" data-empty-program>Program masih kosong.</p>
-                            <ol class="koki-program-list" data-program-list aria-label="Daftar command program"></ol>
-                        </div>
+                            <div class="koki-program-box border rounded-4 bg-light p-2 mb-2">
+                                <div class="d-flex justify-content-between align-items-center gap-2 px-1 pb-2">
+                                    <strong class="small">Urutan Perintah</strong>
+                                    <span class="badge rounded-pill text-bg-light border" data-program-count>0 perintah</span>
+                                </div>
+                                <p class="text-center koki-muted mb-0" data-empty-program>Program masih kosong.</p>
+                                <ol class="koki-program-list" data-program-list aria-label="Daftar perintah program"></ol>
+                            </div>
 
-                        <div class="row g-2">
-                            <div class="col-12">
-                                <button class="btn btn-success rounded-pill fw-bold w-100 h-100" type="button" data-run>
-                                    <i class="bi bi-play-fill me-1" aria-hidden="true"></i> Jalankan
-                                </button>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <button class="btn btn-outline-danger btn-sm rounded-pill w-100 h-100" type="button" data-stop>Hentikan</button>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-reset-robot>Reset Robot</button>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-undo>Undo</button>
-                            </div>
-                            <div class="col-6 col-sm-3">
-                                <button class="btn btn-outline-secondary btn-sm rounded-pill w-100 h-100" type="button" data-clear>Hapus Semua</button>
-                            </div>
-                        </div>
-
-                        <div class="alert rounded-4 mt-3" data-mission-feedback hidden>
-                            <div data-feedback-messages></div>
-                            <div class="d-grid gap-2 mt-3">
-                                <button class="btn btn-success rounded-pill fw-bold" type="button" data-next-level hidden>
-                                    <i class="bi bi-hourglass-split me-1" aria-hidden="true"></i>
-                                    <span data-next-level-label>Cek Izin Admin</span>
-                                </button>
-                                <button class="btn btn-outline-success rounded-pill fw-bold" type="button" data-bonus-retry hidden>
-                                    Coba Bonus Opsional
-                                </button>
-                                <a class="btn btn-success rounded-pill fw-bold" href="{{ route('tools.ko-ki.laboratory') }}" data-open-laboratory hidden>
-                                    Lanjut ke Laboratorium
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -163,5 +169,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/ko-ki/activity.js') }}"></script>
+    <script type="module" src="{{ asset('js/ko-ki/activity.js') }}?v={{ filemtime(public_path('js/ko-ki/activity.js')) }}"></script>
 @endpush

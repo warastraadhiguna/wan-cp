@@ -27,7 +27,7 @@ class UpdateKoKiLaboratoryRequest extends FormRequest
             'strange_answer' => [
                 Rule::requiredIf($action === 'answer_question'),
                 'string',
-                Rule::in(array_keys(KoKiLaboratoryService::STRANGE_QUESTION['options'])),
+                Rule::in(array_keys(KoKiLaboratoryService::STRANGE_ANSWER_OPTIONS)),
             ],
             'classification_item' => [
                 Rule::requiredIf($action === 'classify'),

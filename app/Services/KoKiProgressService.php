@@ -20,7 +20,13 @@ class KoKiProgressService
             return null;
         }
 
-        return KoKiProgress::query()->find((int) $progressId);
+        $progress = KoKiProgress::query()->find((int) $progressId);
+
+        if (! $progress instanceof KoKiProgress) {
+            $request->session()->forget(self::SESSION_KEY);
+        }
+
+        return $progress;
     }
 
     public function start(Request $request, array $data): KoKiProgress
@@ -29,6 +35,9 @@ class KoKiProgressService
             'user_id' => null,
             'student_name' => $data['student_name'],
             'grade' => (int) $data['grade'],
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 1,
             'last_phase' => 'opening',
             'current_level' => 1,
             'approved_levels' => [],
@@ -204,7 +213,6 @@ class KoKiProgressService
             'exit_ticket' => 'Belum tepat; Benar; Belum tepat',
             'exit_ticket_answers' => $data['exit_ticket_answers'],
             'reflection' => $data['reflection'],
-            'reflection_choice' => $data['reflection_choice'],
             'completed_at' => $progress->completed_at ?? now(),
         ])->save();
 

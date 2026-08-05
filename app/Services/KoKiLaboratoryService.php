@@ -10,21 +10,38 @@ class KoKiLaboratoryService
     public const CORRECT_STRANGE_ANSWER = 'not_created';
 
     public const STRANGE_COMMANDS = [
-        'FLY_TO_MOON' => ['label' => 'Terbang ke bulan', 'implemented' => false],
-        'BECOME_DRAGON' => ['label' => 'Menjadi naga', 'implemented' => false],
-        'EAT_ICE_CREAM' => ['label' => 'Makan es krim', 'implemented' => false],
-        'SING' => ['label' => 'Menyanyi', 'implemented' => false],
+        'FLY_TO_MOON' => [
+            'label' => 'Terbang ke bulan',
+            'implemented' => false,
+            'prompt' => 'Mengapa Ko-Ki Bot tidak terbang ke bulan?',
+            'dislike_label' => 'Tidak suka bulan',
+        ],
+        'BECOME_DRAGON' => [
+            'label' => 'Menjadi naga',
+            'implemented' => false,
+            'prompt' => 'Mengapa Ko-Ki Bot tidak menjadi naga?',
+            'dislike_label' => 'Tidak suka naga',
+        ],
+        'EAT_ICE_CREAM' => [
+            'label' => 'Makan es krim',
+            'implemented' => false,
+            'prompt' => 'Mengapa Ko-Ki Bot tidak makan es krim?',
+            'dislike_label' => 'Tidak suka es krim',
+        ],
+        'SING' => [
+            'label' => 'Menyanyi',
+            'implemented' => false,
+            'prompt' => 'Mengapa Ko-Ki Bot tidak menyanyi?',
+            'dislike_label' => 'Tidak suka menyanyi',
+        ],
         'MOVE_FORWARD' => ['label' => 'Maju', 'implemented' => true],
     ];
 
-    public const STRANGE_QUESTION = [
-        'prompt' => 'Mengapa Ko-Ki Bot tidak menjadi naga?',
-        'options' => [
-            'lazy' => 'Sedang malas',
-            'dislikes_dragon' => 'Tidak suka naga',
-            self::CORRECT_STRANGE_ANSWER => 'Perintahnya belum dibuat',
-            'broken' => 'Komputernya rusak',
-        ],
+    public const STRANGE_ANSWER_OPTIONS = [
+        'lazy' => 'Sedang malas',
+        'dislikes_command' => null,
+        self::CORRECT_STRANGE_ANSWER => 'Perintahnya belum dibuat',
+        'broken' => 'Komputernya rusak',
     ];
 
     public const CLASSIFICATIONS = [
@@ -48,14 +65,11 @@ class KoKiLaboratoryService
                 self::STRANGE_COMMANDS,
                 array_keys(self::STRANGE_COMMANDS),
             ),
-            'question' => [
-                'prompt' => self::STRANGE_QUESTION['prompt'],
-                'options' => array_map(
-                    fn (string $label, string $value): array => compact('value', 'label'),
-                    self::STRANGE_QUESTION['options'],
-                    array_keys(self::STRANGE_QUESTION['options']),
-                ),
-            ],
+            'answer_options' => array_map(
+                fn (?string $label, string $value): array => compact('value', 'label'),
+                self::STRANGE_ANSWER_OPTIONS,
+                array_keys(self::STRANGE_ANSWER_OPTIONS),
+            ),
             'classifications' => array_map(
                 fn (array $item): array => [
                     'id' => $item['id'],
@@ -73,9 +87,19 @@ class KoKiLaboratoryService
         if ($data['action'] === 'try_command') {
             $state['tried_commands'][] = $data['command'];
             $state['tried_commands'] = array_values(array_unique($state['tried_commands']));
+
+            if (! self::STRANGE_COMMANDS[$data['command']]['implemented']) {
+                $state['selected_strange_command'] = $data['command'];
+            }
         }
 
         if ($data['action'] === 'answer_question') {
+            if ($state['selected_strange_command'] === null) {
+                throw ValidationException::withMessages([
+                    'strange_answer' => 'Pilih satu perintah yang belum dibuat terlebih dahulu.',
+                ]);
+            }
+
             $state['strange_answer'] = $data['strange_answer'];
             $state['strange_completed'] = $data['strange_answer'] === self::CORRECT_STRANGE_ANSWER;
         }
@@ -117,6 +141,7 @@ class KoKiLaboratoryService
     {
         return [
             'tried_commands' => [],
+            'selected_strange_command' => null,
             'strange_answer' => null,
             'strange_completed' => false,
             'classification_answers' => [],

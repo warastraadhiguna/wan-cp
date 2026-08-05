@@ -30,12 +30,14 @@ if (root) {
     const emptyProgram = root.querySelector('[data-empty-program]');
     const feedback = root.querySelector('[data-mission-feedback]');
     const feedbackMessages = root.querySelector('[data-feedback-messages]');
+    const missionControls = root.querySelector('[data-mission-controls]');
     const nextLevelButton = root.querySelector('[data-next-level]');
     const bonusButton = root.querySelector('[data-bonus-retry]');
     const laboratoryButton = root.querySelector('[data-open-laboratory]');
     const predictionPanel = root.querySelector('[data-prediction-panel]');
     const predictionOptions = root.querySelector('[data-prediction-options]');
     const debugPanel = root.querySelector('[data-debug-panel]');
+    const programBuilder = root.querySelector('[data-program-builder]');
     const grade = Number(root.dataset.grade);
     let currentLevelId = Number(root.dataset.currentLevel || 1);
     let programs = parseData('programs', {});
@@ -85,6 +87,7 @@ if (root) {
 
         sandboxElement.hidden = true;
         missionsElement.hidden = false;
+        root.classList.add('is-mission-mode');
         loadLevel(currentLevelId);
 
         if (window.matchMedia('(max-width: 991.98px)').matches) {
@@ -99,6 +102,8 @@ if (root) {
         program = [];
         missionsElement.hidden = true;
         sandboxElement.hidden = false;
+        missionControls.hidden = true;
+        root.classList.remove('is-mission-mode');
         configureEngine(sandboxConfig);
         renderProgram();
         setStatus('Coba beri Ko-Ki satu perintah.');
@@ -179,16 +184,7 @@ if (root) {
     });
 
     window.setInterval(() => {
-        const nextLevel = (currentLevel?.id ?? 0) + 1;
-
-        const waitingForFirstMission = !sandboxElement.hidden && !approvedLevels.includes(1);
-        const waitingForNextMission = isCurrentLevelCompleted()
-            && nextLevel <= LEVELS.length
-            && !approvedLevels.includes(nextLevel);
-
-        if (waitingForFirstMission || waitingForNextMission) {
-            checkLevelAccess();
-        }
+        checkLevelAccess();
     }, 4000);
 
     bonusButton.addEventListener('click', () => {
@@ -274,6 +270,7 @@ if (root) {
 
     function buildGrid(config) {
         grid.style.setProperty('--grid-columns', config.grid.width);
+        grid.style.setProperty('--grid-rows', config.grid.height);
         grid.style.aspectRatio = `${config.grid.width} / ${config.grid.height}`;
         grid.replaceChildren();
 
@@ -316,25 +313,42 @@ if (root) {
     }
 
     function renderProgram() {
+        const previousScrollTop = programList.scrollTop;
+        const wasNearEnd = programList.scrollHeight - programList.scrollTop - programList.clientHeight < 24;
         programList.replaceChildren();
         emptyProgram.hidden = program.length !== 0;
+        root.querySelector('[data-program-count]').textContent = `${program.length} perintah`;
 
         program.forEach((command, index) => {
             const item = document.createElement('li');
             item.className = 'koki-program-command';
             item.classList.toggle('is-active', index === activeCommandIndex);
-            item.innerHTML = `<span>${index + 1}</span><strong>${commandLabels[command]}</strong><code>${command}</code>`;
+            item.innerHTML = `<span>${index + 1}</span><strong>${commandLabels[command]}</strong>`;
+            item.title = `Perintah ${index + 1}: ${commandLabels[command]}`;
             programList.append(item);
+
+            if (index === activeCommandIndex) {
+                window.requestAnimationFrame(() => item.scrollIntoView({ block: 'nearest', inline: 'nearest' }));
+            }
         });
+
+        if (activeCommandIndex === null) {
+            window.requestAnimationFrame(() => {
+                programList.scrollTop = wasNearEnd ? programList.scrollHeight : previousScrollTop;
+            });
+        }
 
         updateControls();
     }
 
     function renderPrediction() {
-        predictionPanel.hidden = !currentLevel?.prediction;
+        const needsPrediction = Boolean(currentLevel?.prediction && !predictions[currentLevel.id]);
+        predictionPanel.hidden = !needsPrediction;
+        programBuilder.hidden = needsPrediction;
+        updateMissionControlsVisibility();
         predictionOptions.replaceChildren();
 
-        if (!currentLevel?.prediction) return;
+        if (!needsPrediction) return;
 
         root.querySelector('[data-prediction-prompt]').textContent = currentLevel.prediction.prompt;
 
@@ -355,6 +369,7 @@ if (root) {
                 predictions[currentLevel.id] = option.value;
                 persist({ prediction: option.value });
                 setStatus('Prediksimu sudah disimpan. Sekarang jalankan program untuk mengamatinya.');
+                window.setTimeout(renderPrediction, 250);
                 updateControls();
             });
             wrapper.append(input, label);
@@ -455,6 +470,8 @@ if (root) {
         }
 
         showMessages(messages, 'success');
+        missionControls.hidden = true;
+        window.requestAnimationFrame(() => feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
         nextLevelButton.hidden = currentLevel.id >= LEVELS.length;
         root.querySelector('[data-next-level-label]').textContent = nextLevelIsApproved
             ? 'Lanjut ke Misi Berikutnya'
@@ -473,6 +490,12 @@ if (root) {
                 credentials: 'same-origin',
                 headers: { Accept: 'application/json' },
             });
+
+            if (response.status === 409) {
+                window.location.assign(root.dataset.entryUrl);
+
+                return;
+            }
 
             if (!response.ok) throw new Error();
 
@@ -506,7 +529,7 @@ if (root) {
     }
 
     function showMessages(messages, type) {
-        feedback.className = `alert rounded-4 mt-3 alert-${type === 'success' ? 'success' : 'info'}`;
+        feedback.className = `alert rounded-4 w-100 mt-2 mb-0 alert-${type === 'success' ? 'success' : 'info'}`;
         feedback.hidden = false;
         feedbackMessages.replaceChildren();
 
@@ -524,6 +547,19 @@ if (root) {
         nextLevelButton.hidden = true;
         bonusButton.hidden = true;
         laboratoryButton.hidden = true;
+        updateMissionControlsVisibility();
+    }
+
+    function updateMissionControlsVisibility() {
+        const needsPrediction = Boolean(currentLevel?.prediction && !predictions[currentLevel.id]);
+        const canWorkOnMission = Boolean(
+            currentLevel
+            && !missionsElement.hidden
+            && !needsPrediction
+            && (!isCurrentLevelCompleted() || bonusMode),
+        );
+
+        missionControls.hidden = !canWorkOnMission;
     }
 
     function prepareExecution() {
@@ -582,6 +618,12 @@ if (root) {
                 },
                 body: JSON.stringify(payload),
             });
+
+            if (response.status === 409) {
+                window.location.assign(root.dataset.entryUrl);
+
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error('Progress tidak dapat disimpan.');

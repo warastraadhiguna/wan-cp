@@ -30,6 +30,7 @@ class WanKoKiModuleTest extends TestCase
         $this->get(route('tools.ko-ki.welcome'))
             ->assertOk()
             ->assertSee('Halo! Kenalan dengan Ko-Ki Bot')
+            ->assertSee('Layar Penuh')
             ->assertSee('maksimal 60 menit')
             ->assertSee('name="_token"', false);
     }
@@ -46,6 +47,9 @@ class WanKoKiModuleTest extends TestCase
             'user_id' => null,
             'student_name' => 'Naya',
             'grade' => 4,
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 1,
             'last_phase' => 'opening',
         ]);
         $this->assertSame([], KoKiProgress::query()->sole()->approved_levels);
@@ -59,17 +63,54 @@ class WanKoKiModuleTest extends TestCase
             ->assertSee('Mulai Petualangan');
     }
 
-    public function test_grade_must_be_four_or_five(): void
+    public function test_grade_must_be_between_one_and_six(): void
     {
         $this->from(route('tools.ko-ki.welcome'))
             ->post(route('tools.ko-ki.start'), [
                 'student_name' => 'Naya',
-                'grade' => 6,
+                'grade' => 7,
             ])
             ->assertRedirect(route('tools.ko-ki.welcome'))
             ->assertSessionHasErrors(['grade']);
 
         $this->assertDatabaseCount('ko_ki_progresses', 0);
+    }
+
+    public function test_students_from_grades_one_through_six_can_start(): void
+    {
+        foreach (range(1, 6) as $grade) {
+            $this->post(route('tools.ko-ki.start'), [
+                'student_name' => 'Siswa '.$grade,
+                'grade' => $grade,
+            ])->assertRedirect(route('tools.ko-ki.opening'));
+        }
+
+        $this->assertDatabaseCount('ko_ki_progresses', 6);
+
+        foreach (range(1, 6) as $grade) {
+            $this->assertDatabaseHas('ko_ki_progresses', ['grade' => $grade]);
+        }
+    }
+
+    public function test_deleted_progress_clears_the_stale_student_session(): void
+    {
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Riko',
+            'grade' => 3,
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 1,
+            'last_phase' => 'activity',
+            'started_at' => now(),
+        ]);
+
+        $this->withSession([KoKiProgressService::SESSION_KEY => $progress->getKey()]);
+        $progress->delete();
+
+        $this->get(route('tools.ko-ki.index'))
+            ->assertOk()
+            ->assertSee('Buka Pertemuan 1')
+            ->assertSessionMissing(KoKiProgressService::SESSION_KEY);
     }
 
     public function test_only_one_initial_question_is_shown_per_screen(): void
@@ -181,6 +222,9 @@ class WanKoKiModuleTest extends TestCase
             ->assertSee('Aku bergerak karena kamu memberiku perintah.')
             ->assertSee('Putar hanya mengubah arahku.')
             ->assertDontSee('Langkah Satu per Satu')
+            ->assertSee('Urutan Perintah')
+            ->assertSee('Hapus 1')
+            ->assertDontSee('>Undo<', false)
             ->assertSee('Hapus Semua');
     }
 
@@ -227,7 +271,7 @@ class WanKoKiModuleTest extends TestCase
             'q2' => 'true',
             'q3' => 'not_quite',
         ], $progress->exit_ticket_answers);
-        $this->assertSame('Agar tahu apa yang harus dilakukan', $progress->reflection_choice);
+        $this->assertNull($progress->reflection_choice);
 
         $this->get(route('tools.ko-ki.completed'))
             ->assertOk()
@@ -478,7 +522,8 @@ class WanKoKiModuleTest extends TestCase
             'action' => 'try_command',
             'command' => 'BECOME_DRAGON',
         ])->assertOk()
-            ->assertJsonPath('lab_state.tried_commands.0', 'BECOME_DRAGON');
+            ->assertJsonPath('lab_state.tried_commands.0', 'BECOME_DRAGON')
+            ->assertJsonPath('lab_state.selected_strange_command', 'BECOME_DRAGON');
 
         $this->patchJson(route('tools.ko-ki.laboratory.update'), [
             'action' => 'answer_question',
@@ -495,6 +540,44 @@ class WanKoKiModuleTest extends TestCase
             ->assertJsonPath('lab_state.strange_completed', true);
 
         $this->assertSame('not_created', $progress->refresh()->lab_state['strange_answer']);
+    }
+
+    public function test_laboratory_question_matches_the_selected_strange_command(): void
+    {
+        $configuration = app(KoKiLaboratoryService::class)->clientConfiguration();
+        $commands = collect($configuration['commands'])->keyBy('id');
+
+        $this->assertSame(
+            'Mengapa Ko-Ki Bot tidak terbang ke bulan?',
+            $commands['FLY_TO_MOON']['prompt'],
+        );
+        $this->assertSame('Tidak suka bulan', $commands['FLY_TO_MOON']['dislike_label']);
+        $this->assertSame(
+            'Mengapa Ko-Ki Bot tidak makan es krim?',
+            $commands['EAT_ICE_CREAM']['prompt'],
+        );
+        $this->assertSame(
+            'Mengapa Ko-Ki Bot tidak menyanyi?',
+            $commands['SING']['prompt'],
+        );
+    }
+
+    public function test_move_does_not_open_the_strange_command_question(): void
+    {
+        $this->laboratoryProgress();
+
+        $this->patchJson(route('tools.ko-ki.laboratory.update'), [
+            'action' => 'try_command',
+            'command' => 'MOVE_FORWARD',
+        ])->assertOk()
+            ->assertJsonPath('lab_state.tried_commands.0', 'MOVE_FORWARD')
+            ->assertJsonPath('lab_state.selected_strange_command', null);
+
+        $this->patchJson(route('tools.ko-ki.laboratory.update'), [
+            'action' => 'answer_question',
+            'strange_answer' => 'not_created',
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors('strange_answer');
     }
 
     public function test_classification_uses_click_choices_and_persists_until_complete(): void
@@ -634,7 +717,6 @@ class WanKoKiModuleTest extends TestCase
                 'q3' => 'not_quite',
             ],
             'reflection' => $reflection,
-            'reflection_choice' => 'Agar tahu apa yang harus dilakukan',
         ];
     }
 }

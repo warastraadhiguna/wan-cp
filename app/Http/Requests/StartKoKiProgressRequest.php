@@ -22,7 +22,7 @@ class StartKoKiProgressRequest extends FormRequest
     {
         return [
             'student_name' => ['bail', 'required', 'string', 'min:2', 'max:40'],
-            'grade' => ['bail', 'required', 'integer', 'in:4,5'],
+            'grade' => ['bail', 'required', 'integer', 'between:1,6'],
         ];
     }
 
@@ -33,7 +33,7 @@ class StartKoKiProgressRequest extends FormRequest
             'student_name.min' => 'Nama panggilan minimal 2 karakter.',
             'student_name.max' => 'Nama panggilan maksimal 40 karakter.',
             'grade.required' => 'Pilih kelas terlebih dahulu.',
-            'grade.in' => 'Kelas harus kelas 4 atau kelas 5.',
+            'grade.between' => 'Kelas harus antara kelas 1 sampai kelas 6.',
         ];
     }
 }

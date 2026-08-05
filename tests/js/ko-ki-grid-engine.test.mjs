@@ -88,6 +88,40 @@ test('missions five to seven increase the route complexity', () => {
     assert.ok(advancedMissions.every((level) => level.obstacles.length > 0));
 });
 
+test('mission 5 blocks straight shortcuts and requires a winding route', () => {
+    const level = LEVELS[4];
+    const run = (program) => {
+        const robot = new GridRobot({ ...level.grid, start: level.start, obstacles: level.obstacles });
+        program.forEach((command) => robot.execute(command));
+
+        return robot.state;
+    };
+    const directRightRoute = [
+        COMMANDS.TURN_RIGHT,
+        ...Array(4).fill(COMMANDS.MOVE_FORWARD),
+        COMMANDS.TURN_LEFT,
+        ...Array(3).fill(COMMANDS.MOVE_FORWARD),
+    ];
+    const upperShortcut = [
+        ...Array(3).fill(COMMANDS.MOVE_FORWARD),
+        COMMANDS.TURN_RIGHT,
+        ...Array(4).fill(COMMANDS.MOVE_FORWARD),
+    ];
+
+    assert.notDeepEqual(
+        { x: run(directRightRoute).x, y: run(directRightRoute).y },
+        { x: level.target.x, y: level.target.y },
+    );
+    assert.notDeepEqual(
+        { x: run(upperShortcut).x, y: run(upperShortcut).y },
+        { x: level.target.x, y: level.target.y },
+    );
+    assert.equal(
+        level.minimumSolution.filter((command) => command !== COMMANDS.MOVE_FORWARD).length,
+        4,
+    );
+});
+
 test('mission 3 starter program misses the target', () => {
     const level = LEVELS[2];
     const robot = new GridRobot({ ...level.grid, start: level.start });
