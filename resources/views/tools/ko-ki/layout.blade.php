@@ -114,6 +114,25 @@
             font-weight: 800;
         }
 
+        .koki-curriculum-line {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid rgba(49, 87, 213, 0.18);
+        }
+
+        .koki-curriculum-line::before {
+            position: absolute;
+            top: 0.35rem;
+            left: -0.55rem;
+            width: 0.95rem;
+            height: 0.95rem;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            background: var(--koki-blue);
+            box-shadow: 0 0 0 2px rgba(49, 87, 213, 0.2);
+            content: '';
+        }
+
         .koki-dialogue {
             padding: 1.25rem;
             border: 2px solid rgba(49, 87, 213, 0.16);
@@ -382,7 +401,7 @@
 <body>
     <nav class="navbar navbar-dark koki-navbar fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('tools.ko-ki.welcome') }}">
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('tools.ko-ki.index') }}">
                 <img class="koki-brand-logo" src="{{ asset('wan-ko-ki.png') }}" alt="Logo WAn Ko-Ki">
                 <span>WAn Ko-Ki</span>
             </a>

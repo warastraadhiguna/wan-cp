@@ -60,7 +60,12 @@
                 </div>
             </div>
 
-            <p class="alert rounded-4 text-center mt-4 mb-0" data-classification-feedback aria-live="polite" hidden></p>
+            <div class="alert rounded-4 text-center mt-4 mb-0" data-classification-feedback aria-live="polite" hidden>
+                <p class="mb-3" data-classification-feedback-message></p>
+                <button class="btn btn-success rounded-pill fw-bold px-5" type="button" data-classification-next hidden>
+                    Lanjut <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                </button>
+            </div>
         </section>
 
         <section class="koki-card p-4 p-md-5 text-center" data-conclusion-stage hidden>
@@ -168,5 +173,5 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{ asset('js/ko-ki/laboratory.js') }}"></script>
+    <script type="module" src="{{ asset('js/ko-ki/laboratory.js') }}?v={{ filemtime(public_path('js/ko-ki/laboratory.js')) }}"></script>
 @endpush

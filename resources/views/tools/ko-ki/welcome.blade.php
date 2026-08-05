@@ -5,6 +5,9 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-9">
+            <a class="btn btn-sm btn-outline-secondary rounded-pill mb-3" href="{{ route('tools.ko-ki.index') }}">
+                <i class="bi bi-arrow-left me-1" aria-hidden="true"></i> Daftar Materi
+            </a>
             <section class="koki-card overflow-hidden">
                 <div class="row g-0">
                     <div class="col-lg-7 p-4 p-md-5">

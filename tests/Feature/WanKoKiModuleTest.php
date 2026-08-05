@@ -12,6 +12,19 @@ class WanKoKiModuleTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_course_page_shows_the_semester_unit_and_first_meeting(): void
+    {
+        $this->get(route('tools.ko-ki.index'))
+            ->assertOk()
+            ->assertSee('Semester 1')
+            ->assertSee('Belajar Berpikir seperti Programer')
+            ->assertSee('Unit 1')
+            ->assertSee('Aku, Komputer dan Koding')
+            ->assertSee('Pertemuan 1')
+            ->assertSee('Apakah Komputer Itu Pintar?')
+            ->assertSee(route('tools.ko-ki.welcome'), false);
+    }
+
     public function test_welcome_page_is_public_and_contains_csrf_protection(): void
     {
         $this->get(route('tools.ko-ki.welcome'))
@@ -395,6 +408,7 @@ class WanKoKiModuleTest extends TestCase
             ->assertSee('Komputer membantu menjalankan program.')
             ->assertSee('Program adalah kumpulan perintah untuk komputer.')
             ->assertSee('Mengapa komputer membutuhkan program?')
+            ->assertSee('Lanjut')
             ->assertSee('maxlength="200"', false);
     }
 

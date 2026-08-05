@@ -24,6 +24,14 @@ class KoKiController extends Controller
         private readonly KoKiLaboratoryService $laboratoryService,
     ) {}
 
+    public function index(Request $request): View
+    {
+        return view('tools.ko-ki.index', [
+            'progress' => $progress = $this->progressService->current($request),
+            'resumeUrl' => $progress instanceof KoKiProgress ? $this->resumeUrl($progress) : null,
+        ]);
+    }
+
     public function welcome(Request $request): View
     {
         return view('tools.ko-ki.welcome', [

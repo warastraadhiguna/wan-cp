@@ -16,6 +16,8 @@ if (root) {
     const questionFeedback = root.querySelector('[data-strange-feedback]');
     const classificationStage = root.querySelector('[data-classification-stage]');
     const classificationFeedback = root.querySelector('[data-classification-feedback]');
+    const classificationFeedbackMessage = root.querySelector('[data-classification-feedback-message]');
+    const classificationNext = root.querySelector('[data-classification-next]');
     const conclusionStage = root.querySelector('[data-conclusion-stage]');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
     const reflection = root.querySelector('[data-reflection]');
@@ -46,13 +48,17 @@ if (root) {
             if (!response) return;
 
             if (response.result.classification_correct) {
-                showFeedback(classificationFeedback, 'Pilihanmu sudah dicatat. Lanjut ke pernyataan berikutnya.', 'success');
+                showClassificationFeedback('Pilihanmu sudah dicatat. Tekan Lanjut untuk melihat pernyataan berikutnya.', 'success', true);
             } else {
-                showFeedback(classificationFeedback, 'Coba periksa lagi: siapa yang melakukan bagian ini?', 'info');
+                showClassificationFeedback('Coba periksa lagi: siapa yang melakukan bagian ini?', 'info', false);
             }
-
-            window.setTimeout(renderCurrentStage, 450);
         });
+    });
+
+    classificationNext.addEventListener('click', () => {
+        classificationFeedback.hidden = true;
+        classificationNext.hidden = true;
+        renderCurrentStage();
     });
 
     function renderCommands() {
@@ -158,6 +164,8 @@ if (root) {
 
         root.querySelector('[data-classification-progress]').textContent = `${index + 1} dari ${configuration.classifications.length}`;
         root.querySelector('[data-classification-statement]').textContent = item.statement;
+        classificationFeedback.hidden = true;
+        classificationNext.hidden = true;
     }
 
     function buildGrid() {
@@ -230,6 +238,13 @@ if (root) {
         element.className = `alert rounded-4 mt-3 mb-0 alert-${type}`;
         element.textContent = message;
         element.hidden = false;
+    }
+
+    function showClassificationFeedback(message, type, showNext) {
+        classificationFeedback.className = `alert rounded-4 text-center mt-4 mb-0 alert-${type}`;
+        classificationFeedbackMessage.textContent = message;
+        classificationNext.hidden = !showNext;
+        classificationFeedback.hidden = false;
     }
 
     function updateReflectionCount() {

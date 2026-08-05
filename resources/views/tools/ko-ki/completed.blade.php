@@ -44,8 +44,8 @@
                     {{ $progress->reflection }}
                 </div>
 
-                <a class="btn btn-outline-primary rounded-pill px-4" href="{{ route('tools.ko-ki.welcome') }}">
-                    Kembali ke halaman pembuka
+                <a class="btn btn-outline-primary rounded-pill px-4" href="{{ route('tools.ko-ki.index') }}">
+                    Kembali ke daftar materi
                 </a>
             </section>
         </div>

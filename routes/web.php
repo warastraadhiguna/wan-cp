@@ -16,7 +16,8 @@ Route::post('/contact-messages', [ContactMessageController::class, 'store'])
 Route::view('/tools/image-editor', 'tools.image-editor')->name('tools.image-editor');
 
 Route::prefix('/tools/wan-ko-ki')->name('tools.ko-ki.')->controller(KoKiController::class)->group(function (): void {
-    Route::get('/', 'welcome')->name('welcome');
+    Route::get('/', 'index')->name('index');
+    Route::get('/pertemuan-1', 'welcome')->name('welcome');
     Route::post('/mulai', 'start')->name('start');
     Route::get('/pembukaan', 'opening')->name('opening');
     Route::post('/pertanyaan/mulai', 'beginQuestions')->name('questions.start');
