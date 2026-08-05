@@ -730,7 +730,6 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="{{ route('tools.image-editor') }}">Image Editor</a></li>
-                            <li><a class="dropdown-item" href="{{ route('tools.sunday-school-game') }}">Sunday School Game</a></li>                            
                         </ul>
                     </li>
                     <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
@@ -1294,4 +1293,3 @@
     </script>
 </body>
 </html>
-
