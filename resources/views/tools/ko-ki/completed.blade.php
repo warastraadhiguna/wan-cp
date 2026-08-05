@@ -6,6 +6,11 @@
     <div class="row justify-content-center">
         <div class="col-lg-9">
             <section class="koki-card p-4 p-md-5 text-center">
+                <img
+                    class="koki-hero-logo koki-hero-logo-sm mb-4"
+                    src="{{ asset('wan-ko-ki.png') }}"
+                    alt="WAn Ko-Ki, Koding for Kids"
+                >
                 <div class="display-2 mb-3" aria-hidden="true">🏅</div>
                 <p class="koki-eyebrow mb-2">Pertemuan 1 selesai</p>
                 <div class="badge rounded-pill text-bg-warning text-dark fs-6 px-4 py-2 mb-3">

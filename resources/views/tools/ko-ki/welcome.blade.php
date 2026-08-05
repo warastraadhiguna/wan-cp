@@ -68,7 +68,11 @@
 
                     <div class="col-lg-5 p-4 p-md-5 bg-primary-subtle d-flex align-items-center">
                         <div>
-                            <div class="display-1 mb-3" aria-hidden="true">🤖</div>
+                            <img
+                                class="koki-hero-logo mb-4"
+                                src="{{ asset('wan-ko-ki.png') }}"
+                                alt="WAn Ko-Ki, Koding for Kids"
+                            >
                             <h2 class="h4 fw-bold">Hari ini kita belajar</h2>
                             <ul class="mb-0 ps-3 koki-muted">
                                 <li class="mb-2">Memberi instruksi yang jelas</li>

@@ -9,7 +9,11 @@
                 <p class="koki-eyebrow mb-2">WAn Ko-Ki</p>
                 <h1 class="display-5 koki-title mb-4">Ko-Ki Bot: Komputer Paling Patuh</h1>
 
-                <div class="display-1 mb-4" aria-hidden="true">🤖</div>
+                <img
+                    class="koki-hero-logo koki-hero-logo-sm mb-4"
+                    src="{{ asset('wan-ko-ki.png') }}"
+                    alt="WAn Ko-Ki, Koding for Kids"
+                >
 
                 <div class="row justify-content-center">
                     <div class="col-lg-8">

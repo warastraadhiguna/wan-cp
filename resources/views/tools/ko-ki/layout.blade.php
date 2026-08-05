@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') — WAn Ko-Ki</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('wan-ko-ki.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -33,15 +33,26 @@
             box-shadow: 0 10px 35px rgba(23, 32, 51, 0.14);
         }
 
-        .koki-brand-mark {
-            display: inline-grid;
-            width: 2.5rem;
-            height: 2.5rem;
-            place-items: center;
-            border-radius: 0.85rem;
-            color: var(--koki-ink);
-            background: var(--koki-yellow);
-            font-size: 1.3rem;
+        .koki-brand-logo {
+            width: 3rem;
+            height: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 0.8rem;
+            object-fit: cover;
+            box-shadow: 0 5px 16px rgba(0, 0, 0, 0.22);
+        }
+
+        .koki-hero-logo {
+            display: block;
+            width: min(100%, 18rem);
+            height: auto;
+            margin-inline: auto;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 45px rgba(23, 32, 51, 0.22);
+        }
+
+        .koki-hero-logo-sm {
+            width: min(100%, 12rem);
         }
 
         .koki-page {
@@ -303,6 +314,11 @@
             .koki-program-command code {
                 grid-column: 2;
             }
+
+            .koki-brand-logo {
+                width: 2.6rem;
+                height: 2.6rem;
+            }
         }
 
         .form-control,
@@ -323,7 +339,7 @@
     <nav class="navbar navbar-dark koki-navbar fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{{ route('tools.ko-ki.welcome') }}">
-                <span class="koki-brand-mark" aria-hidden="true"><i class="bi bi-robot"></i></span>
+                <img class="koki-brand-logo" src="{{ asset('wan-ko-ki.png') }}" alt="Logo WAn Ko-Ki">
                 <span>WAn Ko-Ki</span>
             </a>
             <a class="btn btn-sm btn-outline-light rounded-pill px-3" href="{{ route('home') }}">
