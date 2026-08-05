@@ -1,0 +1,341 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\AnswerKoKiQuestionRequest;
+use App\Http\Requests\CompleteKoKiProgressRequest;
+use App\Http\Requests\StartKoKiProgressRequest;
+use App\Http\Requests\UpdateKoKiLaboratoryRequest;
+use App\Http\Requests\UpdateKoKiProgressRequest;
+use App\Models\KoKiProgress;
+use App\Services\KoKiLaboratoryService;
+use App\Services\KoKiLessonService;
+use App\Services\KoKiProgressService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class KoKiController extends Controller
+{
+    public function __construct(
+        private readonly KoKiProgressService $progressService,
+        private readonly KoKiLessonService $lessonService,
+        private readonly KoKiLaboratoryService $laboratoryService,
+    ) {}
+
+    public function welcome(Request $request): View
+    {
+        return view('tools.ko-ki.welcome', [
+            'progress' => $progress = $this->progressService->current($request),
+            'resumeUrl' => $progress instanceof KoKiProgress ? $this->resumeUrl($progress) : null,
+        ]);
+    }
+
+    public function start(StartKoKiProgressRequest $request): RedirectResponse
+    {
+        $this->progressService->start($request, $request->validated());
+
+        return redirect()->route('tools.ko-ki.opening');
+    }
+
+    public function opening(Request $request): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        if ($progress->last_phase !== 'opening') {
+            return redirect()->to($this->resumeUrl($progress));
+        }
+
+        return view('tools.ko-ki.opening', compact('progress'));
+    }
+
+    public function beginQuestions(Request $request): RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        $nextQuestion = $this->lessonService->nextQuestionNumber($progress->initial_answer);
+
+        if ($nextQuestion === null) {
+            return redirect()->route('tools.ko-ki.questions.completed');
+        }
+
+        $this->progressService->setPhase($progress, 'question_'.$nextQuestion);
+
+        return redirect()->route('tools.ko-ki.questions.show', $nextQuestion);
+    }
+
+    public function question(Request $request, int $question): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        $nextQuestion = $this->lessonService->nextQuestionNumber($progress->initial_answer);
+
+        if ($nextQuestion === null) {
+            return redirect()->route('tools.ko-ki.questions.completed');
+        }
+
+        if ($question !== $nextQuestion) {
+            return redirect()->route('tools.ko-ki.questions.show', $nextQuestion);
+        }
+
+        $questionData = $this->lessonService->question($question);
+        abort_if($questionData === null, 404);
+
+        return view('tools.ko-ki.question', [
+            'progress' => $progress,
+            'questionNumber' => $question,
+            'question' => $questionData,
+            'questionCount' => count($this->lessonService->questions()),
+        ]);
+    }
+
+    public function answer(AnswerKoKiQuestionRequest $request, int $question): RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        $nextQuestion = $this->lessonService->nextQuestionNumber($progress->initial_answer);
+
+        if ($nextQuestion === null) {
+            return redirect()->route('tools.ko-ki.questions.completed');
+        }
+
+        if ($question !== $nextQuestion) {
+            return redirect()->route('tools.ko-ki.questions.show', $nextQuestion);
+        }
+
+        $this->progressService->saveInitialAnswer(
+            $progress,
+            $question,
+            $request->validated('answer'),
+        );
+
+        if ($question === count($this->lessonService->questions())) {
+            return redirect()->route('tools.ko-ki.questions.completed');
+        }
+
+        return redirect()->route('tools.ko-ki.questions.show', $question + 1);
+    }
+
+    public function questionsCompleted(Request $request): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        $nextQuestion = $this->lessonService->nextQuestionNumber($progress->initial_answer);
+
+        if ($nextQuestion !== null) {
+            return redirect()->route('tools.ko-ki.questions.show', $nextQuestion);
+        }
+
+        return view('tools.ko-ki.questions-completed', compact('progress'));
+    }
+
+    public function beginActivity(Request $request): RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        if ($this->lessonService->nextQuestionNumber($progress->initial_answer) !== null) {
+            return redirect()->to($this->resumeUrl($progress));
+        }
+
+        $this->progressService->setPhase($progress, 'activity');
+
+        return redirect()->route('tools.ko-ki.activity');
+    }
+
+    public function activity(Request $request): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        if ($progress->completed_at !== null) {
+            return redirect()->route('tools.ko-ki.completed');
+        }
+
+        if ($progress->last_phase !== 'activity') {
+            return redirect()->to($this->resumeUrl($progress));
+        }
+
+        return view('tools.ko-ki.activity', compact('progress'));
+    }
+
+    public function update(UpdateKoKiProgressRequest $request): JsonResponse|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $request->expectsJson()
+                ? response()->json(['message' => 'Session belajar tidak ditemukan.'], 409)
+                : redirect()->route('tools.ko-ki.welcome');
+        }
+
+        $progress = $this->progressService->update($progress, $request->validated());
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Progress berhasil disimpan.',
+                'progress' => $progress,
+            ]);
+        }
+
+        return redirect()
+            ->route('tools.ko-ki.activity')
+            ->with('status', 'Progress berhasil disimpan.');
+    }
+
+    public function finish(CompleteKoKiProgressRequest $request): RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return redirect()->route('tools.ko-ki.welcome');
+        }
+
+        if (! in_array(4, $progress->completed_levels ?? [], true)) {
+            return redirect()
+                ->route('tools.ko-ki.activity')
+                ->with('status', 'Selesaikan empat misi sebelum mengakhiri pertemuan.');
+        }
+
+        if (! ($progress->lab_state['completed'] ?? false)) {
+            return redirect()
+                ->route('tools.ko-ki.laboratory')
+                ->with('status', 'Selesaikan Laboratorium Perintah Aneh terlebih dahulu.');
+        }
+
+        $this->progressService->complete($progress, $request->validated());
+
+        return redirect()->route('tools.ko-ki.completed');
+    }
+
+    public function laboratory(Request $request): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return $this->missingSessionRedirect();
+        }
+
+        if ($progress->completed_at !== null) {
+            return redirect()->route('tools.ko-ki.completed');
+        }
+
+        if (! in_array(4, $progress->completed_levels ?? [], true)) {
+            return redirect()
+                ->route('tools.ko-ki.activity')
+                ->with('status', 'Selesaikan empat misi sebelum membuka laboratorium.');
+        }
+
+        if ($progress->last_phase !== 'laboratory') {
+            $progress = $this->progressService->setPhase($progress, 'laboratory');
+        }
+
+        return view('tools.ko-ki.laboratory', [
+            'progress' => $progress,
+            'laboratory' => $this->laboratoryService->clientConfiguration(),
+            'labState' => $this->laboratoryService->state($progress),
+        ]);
+    }
+
+    public function updateLaboratory(UpdateKoKiLaboratoryRequest $request): JsonResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return response()->json(['message' => 'Session belajar tidak ditemukan.'], 409);
+        }
+
+        if (! in_array(4, $progress->completed_levels ?? [], true)) {
+            return response()->json(['message' => 'Empat misi belum selesai.'], 409);
+        }
+
+        $data = $request->validated();
+        $progress = $this->laboratoryService->update($progress, $data);
+
+        return response()->json([
+            'message' => 'Progress laboratorium berhasil disimpan.',
+            'lab_state' => $progress->lab_state,
+            'result' => [
+                'strange_correct' => ($data['strange_answer'] ?? null) === KoKiLaboratoryService::CORRECT_STRANGE_ANSWER,
+                'classification_correct' => isset($data['classification_item'], $data['classification_category'])
+                    && $this->laboratoryService->correctCategory($data['classification_item']) === $data['classification_category'],
+            ],
+        ]);
+    }
+
+    public function completed(Request $request): View|RedirectResponse
+    {
+        $progress = $this->progressService->current($request);
+
+        if (! $progress instanceof KoKiProgress) {
+            return redirect()->route('tools.ko-ki.welcome');
+        }
+
+        if ($progress->completed_at === null) {
+            return redirect()->route('tools.ko-ki.activity');
+        }
+
+        return view('tools.ko-ki.completed', compact('progress'));
+    }
+
+    private function resumeUrl(KoKiProgress $progress): string
+    {
+        if ($progress->completed_at !== null) {
+            return route('tools.ko-ki.completed');
+        }
+
+        if ($progress->last_phase === 'activity') {
+            return route('tools.ko-ki.activity');
+        }
+
+        if ($progress->last_phase === 'laboratory') {
+            return route('tools.ko-ki.laboratory');
+        }
+
+        if ($progress->last_phase === 'questions_completed') {
+            return route('tools.ko-ki.questions.completed');
+        }
+
+        if (str_starts_with($progress->last_phase, 'question_')) {
+            $question = (int) str($progress->last_phase)->after('question_')->toString();
+
+            return route('tools.ko-ki.questions.show', $question);
+        }
+
+        return route('tools.ko-ki.opening');
+    }
+
+    private function missingSessionRedirect(): RedirectResponse
+    {
+        return redirect()
+            ->route('tools.ko-ki.welcome')
+            ->with('status', 'Isi nama panggilan dan kelas terlebih dahulu.');
+    }
+}

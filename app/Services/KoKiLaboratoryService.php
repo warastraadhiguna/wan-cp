@@ -1,0 +1,140 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\KoKiProgress;
+use Illuminate\Validation\ValidationException;
+
+class KoKiLaboratoryService
+{
+    public const CORRECT_STRANGE_ANSWER = 'not_created';
+
+    public const STRANGE_COMMANDS = [
+        'FLY_TO_MOON' => ['label' => 'Terbang ke bulan', 'implemented' => false],
+        'BECOME_DRAGON' => ['label' => 'Menjadi naga', 'implemented' => false],
+        'EAT_ICE_CREAM' => ['label' => 'Makan es krim', 'implemented' => false],
+        'SING' => ['label' => 'Menyanyi', 'implemented' => false],
+        'MOVE_FORWARD' => ['label' => 'Maju', 'implemented' => true],
+    ];
+
+    public const STRANGE_QUESTION = [
+        'prompt' => 'Mengapa Ko-Ki Bot tidak menjadi naga?',
+        'options' => [
+            'lazy' => 'Sedang malas',
+            'dislikes_dragon' => 'Tidak suka naga',
+            self::CORRECT_STRANGE_ANSWER => 'Perintahnya belum dibuat',
+            'broken' => 'Komputernya rusak',
+        ],
+    ];
+
+    public const CLASSIFICATIONS = [
+        ['id' => 'set_goal', 'statement' => 'Menentukan tujuan', 'category' => 'human'],
+        ['id' => 'make_rules', 'statement' => 'Membuat aturan', 'category' => 'human'],
+        ['id' => 'choose_instructions', 'statement' => 'Memilih instruksi', 'category' => 'human'],
+        ['id' => 'check_results', 'statement' => 'Memeriksa hasil', 'category' => 'human'],
+        ['id' => 'fix_program', 'statement' => 'Memperbaiki program', 'category' => 'human'],
+        ['id' => 'receive_data', 'statement' => 'Menerima data', 'category' => 'computer'],
+        ['id' => 'run_rules', 'statement' => 'Menjalankan aturan', 'category' => 'computer'],
+        ['id' => 'repeat_work', 'statement' => 'Mengulang pekerjaan', 'category' => 'computer'],
+        ['id' => 'store_information', 'statement' => 'Menyimpan informasi', 'category' => 'computer'],
+        ['id' => 'show_results', 'statement' => 'Menampilkan hasil', 'category' => 'computer'],
+    ];
+
+    public function clientConfiguration(): array
+    {
+        return [
+            'commands' => array_map(
+                fn (array $command, string $id): array => ['id' => $id, ...$command],
+                self::STRANGE_COMMANDS,
+                array_keys(self::STRANGE_COMMANDS),
+            ),
+            'question' => [
+                'prompt' => self::STRANGE_QUESTION['prompt'],
+                'options' => array_map(
+                    fn (string $label, string $value): array => compact('value', 'label'),
+                    self::STRANGE_QUESTION['options'],
+                    array_keys(self::STRANGE_QUESTION['options']),
+                ),
+            ],
+            'classifications' => array_map(
+                fn (array $item): array => [
+                    'id' => $item['id'],
+                    'statement' => $item['statement'],
+                ],
+                self::CLASSIFICATIONS,
+            ),
+        ];
+    }
+
+    public function update(KoKiProgress $progress, array $data): KoKiProgress
+    {
+        $state = $this->state($progress);
+
+        if ($data['action'] === 'try_command') {
+            $state['tried_commands'][] = $data['command'];
+            $state['tried_commands'] = array_values(array_unique($state['tried_commands']));
+        }
+
+        if ($data['action'] === 'answer_question') {
+            $state['strange_answer'] = $data['strange_answer'];
+            $state['strange_completed'] = $data['strange_answer'] === self::CORRECT_STRANGE_ANSWER;
+        }
+
+        if ($data['action'] === 'classify') {
+            if (! $state['strange_completed']) {
+                throw ValidationException::withMessages([
+                    'action' => 'Selesaikan pertanyaan laboratorium terlebih dahulu.',
+                ]);
+            }
+
+            $expectedItem = self::CLASSIFICATIONS[$state['classification_index']] ?? null;
+
+            if ($expectedItem === null || $expectedItem['id'] !== $data['classification_item']) {
+                throw ValidationException::withMessages([
+                    'classification_item' => 'Pernyataan klasifikasi tidak sesuai dengan progress saat ini.',
+                ]);
+            }
+
+            $state['classification_answers'][$data['classification_item']] = $data['classification_category'];
+
+            if ($data['classification_category'] === $expectedItem['category']) {
+                $state['classification_index']++;
+            }
+
+            $state['classification_completed'] = $state['classification_index'] >= count(self::CLASSIFICATIONS);
+            $state['completed'] = $state['classification_completed'];
+        }
+
+        $progress->forceFill([
+            'last_phase' => 'laboratory',
+            'lab_state' => $state,
+        ])->save();
+
+        return $progress->refresh();
+    }
+
+    public function state(KoKiProgress $progress): array
+    {
+        return [
+            'tried_commands' => [],
+            'strange_answer' => null,
+            'strange_completed' => false,
+            'classification_answers' => [],
+            'classification_index' => 0,
+            'classification_completed' => false,
+            'completed' => false,
+            ...($progress->lab_state ?? []),
+        ];
+    }
+
+    public function correctCategory(string $itemId): ?string
+    {
+        foreach (self::CLASSIFICATIONS as $item) {
+            if ($item['id'] === $itemId) {
+                return $item['category'];
+            }
+        }
+
+        return null;
+    }
+}
