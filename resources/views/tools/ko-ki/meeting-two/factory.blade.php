@@ -146,7 +146,7 @@
                     </section>
                 @endif
                 <div class="factory-effects" data-effects></div>
-                <p class="factory-save-state mb-0" data-save-state>Progress tersimpan otomatis.</p>
+                <p class="factory-save-state mb-0" data-save-state>Progress disimpan saat memakai mesin, kulkas, atau delivery.</p>
                 <p class="alert alert-danger rounded-4 mb-0" data-factory-error hidden></p>
             </aside>
         </div>

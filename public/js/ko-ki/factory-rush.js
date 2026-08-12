@@ -12,7 +12,6 @@ if (root) {
     let busy = false;
     let collectingPowerup = false;
     let timerHandled = false;
-    let syncTimer = null;
     let requestQueue = Promise.resolve();
     let lastMoveAt = 0;
     let conveyorIndex = 0;
@@ -138,16 +137,8 @@ if (root) {
         return request;
     }
 
-    function queueSync() {
-        window.clearTimeout(syncTimer);
-        syncTimer = window.setTimeout(async () => {
-            try {
-                const data = await save('factory_sync');
-                if (data?.result.time_expired) showTimeExpired();
-            } catch (error) {
-                showError(error);
-            }
-        }, 450);
+    function markLocalChange() {
+        saveState.textContent = 'Akan disimpan pada checkpoint berikutnya.';
     }
 
     function showError(error) {
@@ -352,7 +343,6 @@ if (root) {
         checkCleanerCollision();
         checkPowerupCollision();
         renderPlayer();
-        queueSync();
     }
 
     async function takeIngredient(id, sourceLabel) {
@@ -364,7 +354,7 @@ if (root) {
         tone(520, 0.09);
         setMessage(`${labels[id].label} diambil dari ${sourceLabel}.`, 'success');
         render();
-        await save('factory_sync');
+        markLocalChange();
     }
 
     async function useBlender() {
@@ -380,7 +370,7 @@ if (root) {
             const product = labels[resultId];
             setMessage(`${product.label} diambil. Antar ke delivery!`, resultId === 'mystery' ? 'danger' : 'success');
             render();
-            await save('factory_sync');
+            markLocalChange();
             return;
         }
 
@@ -395,7 +385,7 @@ if (root) {
             runtime.blender.status = 'loaded';
             setMessage(`${labels[ingredient].label} masuk ke blender.`, 'success');
             render();
-            await save('factory_sync');
+            markLocalChange();
             return;
         }
         if (runtime.inventory.length) {
@@ -529,7 +519,6 @@ if (root) {
 
     async function interact() {
         if (!runtime?.active || runtime.paused || busy || Date.now() < stunnedUntil) return;
-        window.clearTimeout(syncTimer);
         const facesConveyor = systems.has('conveyor') && runtime.player.direction === 'north' && runtime.player.y === 1 && conveyorItem?.x === runtime.player.x;
         const station = facingStation(runtime.player, availableStations());
         if (!station && !facesConveyor) return setMessage('Hadapkan Ko-Ki ke bahan atau mesin, lalu tekan SPACE.');
