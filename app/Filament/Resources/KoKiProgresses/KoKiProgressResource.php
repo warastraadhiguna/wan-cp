@@ -4,6 +4,7 @@ namespace App\Filament\Resources\KoKiProgresses;
 
 use App\Filament\Resources\KoKiProgresses\Pages\ListKoKiProgresses;
 use App\Models\KoKiProgress;
+use App\Services\KoKiAdventureService;
 use App\Services\KoKiProgressService;
 use BackedEnum;
 use Filament\Actions\Action;
@@ -60,19 +61,25 @@ class KoKiProgressResource extends Resource
                     ->badge()
                     ->state(fn (KoKiProgress $record): string => "S{$record->semester} · U{$record->unit} · P{$record->meeting}"),
                 TextColumn::make('current_level')
-                    ->label('Misi aktif')
-                    ->formatStateUsing(fn (int $state): string => 'Misi '.$state),
+                    ->label('Aktivitas aktif')
+                    ->formatStateUsing(fn (int $state, KoKiProgress $record): string => $record->meeting === 1
+                        ? 'Misi '.$state
+                        : 'Level '.app(KoKiAdventureService::class)->state($record)['current_level']),
                 TextColumn::make('completed_count')
-                    ->label('Selesai')
-                    ->state(fn (KoKiProgress $record): string => count($record->completed_levels ?? []).' dari '.KoKiProgressService::MISSION_COUNT),
+                    ->label('Selesai / order')
+                    ->state(fn (KoKiProgress $record): string => $record->meeting === 2
+                        ? app(KoKiAdventureService::class)->state($record)['order_count'].' order'
+                        : count($record->completed_levels ?? []).' dari '.KoKiProgressService::MISSION_COUNT),
                 TextColumn::make('access_status')
-                    ->label('Izin berikutnya')
+                    ->label('Status / izin')
                     ->badge()
                     ->state(fn (KoKiProgress $record): string => static::accessLabel($record))
                     ->color(fn (KoKiProgress $record): string => static::canApprove($record) ? 'warning' : 'success'),
                 TextColumn::make('attempt_count')
-                    ->label('Percobaan')
-                    ->numeric(),
+                    ->label('Percobaan / poin')
+                    ->formatStateUsing(fn (int $state, KoKiProgress $record): string => $record->meeting === 2
+                        ? app(KoKiAdventureService::class)->state($record)['score'].' poin'
+                        : (string) $state),
                 TextColumn::make('started_at')
                     ->label('Mulai')
                     ->dateTime('d M Y H:i')
@@ -103,17 +110,17 @@ class KoKiProgressResource extends Resource
             ])
             ->recordActions([
                 Action::make('approveNextLevel')
-                    ->label(fn (KoKiProgress $record): string => 'Izinkan Misi '.static::nextLevel($record))
+                    ->label(fn (KoKiProgress $record): string => 'Izinkan '.static::levelLabel($record).' '.static::nextLevel($record))
                     ->icon('heroicon-o-lock-open')
                     ->color('success')
                     ->visible(fn (KoKiProgress $record): bool => static::canApprove($record))
                     ->requiresConfirmation()
-                    ->modalDescription('Siswa dapat masuk ke misi berikutnya segera setelah izin diberikan.')
+                    ->modalDescription('Siswa dapat masuk ke aktivitas berikutnya segera setelah izin diberikan.')
                     ->action(function (KoKiProgress $record): void {
-                        app(KoKiProgressService::class)->approveNextLevel($record, static::nextLevel($record));
+                        static::approveNextLevel($record);
 
                         Notification::make()
-                            ->title('Misi berikutnya sudah diizinkan')
+                            ->title(static::levelLabel($record).' berikutnya sudah diizinkan')
                             ->success()
                             ->send();
                     }),
@@ -129,10 +136,10 @@ class KoKiProgressResource extends Resource
                     ->visible(fn (KoKiProgress $record): bool => static::canRevoke($record))
                     ->requiresConfirmation()
                     ->action(function (KoKiProgress $record): void {
-                        app(KoKiProgressService::class)->revokeLatestLevel($record);
+                        static::revokeLatestLevel($record);
 
                         Notification::make()
-                            ->title('Izin misi dibatalkan')
+                            ->title('Izin '.strtolower(static::levelLabel($record)).' dibatalkan')
                             ->warning()
                             ->send();
                     }),
@@ -140,23 +147,22 @@ class KoKiProgressResource extends Resource
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('approveSelected')
-                        ->label('Izinkan misi berikutnya')
+                        ->label('Izinkan aktivitas berikutnya')
                         ->icon('heroicon-o-lock-open')
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (Collection $records): void {
-                            $service = app(KoKiProgressService::class);
                             $approved = 0;
 
                             foreach ($records as $record) {
                                 if (static::canApprove($record)) {
-                                    $service->approveNextLevel($record, static::nextLevel($record));
+                                    static::approveNextLevel($record);
                                     $approved++;
                                 }
                             }
 
                             Notification::make()
-                                ->title($approved.' siswa mendapat izin misi berikutnya')
+                                ->title($approved.' siswa mendapat izin aktivitas berikutnya')
                                 ->success()
                                 ->send();
                         })
@@ -191,11 +197,19 @@ class KoKiProgressResource extends Resource
 
     private static function approvedLevels(KoKiProgress $record): array
     {
+        if ($record->meeting === 2) {
+            return app(KoKiAdventureService::class)->approvedLevels($record);
+        }
+
         return app(KoKiProgressService::class)->approvedLevels($record);
     }
 
     private static function nextLevel(KoKiProgress $record): int
     {
+        if ($record->meeting === 2) {
+            return app(KoKiAdventureService::class)->nextApprovableLevel($record) ?? KoKiAdventureService::MISSION_COUNT;
+        }
+
         $approvedLevels = static::approvedLevels($record);
 
         return $approvedLevels === [] ? 1 : min(KoKiProgressService::MISSION_COUNT, max($approvedLevels) + 1);
@@ -203,6 +217,15 @@ class KoKiProgressResource extends Resource
 
     private static function canApprove(KoKiProgress $record): bool
     {
+        if ($record->meeting === 2) {
+            return $record->completed_at === null
+                && app(KoKiAdventureService::class)->nextApprovableLevel($record) !== null;
+        }
+
+        if ($record->meeting !== 1) {
+            return false;
+        }
+
         $nextLevel = static::nextLevel($record);
 
         $approvedLevels = static::approvedLevels($record);
@@ -217,6 +240,18 @@ class KoKiProgressResource extends Resource
 
     private static function canRevoke(KoKiProgress $record): bool
     {
+        if ($record->meeting === 2) {
+            $state = app(KoKiAdventureService::class)->state($record);
+
+            return collect($state['approved_levels'])->contains(
+                fn (int $level): bool => $level > 1 && ! in_array($level, $state['completed_levels'], true),
+            );
+        }
+
+        if ($record->meeting !== 1) {
+            return false;
+        }
+
         $approvedLevels = static::approvedLevels($record);
 
         if ($approvedLevels === []) {
@@ -234,6 +269,22 @@ class KoKiProgressResource extends Resource
             return 'Pertemuan selesai';
         }
 
+        if ($record->meeting === 2) {
+            $state = app(KoKiAdventureService::class)->state($record);
+
+            if (static::canApprove($record)) {
+                return 'Menunggu izin Level '.static::nextLevel($record);
+            }
+
+            $latestApproved = max($state['approved_levels']);
+
+            return ! $state['intro_seen']
+                ? 'Belum masuk pabrik'
+                : ($latestApproved >= KoKiAdventureService::MISSION_COUNT
+                    ? 'Semua level diizinkan'
+                    : 'Level '.$latestApproved.' diizinkan');
+        }
+
         if (static::canApprove($record)) {
             return 'Menunggu izin Misi '.static::nextLevel($record);
         }
@@ -247,5 +298,32 @@ class KoKiProgressResource extends Resource
         $latestLevel = max($approvedLevels);
 
         return $latestLevel >= KoKiProgressService::MISSION_COUNT ? 'Semua misi terbuka' : 'Misi '.$latestLevel.' diizinkan';
+    }
+
+    private static function approveNextLevel(KoKiProgress $record): void
+    {
+        if ($record->meeting === 2) {
+            app(KoKiAdventureService::class)->approveNextLevel($record, static::nextLevel($record));
+
+            return;
+        }
+
+        app(KoKiProgressService::class)->approveNextLevel($record, static::nextLevel($record));
+    }
+
+    private static function revokeLatestLevel(KoKiProgress $record): void
+    {
+        if ($record->meeting === 2) {
+            app(KoKiAdventureService::class)->revokeLatestLevel($record);
+
+            return;
+        }
+
+        app(KoKiProgressService::class)->revokeLatestLevel($record);
+    }
+
+    private static function levelLabel(KoKiProgress $record): string
+    {
+        return $record->meeting === 2 ? 'Level' : 'Misi';
     }
 }

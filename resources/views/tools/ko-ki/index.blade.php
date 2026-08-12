@@ -67,6 +67,37 @@
                             </div>
                         </div>
                     </article>
+
+                    <article class="koki-step p-3 p-md-4 mt-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <span class="koki-step-number">2</span>
+                            </div>
+                            <div class="col">
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    <span class="badge text-bg-success">Tersedia</span>
+                                    <span class="badge text-bg-light border">Kelas 4–5</span>
+                                    <span class="badge text-bg-light border">Maksimal 60 menit</span>
+                                </div>
+                                <p class="small fw-bold text-primary mb-1">Pertemuan 2</p>
+                                <h4 class="h3 fw-bold mb-2">Bagaimana Komputer Bekerja?</h4>
+                                <p class="koki-muted mb-0">Factory Rush: racik dan antar order bersama Ko-Ki Bot</p>
+                            </div>
+                            <div class="col-12 col-lg-auto">
+                                @if ($meetingTwoProgress)
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ $meetingTwoResumeUrl }}">
+                                        {{ $meetingTwoCompleted ? 'Mainkan Lagi' : 'Lanjutkan Pertemuan 2' }}
+                                        <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                                    </a>
+                                @else
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ route('tools.ko-ki.meeting-two.welcome') }}">
+                                        Buka Pertemuan 2
+                                        <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </section>
         </div>

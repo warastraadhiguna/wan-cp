@@ -8,6 +8,7 @@ use App\Http\Requests\StartKoKiProgressRequest;
 use App\Http\Requests\UpdateKoKiLaboratoryRequest;
 use App\Http\Requests\UpdateKoKiProgressRequest;
 use App\Models\KoKiProgress;
+use App\Services\KoKiAdventureService;
 use App\Services\KoKiLaboratoryService;
 use App\Services\KoKiLessonService;
 use App\Services\KoKiProgressService;
@@ -22,13 +23,26 @@ class KoKiController extends Controller
         private readonly KoKiProgressService $progressService,
         private readonly KoKiLessonService $lessonService,
         private readonly KoKiLaboratoryService $laboratoryService,
+        private readonly KoKiAdventureService $adventureService,
     ) {}
 
     public function index(Request $request): View
     {
+        $meetingOneProgress = $this->progressService->currentForMeeting($request, 1);
+        $meetingTwoProgress = $this->progressService->currentForMeeting($request, 2);
+        $meetingTwoCompleted = $meetingTwoProgress instanceof KoKiProgress
+            && $this->adventureService->state($meetingTwoProgress)['completed'];
+
         return view('tools.ko-ki.index', [
-            'progress' => $progress = $this->progressService->current($request),
-            'resumeUrl' => $progress instanceof KoKiProgress ? $this->resumeUrl($progress) : null,
+            'progress' => $meetingOneProgress,
+            'resumeUrl' => $meetingOneProgress instanceof KoKiProgress ? $this->resumeUrl($meetingOneProgress) : null,
+            'meetingTwoProgress' => $meetingTwoProgress,
+            'meetingTwoCompleted' => $meetingTwoCompleted,
+            'meetingTwoResumeUrl' => $meetingTwoProgress instanceof KoKiProgress
+                ? ($this->adventureService->state($meetingTwoProgress)['intro_seen']
+                    ? route('tools.ko-ki.meeting-two.map')
+                    : route('tools.ko-ki.meeting-two.activity'))
+                : null,
         ]);
     }
 

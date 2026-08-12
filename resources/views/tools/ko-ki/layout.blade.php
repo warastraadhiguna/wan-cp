@@ -475,6 +475,7 @@
             box-shadow: 0 0 0 0.25rem rgba(49, 87, 213, 0.12);
         }
     </style>
+    @stack('styles')
 </head>
 <body>
     <nav class="navbar navbar-dark koki-navbar fixed-top">

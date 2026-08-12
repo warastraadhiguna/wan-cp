@@ -3,6 +3,7 @@
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KoKiController;
+use App\Http\Controllers\KoKiMeetingTwoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/uploads/{path}', [HomeController::class, 'showUpload'])
@@ -33,6 +34,19 @@ Route::prefix('/tools/wan-ko-ki')->name('tools.ko-ki.')->controller(KoKiControll
     Route::post('/selesai', 'finish')->name('finish');
     Route::get('/selesai', 'completed')->name('completed');
 });
+
+Route::prefix('/tools/wan-ko-ki/pertemuan-2')
+    ->name('tools.ko-ki.meeting-two.')
+    ->controller(KoKiMeetingTwoController::class)
+    ->group(function (): void {
+        Route::get('/', 'welcome')->name('welcome');
+        Route::post('/mulai', 'start')->name('start');
+        Route::get('/aktivitas', 'activity')->name('activity');
+        Route::get('/peta', 'map')->name('map');
+        Route::get('/lokasi/{location}', 'mission')->name('mission');
+        Route::patch('/progress', 'update')->name('update');
+        Route::get('/selesai', 'completed')->name('completed');
+    });
 
 Route::get('/', HomeController::class)->name('home');
 Route::get('/home', HomeController::class);

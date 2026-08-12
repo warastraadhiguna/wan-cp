@@ -4,10 +4,13 @@ namespace Tests\Feature;
 
 use App\Filament\Resources\ContactMessages\ContactMessageResource;
 use App\Filament\Resources\KoKiProgresses\KoKiProgressResource;
+use App\Filament\Resources\KoKiProgresses\Pages\ListKoKiProgresses;
 use App\Models\ContactMessage;
 use App\Models\KoKiProgress;
 use App\Models\User;
+use App\Services\KoKiAdventureService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AdminPanelTest extends TestCase
@@ -86,6 +89,41 @@ class AdminPanelTest extends TestCase
         $this->actingAs($user)
             ->get(KoKiProgressResource::getUrl('index'))
             ->assertForbidden();
+    }
+
+    public function test_admin_can_approve_the_next_factory_rush_level(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Bima',
+            'grade' => 4,
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 2,
+            'last_phase' => 'factory_map',
+            'current_level' => 1,
+            'completed_levels' => [1],
+            'ipo_state' => [
+                'adventure_version' => KoKiAdventureService::ADVENTURE_VERSION,
+                'intro_seen' => true,
+                'unlocked_levels' => [1, 2],
+                'approved_levels' => [1],
+                'completed_levels' => [1],
+                'training_replay_seen' => true,
+            ],
+            'started_at' => now(),
+        ]);
+
+        $this->actingAs($admin);
+        Livewire::test(ListKoKiProgresses::class)
+            ->filterTable('meeting', 2)
+            ->assertCanSeeTableRecords([$progress])
+            ->assertSee('Bima')
+            ->assertSee('Menunggu izin Level 2')
+            ->assertSee('Izinkan Level 2')
+            ->callTableAction('approveNextLevel', $progress);
+
+        $this->assertSame([1, 2], $progress->refresh()->ipo_state['approved_levels']);
     }
 
     public function test_contact_messages_navigation_badge_counts_only_unread_messages(): void

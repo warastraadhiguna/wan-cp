@@ -10,20 +10,30 @@ class KoKiProgressService
 {
     public const SESSION_KEY = 'ko_ki.progress_id';
 
+    public const MEETING_TWO_SESSION_KEY = 'ko_ki.meeting_2.progress_id';
+
     public const MISSION_COUNT = 7;
 
     public function current(Request $request): ?KoKiProgress
     {
-        $progressId = $request->session()->get(self::SESSION_KEY);
+        return $this->currentForMeeting($request, 1);
+    }
+
+    public function currentForMeeting(Request $request, int $meeting): ?KoKiProgress
+    {
+        $sessionKey = $this->sessionKey($meeting);
+        $progressId = $request->session()->get($sessionKey);
 
         if (! is_numeric($progressId)) {
             return null;
         }
 
-        $progress = KoKiProgress::query()->find((int) $progressId);
+        $progress = KoKiProgress::query()
+            ->where('meeting', $meeting)
+            ->find((int) $progressId);
 
         if (! $progress instanceof KoKiProgress) {
-            $request->session()->forget(self::SESSION_KEY);
+            $request->session()->forget($sessionKey);
         }
 
         return $progress;
@@ -31,14 +41,19 @@ class KoKiProgressService
 
     public function start(Request $request, array $data): KoKiProgress
     {
+        return $this->startMeeting($request, $data, 1, 'opening');
+    }
+
+    public function startMeeting(Request $request, array $data, int $meeting, string $firstPhase): KoKiProgress
+    {
         $progress = KoKiProgress::query()->create([
             'user_id' => null,
             'student_name' => $data['student_name'],
             'grade' => (int) $data['grade'],
             'semester' => 1,
             'unit' => 1,
-            'meeting' => 1,
-            'last_phase' => 'opening',
+            'meeting' => $meeting,
+            'last_phase' => $firstPhase,
             'current_level' => 1,
             'approved_levels' => [],
             'completed_levels' => [],
@@ -48,12 +63,18 @@ class KoKiProgressService
             'level_programs' => [],
             'predictions' => [],
             'level_states' => [],
+            'ipo_state' => null,
             'started_at' => now(),
         ]);
 
-        $request->session()->put(self::SESSION_KEY, $progress->getKey());
+        $request->session()->put($this->sessionKey($meeting), $progress->getKey());
 
         return $progress;
+    }
+
+    public function sessionKey(int $meeting): string
+    {
+        return $meeting === 1 ? self::SESSION_KEY : 'ko_ki.meeting_'.$meeting.'.progress_id';
     }
 
     public function update(KoKiProgress $progress, array $data): KoKiProgress
