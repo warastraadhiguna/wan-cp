@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         :root {
+            /* Setara tampilan browser 75%, tetapi hanya berlaku di modul WAn Ko-Ki. */
+            zoom: 0.75;
             --koki-ink: #172033;
             --koki-muted: #667085;
             --koki-blue: #3157d5;
@@ -514,8 +516,6 @@
             const button = document.querySelector('[data-koki-fullscreen]');
             const label = document.querySelector('[data-koki-fullscreen-label]');
             const icon = document.querySelector('[data-koki-fullscreen-icon]');
-            const preferenceKey = 'wan-ko-ki.fullscreen-preferred';
-
             if (!button || !document.documentElement.requestFullscreen) {
                 button?.setAttribute('hidden', '');
 
@@ -536,7 +536,6 @@
 
                 try {
                     await document.documentElement.requestFullscreen({ navigationUI: 'hide' });
-                    sessionStorage.setItem(preferenceKey, '1');
                 } catch {
                     // Browser akan mengizinkan lagi setelah interaksi pengguna berikutnya.
                 }
@@ -544,7 +543,6 @@
 
             button.addEventListener('click', async () => {
                 if (document.fullscreenElement) {
-                    sessionStorage.setItem(preferenceKey, '0');
                     await document.exitFullscreen();
 
                     return;
@@ -557,10 +555,11 @@
                 updateButton();
             });
 
-            if (sessionStorage.getItem(preferenceKey) !== '0') {
-                document.addEventListener('pointerdown', enterFullscreen, { capture: true, once: true });
-                enterFullscreen();
-            }
+            // Fullscreen tanpa gesture dapat ditolak browser. Permintaan diulang tepat
+            // pada interaksi pertama agar siswa tidak perlu menekan tombol fullscreen.
+            document.addEventListener('pointerdown', enterFullscreen, { capture: true, once: true });
+            document.addEventListener('keydown', enterFullscreen, { capture: true, once: true });
+            enterFullscreen();
 
             updateButton();
         })();
