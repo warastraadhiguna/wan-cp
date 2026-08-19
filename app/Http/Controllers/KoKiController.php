@@ -12,6 +12,7 @@ use App\Services\KoKiAdventureService;
 use App\Services\KoKiLaboratoryService;
 use App\Services\KoKiLessonService;
 use App\Services\KoKiProgressService;
+use App\Services\KoKiRescueProgressService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class KoKiController extends Controller
         private readonly KoKiLessonService $lessonService,
         private readonly KoKiLaboratoryService $laboratoryService,
         private readonly KoKiAdventureService $adventureService,
+        private readonly KoKiRescueProgressService $rescueService,
     ) {}
 
     public function index(Request $request): View
@@ -32,6 +34,10 @@ class KoKiController extends Controller
         $meetingTwoProgress = $this->progressService->currentForMeeting($request, 2);
         $meetingTwoCompleted = $meetingTwoProgress instanceof KoKiProgress
             && $this->adventureService->state($meetingTwoProgress)['completed'];
+        $meetingThreeProgress = $this->progressService->currentForMeeting($request, 3);
+        $meetingThreeState = $meetingThreeProgress instanceof KoKiProgress
+            ? $this->rescueService->state($meetingThreeProgress)
+            : null;
 
         return view('tools.ko-ki.index', [
             'progress' => $meetingOneProgress,
@@ -42,6 +48,15 @@ class KoKiController extends Controller
                 ? ($this->adventureService->state($meetingTwoProgress)['intro_seen']
                     ? route('tools.ko-ki.meeting-two.map')
                     : route('tools.ko-ki.meeting-two.activity'))
+                : null,
+            'meetingThreeProgress' => $meetingThreeProgress,
+            'meetingThreeCompleted' => (bool) ($meetingThreeState['evaluation_passed'] ?? false),
+            'meetingThreeResumeUrl' => $meetingThreeProgress instanceof KoKiProgress
+                ? (($meetingThreeState['final_completed'] ?? false)
+                    ? route('tools.ko-ki.meeting-three.evaluation')
+                    : (($meetingThreeState['intro_seen'] ?? false)
+                        ? route('tools.ko-ki.meeting-three.map')
+                        : route('tools.ko-ki.meeting-three.intro')))
                 : null,
         ]);
     }

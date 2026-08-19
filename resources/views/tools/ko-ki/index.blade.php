@@ -98,6 +98,33 @@
                             </div>
                         </div>
                     </article>
+
+                    <article class="koki-step p-3 p-md-4 mt-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto"><span class="koki-step-number">3</span></div>
+                            <div class="col">
+                                <div class="d-flex flex-wrap gap-2 mb-2">
+                                    <span class="badge text-bg-success">Tersedia</span>
+                                    <span class="badge text-bg-light border">Kelas 4–5</span>
+                                    <span class="badge text-bg-light border">45–50 menit</span>
+                                </div>
+                                <p class="small fw-bold text-primary mb-1">Pertemuan 3</p>
+                                <h4 class="h3 fw-bold mb-2">Ko-Ki Rescue Mission</h4>
+                                <p class="koki-muted mb-0">Susun instruksi yang jelas, tepat, lengkap, dan berurutan.</p>
+                            </div>
+                            <div class="col-12 col-lg-auto">
+                                @if ($meetingThreeProgress)
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ $meetingThreeResumeUrl }}">
+                                        {{ $meetingThreeCompleted ? 'Lihat Medali' : 'Lanjutkan Pertemuan 3' }} <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                                    </a>
+                                @else
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ route('tools.ko-ki.meeting-three.welcome') }}">
+                                        Buka Pertemuan 3 <i class="bi bi-arrow-right ms-1" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </section>
         </div>

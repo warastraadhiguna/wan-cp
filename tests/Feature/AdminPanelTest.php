@@ -9,6 +9,7 @@ use App\Models\ContactMessage;
 use App\Models\KoKiProgress;
 use App\Models\User;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiRescueProgressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -124,6 +125,27 @@ class AdminPanelTest extends TestCase
             ->callTableAction('approveNextLevel', $progress);
 
         $this->assertSame([1, 2], $progress->refresh()->ipo_state['approved_levels']);
+    }
+
+    public function test_admin_can_approve_the_next_rescue_mission_level(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Naya', 'grade' => 4, 'semester' => 1, 'unit' => 1, 'meeting' => 3,
+            'last_phase' => 'rescue_map', 'current_level' => 1, 'approved_levels' => [1],
+            'completed_levels' => [1], 'level_states' => ['_rescue' => ['intro_seen' => true]],
+            'started_at' => now(),
+        ]);
+
+        $this->actingAs($admin);
+        Livewire::test(ListKoKiProgresses::class)
+            ->filterTable('meeting', 3)
+            ->assertCanSeeTableRecords([$progress])
+            ->assertSee('Menunggu izin Level 2')
+            ->assertSee('Izinkan Level 2')
+            ->callTableAction('approveNextLevel', $progress);
+
+        $this->assertSame([1, 2], app(KoKiRescueProgressService::class)->state($progress->refresh())['approved_levels']);
     }
 
     public function test_contact_messages_navigation_badge_counts_only_unread_messages(): void

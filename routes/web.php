@@ -4,6 +4,7 @@ use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KoKiController;
 use App\Http\Controllers\KoKiMeetingTwoController;
+use App\Http\Controllers\KoKiMeetingThreeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/uploads/{path}', [HomeController::class, 'showUpload'])
@@ -46,6 +47,21 @@ Route::prefix('/tools/wan-ko-ki/pertemuan-2')
         Route::get('/lokasi/{location}', 'mission')->name('mission');
         Route::patch('/progress', 'update')->name('update');
         Route::get('/selesai', 'completed')->name('completed');
+    });
+
+Route::prefix('/tools/wan-ko-ki/pertemuan-3')
+    ->name('tools.ko-ki.meeting-three.')
+    ->controller(KoKiMeetingThreeController::class)
+    ->group(function (): void {
+        Route::get('/', 'welcome')->name('welcome');
+        Route::post('/mulai', 'start')->name('start');
+        Route::get('/pendahuluan', 'intro')->name('intro');
+        Route::post('/pendahuluan/selesai', 'completeIntro')->name('intro.complete');
+        Route::get('/peta', 'map')->name('map');
+        Route::get('/misi/{mission}', 'mission')->whereNumber('mission')->name('mission');
+        Route::patch('/progress', 'completeLevel')->name('progress');
+        Route::get('/evaluasi', 'evaluation')->name('evaluation');
+        Route::post('/evaluasi', 'submitEvaluation')->name('evaluation.submit');
     });
 
 Route::get('/', HomeController::class)->name('home');
