@@ -125,8 +125,31 @@
                             </div>
                         </div>
                     </article>
+
+                    <article class="koki-step p-3 p-md-4 mt-3">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto"><span class="koki-step-number">4</span></div>
+                            <div class="col">
+                                <div class="d-flex flex-wrap gap-2 mb-2"><span class="badge text-bg-success">Tersedia</span><span class="badge text-bg-light border">Kelas 4–5</span><span class="badge text-bg-light border">50–58 menit</span></div>
+                                <p class="small fw-bold text-primary mb-1">Pertemuan 4</p>
+                                <h4 class="h3 fw-bold mb-2">Bug Detective Agency</h4>
+                                <p class="koki-muted mb-0">Cari bug, perbaiki program, lalu uji kembali bersama Detektif Ko-Ki.</p>
+                            </div>
+                            <div class="col-12 col-lg-auto">
+                                @if ($meetingFourProgress)
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ $meetingFourResumeUrl }}" data-detective-resume data-progress-id="{{ $meetingFourProgress->getKey() }}" data-case-url="{{ route('tools.ko-ki.meeting-four.case', 1) }}" data-notebook-url="{{ route('tools.ko-ki.meeting-four.notebook') }}">{{ $meetingFourCompleted ? 'Lihat Bug Collection' : 'Lanjutkan Pertemuan 4' }} <i class="bi bi-arrow-right"></i></a>
+                                @else
+                                    <a class="btn btn-primary koki-btn-primary rounded-pill px-4 py-2 fw-bold w-100" href="{{ route('tools.ko-ki.meeting-four.welcome') }}">Buka Pertemuan 4 <i class="bi bi-arrow-right"></i></a>
+                                @endif
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </section>
         </div>
     </div>
 @endsection
+
+@if ($meetingFourProgress)
+    @push('scripts')<script type="module" src="{{ asset('js/ko-ki/detective-entry.js') }}?v={{ filemtime(public_path('js/ko-ki/detective-entry.js')) }}"></script>@endpush
+@endif

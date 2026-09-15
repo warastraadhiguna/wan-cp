@@ -9,6 +9,7 @@ use App\Models\ContactMessage;
 use App\Models\KoKiProgress;
 use App\Models\User;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiDetectiveProgressService;
 use App\Services\KoKiRescueProgressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -146,6 +147,29 @@ class AdminPanelTest extends TestCase
             ->callTableAction('approveNextLevel', $progress);
 
         $this->assertSame([1, 2], app(KoKiRescueProgressService::class)->state($progress->refresh())['approved_levels']);
+    }
+
+    public function test_admin_can_monitor_bug_detective_collection(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Dita', 'grade' => 5, 'semester' => 1, 'unit' => 1, 'meeting' => 4,
+            'last_phase' => 'detective_map', 'current_level' => 3, 'completed_levels' => [1, 2, 3],
+            'level_states' => ['_detective' => ['intro_seen' => true]], 'started_at' => now(),
+        ]);
+
+        $this->actingAs($admin);
+        Livewire::test(ListKoKiProgresses::class)
+            ->filterTable('meeting', 4)
+            ->assertCanSeeTableRecords([$progress])
+            ->assertSee('Dita')
+            ->assertSee('Menunggu izin Case 4')
+            ->assertSee('Izinkan Case 4')
+            ->assertSee('Case 4')
+            ->callTableAction('approveNextLevel', $progress);
+
+        $this->assertSame(3, app(KoKiDetectiveProgressService::class)->state($progress)['collection_count']);
+        $this->assertSame([1, 2, 3, 4], $progress->refresh()->approved_levels);
     }
 
     public function test_contact_messages_navigation_badge_counts_only_unread_messages(): void

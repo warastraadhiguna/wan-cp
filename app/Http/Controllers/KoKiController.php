@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateKoKiLaboratoryRequest;
 use App\Http\Requests\UpdateKoKiProgressRequest;
 use App\Models\KoKiProgress;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiDetectiveProgressService;
 use App\Services\KoKiLaboratoryService;
 use App\Services\KoKiLessonService;
 use App\Services\KoKiProgressService;
@@ -26,6 +27,7 @@ class KoKiController extends Controller
         private readonly KoKiLaboratoryService $laboratoryService,
         private readonly KoKiAdventureService $adventureService,
         private readonly KoKiRescueProgressService $rescueService,
+        private readonly KoKiDetectiveProgressService $detectiveService,
     ) {}
 
     public function index(Request $request): View
@@ -37,6 +39,10 @@ class KoKiController extends Controller
         $meetingThreeProgress = $this->progressService->currentForMeeting($request, 3);
         $meetingThreeState = $meetingThreeProgress instanceof KoKiProgress
             ? $this->rescueService->state($meetingThreeProgress)
+            : null;
+        $meetingFourProgress = $this->progressService->currentForMeeting($request, 4);
+        $meetingFourState = $meetingFourProgress instanceof KoKiProgress
+            ? $this->detectiveService->state($meetingFourProgress)
             : null;
 
         return view('tools.ko-ki.index', [
@@ -57,6 +63,15 @@ class KoKiController extends Controller
                     : (($meetingThreeState['intro_seen'] ?? false)
                         ? route('tools.ko-ki.meeting-three.map')
                         : route('tools.ko-ki.meeting-three.intro')))
+                : null,
+            'meetingFourProgress' => $meetingFourProgress,
+            'meetingFourCompleted' => (bool) ($meetingFourState['completed'] ?? false),
+            'meetingFourResumeUrl' => $meetingFourProgress instanceof KoKiProgress
+                ? (! ($meetingFourState['intro_seen'] ?? false)
+                    ? route('tools.ko-ki.meeting-four.intro')
+                    : (($meetingFourState['final_solved'] ?? false)
+                        ? route('tools.ko-ki.meeting-four.notebook')
+                        : route('tools.ko-ki.meeting-four.case', $meetingFourState['current_case'])))
                 : null,
         ]);
     }

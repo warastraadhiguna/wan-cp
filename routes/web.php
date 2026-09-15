@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KoKiController;
 use App\Http\Controllers\KoKiMeetingTwoController;
 use App\Http\Controllers\KoKiMeetingThreeController;
+use App\Http\Controllers\KoKiMeetingFourController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/uploads/{path}', [HomeController::class, 'showUpload'])
@@ -62,6 +63,22 @@ Route::prefix('/tools/wan-ko-ki/pertemuan-3')
         Route::patch('/progress', 'completeLevel')->name('progress');
         Route::get('/evaluasi', 'evaluation')->name('evaluation');
         Route::post('/evaluasi', 'submitEvaluation')->name('evaluation.submit');
+    });
+
+Route::prefix('/tools/wan-ko-ki/pertemuan-4')
+    ->name('tools.ko-ki.meeting-four.')
+    ->controller(KoKiMeetingFourController::class)
+    ->group(function (): void {
+        Route::get('/', 'welcome')->name('welcome');
+        Route::post('/mulai', 'start')->name('start');
+        Route::get('/pendahuluan', 'intro')->name('intro');
+        Route::post('/pendahuluan', 'begin')->name('intro.begin');
+        Route::get('/peta-kasus', 'map')->name('map');
+        Route::get('/kasus/{case}', 'case')->whereNumber('case')->name('case');
+        Route::patch('/progress', 'complete')->name('progress');
+        Route::post('/sync', 'sync')->name('sync');
+        Route::get('/detective-notebook', 'notebook')->name('notebook');
+        Route::post('/detective-notebook', 'completeNotebook')->name('notebook.complete');
     });
 
 Route::get('/', HomeController::class)->name('home');

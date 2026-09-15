@@ -5,6 +5,7 @@ namespace App\Filament\Resources\KoKiProgresses;
 use App\Filament\Resources\KoKiProgresses\Pages\ListKoKiProgresses;
 use App\Models\KoKiProgress;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiDetectiveProgressService;
 use App\Services\KoKiProgressService;
 use App\Services\KoKiRescueProgressService;
 use BackedEnum;
@@ -67,6 +68,7 @@ class KoKiProgressResource extends Resource
                         1 => 'Misi '.$state,
                         2 => 'Level '.app(KoKiAdventureService::class)->state($record)['current_level'],
                         3 => 'Level '.app(KoKiRescueProgressService::class)->state($record)['current_level'],
+                        4 => 'Case '.app(KoKiDetectiveProgressService::class)->state($record)['current_case'],
                         default => 'Level '.$state,
                     }),
                 TextColumn::make('completed_count')
@@ -74,6 +76,7 @@ class KoKiProgressResource extends Resource
                     ->state(fn (KoKiProgress $record): string => match ($record->meeting) {
                         2 => app(KoKiAdventureService::class)->state($record)['order_count'].' order',
                         3 => count($record->completed_levels ?? []).' dari '.KoKiRescueProgressService::MISSION_COUNT,
+                        4 => count($record->completed_levels ?? []).' dari '.KoKiDetectiveProgressService::CASE_COUNT,
                         default => count($record->completed_levels ?? []).' dari '.KoKiProgressService::MISSION_COUNT,
                     }),
                 TextColumn::make('access_status')
@@ -86,6 +89,7 @@ class KoKiProgressResource extends Resource
                     ->formatStateUsing(fn (int $state, KoKiProgress $record): string => match ($record->meeting) {
                         2 => app(KoKiAdventureService::class)->state($record)['score'].' poin',
                         3 => app(KoKiRescueProgressService::class)->state($record)['total_stars'].' bintang',
+                        4 => app(KoKiDetectiveProgressService::class)->state($record)['total_stars'].' bintang',
                         default => (string) $state,
                     }),
                 TextColumn::make('started_at')
@@ -205,9 +209,14 @@ class KoKiProgressResource extends Resource
 
     private static function approvedLevels(KoKiProgress $record): array
     {
+        if ($record->meeting === 4) {
+            return app(KoKiDetectiveProgressService::class)->state($record)['approved_cases'];
+        }
+
         if ($record->meeting === 3) {
             return app(KoKiRescueProgressService::class)->state($record)['approved_levels'];
         }
+
         if ($record->meeting === 2) {
             return app(KoKiAdventureService::class)->approvedLevels($record);
         }
@@ -217,6 +226,10 @@ class KoKiProgressResource extends Resource
 
     private static function nextLevel(KoKiProgress $record): int
     {
+        if ($record->meeting === 4) {
+            return app(KoKiDetectiveProgressService::class)->nextApprovableCase($record) ?? KoKiDetectiveProgressService::CASE_COUNT;
+        }
+
         if ($record->meeting === 3) {
             return app(KoKiRescueProgressService::class)->nextApprovableLevel($record) ?? KoKiRescueProgressService::MISSION_COUNT;
         }
@@ -231,6 +244,11 @@ class KoKiProgressResource extends Resource
 
     private static function canApprove(KoKiProgress $record): bool
     {
+        if ($record->meeting === 4) {
+            return $record->completed_at === null
+                && app(KoKiDetectiveProgressService::class)->nextApprovableCase($record) !== null;
+        }
+
         if ($record->meeting === 3) {
             return $record->completed_at === null
                 && app(KoKiRescueProgressService::class)->nextApprovableLevel($record) !== null;
@@ -258,6 +276,14 @@ class KoKiProgressResource extends Resource
 
     private static function canRevoke(KoKiProgress $record): bool
     {
+        if ($record->meeting === 4) {
+            $state = app(KoKiDetectiveProgressService::class)->state($record);
+
+            return collect($state['approved_cases'])->contains(
+                fn (int $case): bool => $case > 1 && ! in_array($case, $state['completed_cases'], true),
+            );
+        }
+
         if ($record->meeting === 3) {
             $state = app(KoKiRescueProgressService::class)->state($record);
 
@@ -290,7 +316,8 @@ class KoKiProgressResource extends Resource
 
     private static function accessLabel(KoKiProgress $record): string
     {
-        if ($record->completed_at !== null) {
+        if ($record->completed_at !== null
+            && ($record->meeting !== 4 || app(KoKiDetectiveProgressService::class)->state($record)['completed'])) {
             return 'Pertemuan selesai';
         }
 
@@ -326,6 +353,27 @@ class KoKiProgressResource extends Resource
             return $latest >= KoKiRescueProgressService::MISSION_COUNT ? 'Semua level diizinkan' : 'Level '.$latest.' diizinkan';
         }
 
+        if ($record->meeting === 4) {
+            $state = app(KoKiDetectiveProgressService::class)->state($record);
+
+            if (! $state['intro_seen']) {
+                return 'Belum membuka CASE #001';
+            }
+            if ($state['final_solved']) {
+                return 'Menunggu Detective Notebook';
+            }
+
+            if (static::canApprove($record)) {
+                return 'Menunggu izin Case '.static::nextLevel($record);
+            }
+
+            $latest = max($state['approved_cases']);
+
+            return $latest >= KoKiDetectiveProgressService::CASE_COUNT
+                ? 'Semua case diizinkan'
+                : 'Case '.$latest.' diizinkan · Koleksi '.$state['collection_count'].'/15';
+        }
+
         if (static::canApprove($record)) {
             return 'Menunggu izin Misi '.static::nextLevel($record);
         }
@@ -343,6 +391,12 @@ class KoKiProgressResource extends Resource
 
     private static function approveNextLevel(KoKiProgress $record): void
     {
+        if ($record->meeting === 4) {
+            app(KoKiDetectiveProgressService::class)->approveNextCase($record, static::nextLevel($record));
+
+            return;
+        }
+
         if ($record->meeting === 3) {
             app(KoKiRescueProgressService::class)->approveNextLevel($record, static::nextLevel($record));
 
@@ -359,6 +413,12 @@ class KoKiProgressResource extends Resource
 
     private static function revokeLatestLevel(KoKiProgress $record): void
     {
+        if ($record->meeting === 4) {
+            app(KoKiDetectiveProgressService::class)->revokeLatestCase($record);
+
+            return;
+        }
+
         if ($record->meeting === 3) {
             app(KoKiRescueProgressService::class)->revokeLatestLevel($record);
 
@@ -375,6 +435,10 @@ class KoKiProgressResource extends Resource
 
     private static function levelLabel(KoKiProgress $record): string
     {
-        return in_array($record->meeting, [2, 3], true) ? 'Level' : 'Misi';
+        return match ($record->meeting) {
+            2, 3 => 'Level',
+            4 => 'Case',
+            default => 'Misi',
+        };
     }
 }

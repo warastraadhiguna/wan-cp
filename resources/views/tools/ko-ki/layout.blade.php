@@ -564,6 +564,69 @@
             updateButton();
         })();
     </script>
+    <script>
+        (() => {
+            const meetingPath = '/tools/wan-ko-ki/pertemuan-4/';
+            if (!window.location.pathname.startsWith(meetingPath)) return;
+
+            let navigating = false;
+
+            const loadPage = async (url, pushState = true) => {
+                if (navigating) return;
+                navigating = true;
+                document.documentElement.setAttribute('aria-busy', 'true');
+
+                try {
+                    const response = await fetch(url, {
+                        headers: { 'Accept': 'text/html', 'X-Requested-With': 'XMLHttpRequest' },
+                        credentials: 'same-origin',
+                    });
+                    if (!response.ok) throw new Error('Halaman berikutnya belum dapat dimuat.');
+
+                    const page = new DOMParser().parseFromString(await response.text(), 'text/html');
+                    const resolvedUrl = response.url || url;
+                    const currentMain = document.querySelector('main.koki-page');
+                    const nextMain = page.querySelector('main.koki-page');
+                    if (!currentMain || !nextMain) throw new Error('Konten halaman tidak ditemukan.');
+
+                    window.dispatchEvent(new CustomEvent('koki:before-soft-navigation'));
+                    currentMain.innerHTML = nextMain.innerHTML;
+                    document.title = page.title;
+                    if (pushState) window.history.pushState({ kokiMeetingFour: true }, '', resolvedUrl);
+                    window.scrollTo({ top: 0, behavior: 'auto' });
+
+                    const moduleScript = [...page.querySelectorAll('script[type="module"][src]')]
+                        .find((script) => script.getAttribute('src')?.includes('/js/ko-ki/detective-'));
+                    if (moduleScript) {
+                        const moduleUrl = new URL(moduleScript.getAttribute('src'), resolvedUrl);
+                        moduleUrl.searchParams.set('soft', Date.now().toString());
+                        await import(moduleUrl.href);
+                    }
+                } catch {
+                    window.location.assign(url);
+                } finally {
+                    navigating = false;
+                    document.documentElement.removeAttribute('aria-busy');
+                }
+            };
+
+            document.addEventListener('click', (event) => {
+                const link = event.target.closest('a[href]');
+                if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                if (link.target || link.hasAttribute('download')) return;
+
+                const url = new URL(link.href, window.location.href);
+                if (url.origin !== window.location.origin || !url.pathname.startsWith(meetingPath)) return;
+
+                event.preventDefault();
+                void loadPage(url.href);
+            });
+
+            window.addEventListener('popstate', () => {
+                if (window.location.pathname.startsWith(meetingPath)) void loadPage(window.location.href, false);
+            });
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>
