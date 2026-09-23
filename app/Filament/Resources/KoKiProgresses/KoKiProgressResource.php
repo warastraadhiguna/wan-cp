@@ -126,7 +126,7 @@ class KoKiProgressResource extends Resource
             ->recordActions([
                 Action::make('approveNextLevel')
                     ->label(fn (KoKiProgress $record): string => $record->meeting === 5
-                        ? 'Izinkan Playtest'
+                        ? 'Izinkan '.static::creatorStepLabel($record)
                         : 'Izinkan '.static::levelLabel($record).' '.static::nextLevel($record))
                     ->icon('heroicon-o-lock-open')
                     ->color('success')
@@ -137,7 +137,7 @@ class KoKiProgressResource extends Resource
                         static::approveNextLevel($record);
 
                         Notification::make()
-                            ->title($record->meeting === 5 ? 'Playtest sudah diizinkan' : static::levelLabel($record).' berikutnya sudah diizinkan')
+                            ->title($record->meeting === 5 ? static::creatorStepLabel($record).' sudah diizinkan' : static::levelLabel($record).' berikutnya sudah diizinkan')
                             ->success()
                             ->send();
                     }),
@@ -215,7 +215,7 @@ class KoKiProgressResource extends Resource
     private static function approvedLevels(KoKiProgress $record): array
     {
         if ($record->meeting === 5) {
-            return array_values(array_unique(array_map('intval', $record->approved_levels ?? [])));
+            return app(KoKiCreatorService::class)->approvedSteps($record);
         }
 
         if ($record->meeting === 4) {
@@ -236,7 +236,7 @@ class KoKiProgressResource extends Resource
     private static function nextLevel(KoKiProgress $record): int
     {
         if ($record->meeting === 5) {
-            return KoKiCreatorService::PLAYTEST_APPROVAL;
+            return app(KoKiCreatorService::class)->nextApprovableStep($record) ?? KoKiCreatorService::PLAYTEST_APPROVAL;
         }
 
         if ($record->meeting === 4) {
@@ -258,7 +258,7 @@ class KoKiProgressResource extends Resource
     private static function canApprove(KoKiProgress $record): bool
     {
         if ($record->meeting === 5) {
-            return app(KoKiCreatorService::class)->canApprovePlaytest($record);
+            return app(KoKiCreatorService::class)->canApproveNextStep($record);
         }
 
         if ($record->meeting === 4) {
@@ -295,9 +295,10 @@ class KoKiProgressResource extends Resource
     {
         if ($record->meeting === 5) {
             $creator = app(KoKiCreatorService::class);
+            $stage = (int) $creator->state($record)['stage'];
 
-            return in_array(KoKiCreatorService::PLAYTEST_APPROVAL, static::approvedLevels($record), true)
-                && ! $creator->state($record)['playtested']
+            return collect(array_map('intval', $record->approved_levels ?? []))
+                ->contains(fn (int $step): bool => $step > $stage)
                 && ! $creator->adventureState($record)['completed'];
         }
 
@@ -354,14 +355,18 @@ class KoKiProgressResource extends Resource
             $creator = app(KoKiCreatorService::class);
             $state = $creator->state($record);
 
-            if ((int) $state['stage'] < 4) {
-                return 'Setup '.((int) $state['stage']).'/4';
-            }
-            if ($creator->canApprovePlaytest($record)) {
-                return 'Menunggu izin Playtest';
+            if ($creator->canApproveNextStep($record)) {
+                return 'Menunggu izin '.static::creatorStepLabel($record);
             }
 
-            return $state['playtested'] ? 'Creator Adventure terbuka' : 'Playtest diizinkan';
+            if ($state['playtested']) {
+                return 'Creator Adventure terbuka';
+            }
+            if ((int) $state['stage'] >= KoKiCreatorService::SETUP_COUNT) {
+                return 'Playtest diizinkan';
+            }
+
+            return 'Setup '.(((int) $state['stage']) + 1).' diizinkan';
         }
 
         if ($record->meeting === 2) {
@@ -435,7 +440,7 @@ class KoKiProgressResource extends Resource
     private static function approveNextLevel(KoKiProgress $record): void
     {
         if ($record->meeting === 5) {
-            app(KoKiCreatorService::class)->approvePlaytest($record);
+            app(KoKiCreatorService::class)->approveNextStep($record);
 
             return;
         }
@@ -463,7 +468,7 @@ class KoKiProgressResource extends Resource
     private static function revokeLatestLevel(KoKiProgress $record): void
     {
         if ($record->meeting === 5) {
-            app(KoKiCreatorService::class)->revokePlaytest($record);
+            app(KoKiCreatorService::class)->revokeLatestApproval($record);
 
             return;
         }
@@ -496,5 +501,13 @@ class KoKiProgressResource extends Resource
             5 => 'Playtest',
             default => 'Misi',
         };
+    }
+
+    private static function creatorStepLabel(KoKiProgress $record): string
+    {
+        $step = app(KoKiCreatorService::class)->nextApprovableStep($record)
+            ?? min(KoKiCreatorService::PLAYTEST_APPROVAL, ((int) app(KoKiCreatorService::class)->state($record)['stage']) + 1);
+
+        return $step >= KoKiCreatorService::PLAYTEST_APPROVAL ? 'Playtest' : 'Setup '.$step;
     }
 }

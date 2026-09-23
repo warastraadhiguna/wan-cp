@@ -45,6 +45,7 @@ class KoKiMeetingFiveController extends Controller
             'progress' => $progress,
             'creatorState' => $this->creatorService->state($progress),
             'creatorAdventure' => $this->creatorService->adventureState($progress),
+            'creatorApprovals' => $this->creatorService->approvedSteps($progress),
             'playtestApproved' => $this->creatorService->playtestApproved($progress),
         ]);
     }
@@ -56,11 +57,15 @@ class KoKiMeetingFiveController extends Controller
             return response()->json(['message' => 'Session Pertemuan 5 tidak ditemukan.'], 409);
         }
 
-        if (($request->validated()['playtested'] ?? false) && ! $this->creatorService->playtestApproved($progress)) {
+        $data = $request->validated();
+        if (! $this->creatorService->canCompleteSetup($progress, (int) $data['stage'])) {
+            return response()->json(['message' => 'Setup berikutnya masih menunggu izin admin.'], 403);
+        }
+        if (($data['playtested'] ?? false) && ! $this->creatorService->playtestApproved($progress)) {
             return response()->json(['message' => 'Playtest masih menunggu izin admin.'], 403);
         }
 
-        $progress = $this->creatorService->save($progress, $request->validated());
+        $progress = $this->creatorService->save($progress, $data);
 
         return response()->json([
             'message' => 'Karya tersimpan.',
@@ -77,6 +82,8 @@ class KoKiMeetingFiveController extends Controller
 
         return response()->json([
             'approved' => $this->creatorService->playtestApproved($progress),
+            'approved_steps' => $this->creatorService->approvedSteps($progress),
+            'next_step' => $this->creatorService->nextApprovableStep($progress),
             'setup_completed' => (int) $this->creatorService->state($progress)['stage'] >= 4,
         ]);
     }

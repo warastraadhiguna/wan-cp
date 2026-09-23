@@ -3,7 +3,7 @@
 @section('title', 'Creator Lab — Buat Gim Pertamamu')
 
 @section('content')
-    <div class="creator-shell" data-creator-lab data-progress-id="{{ $progress->getKey() }}" data-state='@json($creatorState)' data-adventure-state='@json($creatorAdventure)' data-playtest-approved="{{ $playtestApproved ? '1' : '0' }}" data-save-url="{{ route('tools.ko-ki.meeting-five.progress') }}" data-playtest-status-url="{{ route('tools.ko-ki.meeting-five.playtest.status') }}" data-complete-url="{{ route('tools.ko-ki.meeting-five.adventure.complete') }}'>
+    <div class="creator-shell" data-creator-lab data-progress-id="{{ $progress->getKey() }}" data-state='@json($creatorState)' data-adventure-state='@json($creatorAdventure)' data-approved-steps='@json($creatorApprovals)' data-playtest-approved="{{ $playtestApproved ? '1' : '0' }}" data-save-url="{{ route('tools.ko-ki.meeting-five.progress') }}" data-playtest-status-url="{{ route('tools.ko-ki.meeting-five.playtest.status') }}" data-complete-url="{{ route('tools.ko-ki.meeting-five.adventure.complete') }}'>
         <header class="creator-header">
             <div><p class="koki-eyebrow mb-1">Semester 1 · Unit 1 · Pertemuan 5</p><h1>Ko-Ki Creator Lab</h1><p>Halo, {{ $progress->student_name }}! Buat gim, lalu coba sendiri.</p></div>
             <div class="creator-header-actions"><span class="creator-badge" data-badge hidden>🏅 Game Creator</span><div class="creator-save" data-save-status>✓ Tersimpan di perangkat</div></div>

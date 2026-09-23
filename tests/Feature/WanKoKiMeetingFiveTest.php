@@ -43,12 +43,11 @@ class WanKoKiMeetingFiveTest extends TestCase
     public function test_core_and_meeting_completion_each_save_in_one_checkpoint(): void
     {
         $progress = $this->start();
-        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(4))
-            ->assertOk()->assertJsonPath('state.stage', 4);
+        $this->completeSetups($progress);
         $this->assertSame([1, 2, 3, 4], $progress->refresh()->completed_levels);
         $this->assertNull($progress->completed_at);
         $this->assertSame('playtest', $progress->last_phase);
-        $this->approvePlaytest($progress);
+        $this->approveNextCreatorStep($progress);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->playtestedPayload())
             ->assertOk()->assertJsonPath('state.playtested', true);
         $this->assertNotNull($progress->refresh()->completed_at);
@@ -60,10 +59,15 @@ class WanKoKiMeetingFiveTest extends TestCase
         $progress = $this->start();
         $draft = $this->payload(2);
         $draft['character'] = 'cat';
+        $this->approveNextCreatorStep($progress);
+        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(1))->assertOk();
+        $this->approveNextCreatorStep($progress);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $draft)
             ->assertOk()->assertJsonPath('state.stage', 2)->assertJsonPath('state.character', 'cat');
-        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(4))
-            ->assertOk()->assertJsonPath('state.stage', 4);
+        $this->approveNextCreatorStep($progress);
+        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(3))->assertOk();
+        $this->approveNextCreatorStep($progress);
+        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(4))->assertOk()->assertJsonPath('state.stage', 4);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $draft)
             ->assertOk()->assertJsonPath('state.stage', 4);
         $this->assertSame([1, 2, 3, 4], $progress->refresh()->completed_levels);
@@ -72,14 +76,12 @@ class WanKoKiMeetingFiveTest extends TestCase
     public function test_playtest_requires_all_checks_and_bonuses_are_optional_after_game_ready(): void
     {
         $progress = $this->start();
-        foreach (range(1, 4) as $stage) {
-            $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload($stage))->assertOk();
-        }
+        $this->completeSetups($progress);
         $premature = $this->payload(4);
         $premature['bonuses'] = ['second_collectible' => true, 'special_plus_three' => false, 'second_obstacle' => false, 'sound' => false, 'timer' => false, 'target' => false];
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $premature)->assertUnprocessable()->assertJsonValidationErrors('bonuses');
 
-        $this->approvePlaytest($progress);
+        $this->approveNextCreatorStep($progress);
         $incomplete = $this->playtestedPayload();
         $incomplete['playtest_checks']['obstacle'] = false;
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $incomplete)->assertUnprocessable()->assertJsonValidationErrors('playtested');
@@ -104,7 +106,7 @@ class WanKoKiMeetingFiveTest extends TestCase
         ])->save();
 
         $this->get(route('tools.ko-ki.meeting-five.lab'))->assertOk()->assertSee('"stage":4', false)->assertSee('"playtested":false', false);
-        $this->approvePlaytest($progress);
+        $this->approveNextCreatorStep($progress);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->playtestedPayload())
             ->assertOk()->assertJsonPath('state.playtested', true);
         $this->assertSame([1, 2, 3, 4], $progress->refresh()->completed_levels);
@@ -113,10 +115,12 @@ class WanKoKiMeetingFiveTest extends TestCase
     public function test_invalid_mapping_and_collectible_rule_are_rejected(): void
     {
         $this->start();
+        $this->approveNextCreatorStep(KoKiProgress::query()->where('meeting', 5)->latest('id')->firstOrFail());
         $duplicate = $this->payload(1);
         $duplicate['controls']['right'] = 'LEFT';
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $duplicate)->assertUnprocessable()->assertJsonValidationErrors('controls');
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(1))->assertOk();
+        $this->approveNextCreatorStep(KoKiProgress::query()->where('meeting', 5)->latest('id')->firstOrFail());
         $missingRule = $this->payload(2);
         $missingRule['collect_rule'] = 'none';
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $missingRule)->assertUnprocessable()->assertJsonValidationErrors('collect_rule');
@@ -129,6 +133,7 @@ class WanKoKiMeetingFiveTest extends TestCase
             'student_name' => 'Siswa lain', 'grade' => 5, 'semester' => 1, 'unit' => 1, 'meeting' => 5,
             'last_phase' => 'creator_lab', 'current_level' => 1, 'completed_levels' => [], 'started_at' => now(),
         ]);
+        $this->approveNextCreatorStep($current);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), [...$this->payload(1), 'progress_id' => $other->id])->assertOk();
         $this->assertSame([1], $current->refresh()->completed_levels);
         $this->assertSame([], $other->refresh()->completed_levels);
@@ -137,8 +142,8 @@ class WanKoKiMeetingFiveTest extends TestCase
     public function test_ten_levels_and_evaluation_unlock_the_creator_medal(): void
     {
         $progress = $this->start();
-        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(4))->assertOk();
-        $this->approvePlaytest($progress);
+        $this->completeSetups($progress);
+        $this->approveNextCreatorStep($progress);
 
         $this->postJson(route('tools.ko-ki.meeting-five.adventure.complete'), [
             'completed_levels' => range(1, 9),
@@ -160,11 +165,21 @@ class WanKoKiMeetingFiveTest extends TestCase
     public function test_playtest_waits_for_admin_approval_after_setup(): void
     {
         $progress = $this->start();
-        $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload(4))
-            ->assertOk()->assertJsonPath('state.stage', 4);
+
+        foreach (range(1, 4) as $stage) {
+            $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload($stage))
+                ->assertForbidden()->assertJsonPath('message', 'Setup berikutnya masih menunggu izin admin.');
+            $this->getJson(route('tools.ko-ki.meeting-five.playtest.status'))
+                ->assertOk()->assertJsonPath('next_step', $stage)
+                ->assertJsonPath('approved_steps', $stage === 1 ? [] : range(1, $stage - 1));
+            $this->approveNextCreatorStep($progress);
+            $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload($stage))
+                ->assertOk()->assertJsonPath('state.stage', $stage);
+        }
 
         $this->getJson(route('tools.ko-ki.meeting-five.playtest.status'))
-            ->assertOk()->assertJsonPath('setup_completed', true)->assertJsonPath('approved', false);
+            ->assertOk()->assertJsonPath('setup_completed', true)->assertJsonPath('approved', false)
+            ->assertJsonPath('next_step', 5);
         $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->playtestedPayload())
             ->assertForbidden()->assertJsonPath('message', 'Playtest masih menunggu izin admin.');
         $this->postJson(route('tools.ko-ki.meeting-five.adventure.complete'), [
@@ -172,7 +187,7 @@ class WanKoKiMeetingFiveTest extends TestCase
             'answers' => ['creator' => 'mengatur_game', 'debug' => 'uji_perbaiki'],
         ])->assertForbidden();
 
-        $this->approvePlaytest($progress);
+        $this->approveNextCreatorStep($progress);
         $this->getJson(route('tools.ko-ki.meeting-five.playtest.status'))
             ->assertOk()->assertJsonPath('approved', true);
         $this->get(route('tools.ko-ki.meeting-five.lab'))
@@ -209,8 +224,17 @@ class WanKoKiMeetingFiveTest extends TestCase
         ];
     }
 
-    private function approvePlaytest(KoKiProgress $progress): void
+    private function completeSetups(KoKiProgress $progress): void
     {
-        $this->assertNotNull(app(KoKiCreatorService::class)->approvePlaytest($progress->refresh()));
+        foreach (range(1, 4) as $stage) {
+            $this->approveNextCreatorStep($progress);
+            $this->patchJson(route('tools.ko-ki.meeting-five.progress'), $this->payload($stage))
+                ->assertOk()->assertJsonPath('state.stage', $stage);
+        }
+    }
+
+    private function approveNextCreatorStep(KoKiProgress $progress): void
+    {
+        $this->assertNotNull(app(KoKiCreatorService::class)->approveNextStep($progress->refresh()));
     }
 }

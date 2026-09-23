@@ -129,7 +129,7 @@ class AdminPanelTest extends TestCase
         $this->assertSame([1, 2], $progress->refresh()->ipo_state['approved_levels']);
     }
 
-    public function test_admin_can_allow_creator_lab_playtest_after_setup(): void
+    public function test_admin_can_allow_each_creator_lab_setup_step(): void
     {
         $admin = User::factory()->create(['is_admin' => true]);
         $progress = KoKiProgress::query()->create([
@@ -138,15 +138,14 @@ class AdminPanelTest extends TestCase
             'semester' => 1,
             'unit' => 1,
             'meeting' => 5,
-            'last_phase' => 'playtest',
-            'current_level' => 4,
+            'last_phase' => 'creator_lab',
+            'current_level' => 1,
             'approved_levels' => [],
-            'completed_levels' => [1, 2, 3, 4],
+            'completed_levels' => [],
             'level_states' => [
                 '_creator' => [
                     ...KoKiCreatorService::DEFAULTS,
-                    'stage' => 4,
-                    'tested_win' => true,
+                    'stage' => 0,
                 ],
             ],
             'started_at' => now(),
@@ -157,11 +156,23 @@ class AdminPanelTest extends TestCase
             ->filterTable('meeting', 5)
             ->assertCanSeeTableRecords([$progress])
             ->assertSee('Lala')
-            ->assertSee('Menunggu izin Playtest')
-            ->assertSee('Izinkan Playtest')
+            ->assertSee('Menunggu izin Setup 1')
+            ->assertSee('Izinkan Setup 1')
             ->callTableAction('approveNextLevel', $progress);
 
-        $this->assertSame([KoKiCreatorService::PLAYTEST_APPROVAL], $progress->refresh()->approved_levels);
+        $this->assertSame([1], $progress->refresh()->approved_levels);
+
+        $states = $progress->level_states;
+        $states['_creator']['stage'] = 1;
+        $progress->forceFill(['level_states' => $states, 'completed_levels' => [1]])->save();
+
+        Livewire::test(ListKoKiProgresses::class)
+            ->filterTable('meeting', 5)
+            ->assertSee('Menunggu izin Setup 2')
+            ->assertSee('Izinkan Setup 2')
+            ->callTableAction('approveNextLevel', $progress->refresh());
+
+        $this->assertSame([1, 2], $progress->refresh()->approved_levels);
     }
 
     public function test_admin_can_approve_the_next_rescue_mission_level(): void

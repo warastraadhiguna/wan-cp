@@ -7,7 +7,9 @@ use Illuminate\Validation\ValidationException;
 
 class KoKiCreatorService
 {
-    public const PLAYTEST_APPROVAL = 1;
+    public const SETUP_COUNT = 4;
+
+    public const PLAYTEST_APPROVAL = 5;
 
     public const DEFAULTS = [
         'stage' => 0,
@@ -40,30 +42,75 @@ class KoKiCreatorService
         ], ($progress->level_states ?? [])['_creator_adventure'] ?? []);
     }
 
+    public function approvedSteps(KoKiProgress $progress): array
+    {
+        $approved = array_map('intval', $progress->approved_levels ?? []);
+        $completedSetup = min(self::SETUP_COUNT, (int) $this->state($progress)['stage']);
+        if ($completedSetup > 0) {
+            array_push($approved, ...range(1, $completedSetup));
+        }
+        if ($this->state($progress)['playtested'] || $this->adventureState($progress)['completed']) {
+            $approved[] = self::PLAYTEST_APPROVAL;
+        }
+        $approved = array_values(array_unique(array_filter(
+            $approved,
+            fn (int $step): bool => $step >= 1 && $step <= self::PLAYTEST_APPROVAL,
+        )));
+        sort($approved);
+
+        return $approved;
+    }
+
+    public function canEnterStep(KoKiProgress $progress, int $step): bool
+    {
+        return in_array($step, $this->approvedSteps($progress), true);
+    }
+
+    public function canCompleteSetup(KoKiProgress $progress, int $targetStage): bool
+    {
+        $currentStage = (int) $this->state($progress)['stage'];
+        if ($targetStage <= $currentStage) {
+            return true;
+        }
+
+        return $targetStage === $currentStage + 1
+            && $targetStage <= self::SETUP_COUNT
+            && $this->canEnterStep($progress, $targetStage);
+    }
+
     public function playtestApproved(KoKiProgress $progress): bool
     {
         if ($this->adventureState($progress)['completed'] || $this->state($progress)['playtested']) {
             return true;
         }
 
-        return in_array(self::PLAYTEST_APPROVAL, array_map('intval', $progress->approved_levels ?? []), true);
+        return $this->canEnterStep($progress, self::PLAYTEST_APPROVAL);
     }
 
-    public function canApprovePlaytest(KoKiProgress $progress): bool
+    public function nextApprovableStep(KoKiProgress $progress): ?int
     {
-        return (int) $this->state($progress)['stage'] >= 4
-            && ! $this->playtestApproved($progress);
+        $stage = min(self::SETUP_COUNT, (int) $this->state($progress)['stage']);
+        $next = min(self::PLAYTEST_APPROVAL, $stage + 1);
+
+        return in_array($next, $this->approvedSteps($progress), true) ? null : $next;
     }
 
-    public function approvePlaytest(KoKiProgress $progress): ?KoKiProgress
+    public function canApproveNextStep(KoKiProgress $progress): bool
     {
-        if (! $this->canApprovePlaytest($progress)) {
+        return $this->nextApprovableStep($progress) !== null
+            && ! $this->adventureState($progress)['completed'];
+    }
+
+    public function approveNextStep(KoKiProgress $progress): ?KoKiProgress
+    {
+        $next = $this->nextApprovableStep($progress);
+        if ($next === null) {
             return null;
         }
 
         $approved = array_values(array_unique([
             ...array_map('intval', $progress->approved_levels ?? []),
-            self::PLAYTEST_APPROVAL,
+            $next,
         ]));
         sort($approved);
         $progress->forceFill(['approved_levels' => $approved])->save();
@@ -71,21 +118,27 @@ class KoKiCreatorService
         return $progress->refresh();
     }
 
-    public function revokePlaytest(KoKiProgress $progress): ?KoKiProgress
+    public function revokeLatestApproval(KoKiProgress $progress): ?KoKiProgress
     {
-        if ($this->state($progress)['playtested'] || $this->adventureState($progress)['completed']) {
+        if ($this->adventureState($progress)['completed']) {
             return null;
         }
 
         $approved = array_map('intval', $progress->approved_levels ?? []);
-        if (! in_array(self::PLAYTEST_APPROVAL, $approved, true)) {
+        $stage = (int) $this->state($progress)['stage'];
+        $revocable = array_values(array_filter(
+            $approved,
+            fn (int $step): bool => $step > $stage,
+        ));
+        if ($revocable === []) {
             return null;
         }
+        $latest = max($revocable);
 
         $progress->forceFill([
             'approved_levels' => array_values(array_filter(
                 $approved,
-                fn (int $approval): bool => $approval !== self::PLAYTEST_APPROVAL,
+                fn (int $approval): bool => $approval !== $latest,
             )),
         ])->save();
 

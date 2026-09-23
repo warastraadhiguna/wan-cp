@@ -26,7 +26,10 @@ function boot() {
     let creatorFinale = serverAdventure?.completed
         ? serverAdventure
         : (localFinale || serverAdventure || { completed: false, answers: {}, medal: null });
-    let playtestApproved = root.dataset.playtestApproved === '1' || Boolean(serverState.playtested);
+    let approvedSteps = [];
+    try { approvedSteps = JSON.parse(root.dataset.approvedSteps || '[]').map(Number); } catch { approvedSteps = []; }
+    approvedSteps = [...new Set(approvedSteps)].sort((a, b) => a - b);
+    let playtestApproved = approvedSteps.includes(5) || root.dataset.playtestApproved === '1' || Boolean(serverState.playtested);
     if (creatorFinale.completed) campaign = normalizeCampaignProgress({ unlocked: 10, completed: CREATOR_CAMPAIGN_LEVELS.map((level) => level.id) });
     let activeCampaignLevel = null;
     let debugMode = false;
@@ -108,7 +111,11 @@ function boot() {
         status.textContent = pending.length ? '✓ Tersimpan di perangkat' : '✓ Tersinkron';
     }
 
+    const requiredApprovalStep = () => config.stage < 4 ? config.stage + 1 : 5;
+    const approvalLabel = (step) => step >= 5 ? 'Playtest' : `Setup ${step}`;
+
     async function checkPlaytestPermission() {
+        const requestedStep = requiredApprovalStep();
         const button = root.querySelector('[data-check-playtest-permission]');
         if (button) {
             button.disabled = true;
@@ -123,13 +130,14 @@ function boot() {
             });
             if (!response.ok) throw new Error('Status izin belum tersedia.');
             const permission = await response.json();
-            playtestApproved = Boolean(permission.approved);
-            if (playtestApproved) {
-                setFeedback('Izin diterima! Playtest dan Creator Adventure sudah terbuka.', true);
+            approvedSteps = [...new Set((permission.approved_steps || []).map(Number))].sort((a, b) => a - b);
+            playtestApproved = approvedSteps.includes(5) || Boolean(permission.approved);
+            if (approvedSteps.includes(requestedStep)) {
+                setFeedback(`Izin diterima! ${approvalLabel(requestedStep)} sudah terbuka.`, true);
                 render();
                 return;
             }
-            setFeedback('Playtest masih menunggu izin admin. Minta admin membuka izin dari halaman admin.');
+            setFeedback(`${approvalLabel(requestedStep)} masih menunggu izin admin.`);
         } catch {
             setFeedback('Status izin belum dapat diperiksa. Progress setup tetap tersimpan di perangkat.');
         }
@@ -150,9 +158,6 @@ function boot() {
         : `<button type="button" class="creator-advance" data-advance ${!ready ? 'disabled' : ''}>${label}</button>`;
 
     function playtestPanel() {
-        if (!playtestApproved) {
-            return `<div class="creator-playtest-wait"><span>🔒</span><p class="creator-kicker">SETUP 4 / 4 SELESAI</p><h3>Menunggu Izin Playtest</h3><p>Setup game-mu sudah tersimpan. Minta admin membuka Playtest sebelum melanjutkan.</p><button type="button" data-check-playtest-permission>⏳ Cek Izin Admin</button><small>Game tidak perlu diulang setelah izin diberikan.</small></div>`;
-        }
         const checks = PLAYTEST_CHECK_KEYS.map((key) => `<li class="${runChecks[key] ? 'is-done' : ''}"><span>${runChecks[key] ? '✓' : '○'}</span>${checkLabels[key]}</li>`).join('');
         const bonusMarkup = config.playtested ? `<div class="creator-ready"><strong>GAME READY!</strong><span>🏅 Badge: Game Creator</span><p>Gim intimu sudah selesai. Bonus di bawah ini bebas kamu coba.</p></div><h3 class="creator-bonus-heading">CREATOR CHALLENGES <small>OPSIONAL</small></h3><div class="creator-bonus-grid">${bonusCards.map(([key, label, detail]) => `<button type="button" data-bonus="${key}" class="creator-bonus-card ${config.bonuses[key] ? 'is-selected' : ''}" ${key === 'special_plus_three' && !config.bonuses.second_collectible || key === 'target' && config.target_score >= 15 ? 'disabled' : ''}><b>${label}</b><span>${detail}</span><em>${key === 'target' && config.target_score >= 15 ? 'Maksimal 15' : config.bonuses[key] ? '✓ Aktif' : 'Coba bonus'}</em></button>`).join('')}</div>` : '';
         const friendSummary = friendFeedback.length ? `<p class="creator-friend-summary">🤝 Kesan teman terakhir: <strong>${friendFeedback.at(-1).label}</strong> · tersimpan di perangkat</p>` : '';
@@ -181,10 +186,12 @@ function boot() {
     }
 
     function render() {
-        root.querySelector('[data-stage-count]').textContent = debugMode ? 'DEBUG GAME' : config.stage >= 4 ? 'SETELAH EMPAT TANTANGAN' : `TANTANGAN ${activeStage + 1} DARI 4`;
-        root.querySelector('[data-stage-title]').textContent = debugMode ? `Periksa ${titles[activeStage]}` : config.stage >= 4 ? 'Playtest Gim Buatanmu' : titles[activeStage];
+        const nextApproval = requiredApprovalStep();
+        const waitingForAdmin = !debugMode && !approvedSteps.includes(nextApproval);
+        root.querySelector('[data-stage-count]').textContent = waitingForAdmin ? `SETUP ${config.stage} / 4 SELESAI` : debugMode ? 'DEBUG GAME' : config.stage >= 4 ? 'SETELAH EMPAT TANTANGAN' : `TANTANGAN ${activeStage + 1} DARI 4`;
+        root.querySelector('[data-stage-title]').textContent = waitingForAdmin ? `Menunggu Izin ${approvalLabel(nextApproval)}` : debugMode ? `Periksa ${titles[activeStage]}` : config.stage >= 4 ? 'Playtest Gim Buatanmu' : titles[activeStage];
         root.querySelector('[data-progress-label]').textContent = config.playtested ? 'GAME READY!' : `${config.stage} / 4 selesai`;
-        root.querySelector('[data-stage-tabs]').innerHTML = titles.map((title, index) => `<button type="button" data-stage="${index}" class="${index === activeStage && (debugMode || config.stage < 4) ? 'is-active' : ''} ${index < config.stage ? 'is-complete' : ''}" ${!debugMode && (index !== activeStage || config.stage >= 4) ? 'disabled' : ''}>${index < config.stage ? '✓' : index + 1} ${title}</button>`).join('');
+        root.querySelector('[data-stage-tabs]').innerHTML = titles.map((title, index) => `<button type="button" data-stage="${index}" class="${!waitingForAdmin && index === activeStage && (debugMode || config.stage < 4) ? 'is-active' : ''} ${index < config.stage ? 'is-complete' : ''}" ${!debugMode && (index !== activeStage || config.stage >= 4) ? 'disabled' : ''}>${index < config.stage ? '✓' : index + 1} ${title}</button>`).join('');
         root.querySelector('[data-badge]').hidden = !config.playtested;
         root.querySelector('[data-mode-launch]').hidden = config.stage < 4 || !playtestApproved || Boolean(gameMode);
         root.querySelector('[data-mode-bar]').hidden = !gameMode;
@@ -199,7 +206,9 @@ function boot() {
         root.querySelector('[data-obstacle]').textContent = CREATOR_OPTIONS.obstacles[config.obstacle][1];
         arena.dataset.theme = config.theme;
 
-        if (config.stage >= 4 && !debugMode) {
+        if (waitingForAdmin) {
+            editor.innerHTML = `<div class="creator-playtest-wait"><span>🔒</span><p class="creator-kicker">${config.stage === 4 ? 'EMPAT SETUP SELESAI' : `SETUP ${config.stage} SELESAI`}</p><h3>Menunggu Izin ${approvalLabel(nextApproval)}</h3><p>Progress sudah tersimpan. Minta admin membuka tahap berikutnya.</p><button type="button" data-check-playtest-permission>⏳ Cek Izin Admin</button><small>Kamu tidak perlu mengulang setup yang sudah selesai.</small></div>`;
+        } else if (config.stage >= 4 && !debugMode) {
             editor.innerHTML = playtestPanel();
         } else if (activeStage === 0) {
             editor.innerHTML = `<p class="creator-instruction">Pilih tokoh dan tema. Sambungkan tiap tombol ke gerakan yang tepat, lalu coba ketiganya!</p>
@@ -315,8 +324,9 @@ function boot() {
     function obstacleReady() { return evidence.obstacle; }
 
     function startTest() {
-        if (config.stage >= 4 && !playtestApproved) {
-            setFeedback('Setup selesai. Tunggu izin admin sebelum masuk ke Playtest.');
+        const requiredStep = requiredApprovalStep();
+        if (!approvedSteps.includes(requiredStep)) {
+            setFeedback(`${approvalLabel(requiredStep)} masih menunggu izin admin.`);
             return;
         }
         const nextGameConfig = currentGameConfig();
@@ -627,14 +637,13 @@ function boot() {
         } else if (event.target.closest('[data-advance]')) {
             const ready = [controlReady(), collectReady(), obstacleReady(), game.won][activeStage];
             if (!ready) return;
-            const previous = { stage: config.stage, playtested: config.playtested };
             config.stage = Math.max(config.stage, activeStage + 1);
             config.tested_win = config.stage === 4;
-            if (creatorCheckpoint(previous, config) === 'core') queueCheckpoint(); else saveLocal();
+            queueCheckpoint();
             playing = false;
             game = newGame();
             activeStage = Math.min(config.stage, 3);
-            setFeedback(config.stage === 4 ? 'Empat tantangan selesai! Sekarang PLAYTEST gim utuhmu.' : `Tantangan ${config.stage} selesai. Sekarang buat aturan berikutnya.`, true);
+            setFeedback(config.stage === 4 ? 'Empat setup selesai. Tunggu admin mengizinkan Playtest.' : `Setup ${config.stage} selesai. Tunggu admin mengizinkan Setup ${config.stage + 1}.`, true);
             render();
         }
     });
