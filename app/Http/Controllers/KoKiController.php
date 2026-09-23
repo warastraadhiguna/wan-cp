@@ -44,6 +44,7 @@ class KoKiController extends Controller
         $meetingFourState = $meetingFourProgress instanceof KoKiProgress
             ? $this->detectiveService->state($meetingFourProgress)
             : null;
+        $meetingFiveProgress = $this->progressService->currentForMeeting($request, 5);
 
         return view('tools.ko-ki.index', [
             'progress' => $meetingOneProgress,
@@ -73,6 +74,7 @@ class KoKiController extends Controller
                         ? route('tools.ko-ki.meeting-four.notebook')
                         : route('tools.ko-ki.meeting-four.case', $meetingFourState['current_case'])))
                 : null,
+            'meetingFiveProgress' => $meetingFiveProgress,
         ]);
     }
 

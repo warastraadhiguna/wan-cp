@@ -6,6 +6,7 @@ use App\Http\Controllers\KoKiController;
 use App\Http\Controllers\KoKiMeetingTwoController;
 use App\Http\Controllers\KoKiMeetingThreeController;
 use App\Http\Controllers\KoKiMeetingFourController;
+use App\Http\Controllers\KoKiMeetingFiveController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/uploads/{path}', [HomeController::class, 'showUpload'])
@@ -79,6 +80,18 @@ Route::prefix('/tools/wan-ko-ki/pertemuan-4')
         Route::post('/sync', 'sync')->name('sync');
         Route::get('/detective-notebook', 'notebook')->name('notebook');
         Route::post('/detective-notebook', 'completeNotebook')->name('notebook.complete');
+    });
+
+Route::prefix('/tools/wan-ko-ki/pertemuan-5')
+    ->name('tools.ko-ki.meeting-five.')
+    ->controller(KoKiMeetingFiveController::class)
+    ->group(function (): void {
+        Route::get('/', 'welcome')->name('welcome');
+        Route::post('/mulai', 'start')->name('start');
+        Route::get('/creator-lab', 'lab')->name('lab');
+        Route::patch('/progress', 'save')->name('progress');
+        Route::get('/playtest/status', 'playtestStatus')->middleware('throttle:60,1')->name('playtest.status');
+        Route::post('/creator-adventure/selesai', 'completeAdventure')->name('adventure.complete');
     });
 
 Route::get('/', HomeController::class)->name('home');

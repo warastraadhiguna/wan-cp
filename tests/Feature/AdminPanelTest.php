@@ -9,6 +9,7 @@ use App\Models\ContactMessage;
 use App\Models\KoKiProgress;
 use App\Models\User;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiCreatorService;
 use App\Services\KoKiDetectiveProgressService;
 use App\Services\KoKiRescueProgressService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -126,6 +127,41 @@ class AdminPanelTest extends TestCase
             ->callTableAction('approveNextLevel', $progress);
 
         $this->assertSame([1, 2], $progress->refresh()->ipo_state['approved_levels']);
+    }
+
+    public function test_admin_can_allow_creator_lab_playtest_after_setup(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $progress = KoKiProgress::query()->create([
+            'student_name' => 'Lala',
+            'grade' => 4,
+            'semester' => 1,
+            'unit' => 1,
+            'meeting' => 5,
+            'last_phase' => 'playtest',
+            'current_level' => 4,
+            'approved_levels' => [],
+            'completed_levels' => [1, 2, 3, 4],
+            'level_states' => [
+                '_creator' => [
+                    ...KoKiCreatorService::DEFAULTS,
+                    'stage' => 4,
+                    'tested_win' => true,
+                ],
+            ],
+            'started_at' => now(),
+        ]);
+
+        $this->actingAs($admin);
+        Livewire::test(ListKoKiProgresses::class)
+            ->filterTable('meeting', 5)
+            ->assertCanSeeTableRecords([$progress])
+            ->assertSee('Lala')
+            ->assertSee('Menunggu izin Playtest')
+            ->assertSee('Izinkan Playtest')
+            ->callTableAction('approveNextLevel', $progress);
+
+        $this->assertSame([KoKiCreatorService::PLAYTEST_APPROVAL], $progress->refresh()->approved_levels);
     }
 
     public function test_admin_can_approve_the_next_rescue_mission_level(): void

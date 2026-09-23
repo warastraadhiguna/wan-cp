@@ -5,6 +5,7 @@ namespace App\Filament\Resources\KoKiProgresses;
 use App\Filament\Resources\KoKiProgresses\Pages\ListKoKiProgresses;
 use App\Models\KoKiProgress;
 use App\Services\KoKiAdventureService;
+use App\Services\KoKiCreatorService;
 use App\Services\KoKiDetectiveProgressService;
 use App\Services\KoKiProgressService;
 use App\Services\KoKiRescueProgressService;
@@ -69,6 +70,7 @@ class KoKiProgressResource extends Resource
                         2 => 'Level '.app(KoKiAdventureService::class)->state($record)['current_level'],
                         3 => 'Level '.app(KoKiRescueProgressService::class)->state($record)['current_level'],
                         4 => 'Case '.app(KoKiDetectiveProgressService::class)->state($record)['current_case'],
+                        5 => app(KoKiCreatorService::class)->state($record)['stage'] >= 4 ? 'Playtest' : 'Setup '.app(KoKiCreatorService::class)->state($record)['stage'].'/4',
                         default => 'Level '.$state,
                     }),
                 TextColumn::make('completed_count')
@@ -77,6 +79,7 @@ class KoKiProgressResource extends Resource
                         2 => app(KoKiAdventureService::class)->state($record)['order_count'].' order',
                         3 => count($record->completed_levels ?? []).' dari '.KoKiRescueProgressService::MISSION_COUNT,
                         4 => count($record->completed_levels ?? []).' dari '.KoKiDetectiveProgressService::CASE_COUNT,
+                        5 => app(KoKiCreatorService::class)->adventureState($record)['completed'] ? '10 dari 10 level' : app(KoKiCreatorService::class)->state($record)['stage'].' dari 4 setup',
                         default => count($record->completed_levels ?? []).' dari '.KoKiProgressService::MISSION_COUNT,
                     }),
                 TextColumn::make('access_status')
@@ -122,7 +125,9 @@ class KoKiProgressResource extends Resource
             ])
             ->recordActions([
                 Action::make('approveNextLevel')
-                    ->label(fn (KoKiProgress $record): string => 'Izinkan '.static::levelLabel($record).' '.static::nextLevel($record))
+                    ->label(fn (KoKiProgress $record): string => $record->meeting === 5
+                        ? 'Izinkan Playtest'
+                        : 'Izinkan '.static::levelLabel($record).' '.static::nextLevel($record))
                     ->icon('heroicon-o-lock-open')
                     ->color('success')
                     ->visible(fn (KoKiProgress $record): bool => static::canApprove($record))
@@ -132,7 +137,7 @@ class KoKiProgressResource extends Resource
                         static::approveNextLevel($record);
 
                         Notification::make()
-                            ->title(static::levelLabel($record).' berikutnya sudah diizinkan')
+                            ->title($record->meeting === 5 ? 'Playtest sudah diizinkan' : static::levelLabel($record).' berikutnya sudah diizinkan')
                             ->success()
                             ->send();
                     }),
@@ -209,6 +214,10 @@ class KoKiProgressResource extends Resource
 
     private static function approvedLevels(KoKiProgress $record): array
     {
+        if ($record->meeting === 5) {
+            return array_values(array_unique(array_map('intval', $record->approved_levels ?? [])));
+        }
+
         if ($record->meeting === 4) {
             return app(KoKiDetectiveProgressService::class)->state($record)['approved_cases'];
         }
@@ -226,6 +235,10 @@ class KoKiProgressResource extends Resource
 
     private static function nextLevel(KoKiProgress $record): int
     {
+        if ($record->meeting === 5) {
+            return KoKiCreatorService::PLAYTEST_APPROVAL;
+        }
+
         if ($record->meeting === 4) {
             return app(KoKiDetectiveProgressService::class)->nextApprovableCase($record) ?? KoKiDetectiveProgressService::CASE_COUNT;
         }
@@ -244,6 +257,10 @@ class KoKiProgressResource extends Resource
 
     private static function canApprove(KoKiProgress $record): bool
     {
+        if ($record->meeting === 5) {
+            return app(KoKiCreatorService::class)->canApprovePlaytest($record);
+        }
+
         if ($record->meeting === 4) {
             return $record->completed_at === null
                 && app(KoKiDetectiveProgressService::class)->nextApprovableCase($record) !== null;
@@ -276,6 +293,14 @@ class KoKiProgressResource extends Resource
 
     private static function canRevoke(KoKiProgress $record): bool
     {
+        if ($record->meeting === 5) {
+            $creator = app(KoKiCreatorService::class);
+
+            return in_array(KoKiCreatorService::PLAYTEST_APPROVAL, static::approvedLevels($record), true)
+                && ! $creator->state($record)['playtested']
+                && ! $creator->adventureState($record)['completed'];
+        }
+
         if ($record->meeting === 4) {
             $state = app(KoKiDetectiveProgressService::class)->state($record);
 
@@ -317,8 +342,26 @@ class KoKiProgressResource extends Resource
     private static function accessLabel(KoKiProgress $record): string
     {
         if ($record->completed_at !== null
-            && ($record->meeting !== 4 || app(KoKiDetectiveProgressService::class)->state($record)['completed'])) {
+            && match ($record->meeting) {
+                4 => app(KoKiDetectiveProgressService::class)->state($record)['completed'],
+                5 => app(KoKiCreatorService::class)->adventureState($record)['completed'],
+                default => true,
+            }) {
             return 'Pertemuan selesai';
+        }
+
+        if ($record->meeting === 5) {
+            $creator = app(KoKiCreatorService::class);
+            $state = $creator->state($record);
+
+            if ((int) $state['stage'] < 4) {
+                return 'Setup '.((int) $state['stage']).'/4';
+            }
+            if ($creator->canApprovePlaytest($record)) {
+                return 'Menunggu izin Playtest';
+            }
+
+            return $state['playtested'] ? 'Creator Adventure terbuka' : 'Playtest diizinkan';
         }
 
         if ($record->meeting === 2) {
@@ -391,6 +434,12 @@ class KoKiProgressResource extends Resource
 
     private static function approveNextLevel(KoKiProgress $record): void
     {
+        if ($record->meeting === 5) {
+            app(KoKiCreatorService::class)->approvePlaytest($record);
+
+            return;
+        }
+
         if ($record->meeting === 4) {
             app(KoKiDetectiveProgressService::class)->approveNextCase($record, static::nextLevel($record));
 
@@ -413,6 +462,12 @@ class KoKiProgressResource extends Resource
 
     private static function revokeLatestLevel(KoKiProgress $record): void
     {
+        if ($record->meeting === 5) {
+            app(KoKiCreatorService::class)->revokePlaytest($record);
+
+            return;
+        }
+
         if ($record->meeting === 4) {
             app(KoKiDetectiveProgressService::class)->revokeLatestCase($record);
 
@@ -438,6 +493,7 @@ class KoKiProgressResource extends Resource
         return match ($record->meeting) {
             2, 3 => 'Level',
             4 => 'Case',
+            5 => 'Playtest',
             default => 'Misi',
         };
     }
