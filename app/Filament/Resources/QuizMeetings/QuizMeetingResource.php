@@ -7,6 +7,7 @@ use App\Filament\Resources\QuizMeetings\Pages\UploadQuizBank;
 use App\Models\QuizMeeting;
 use BackedEnum;
 use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -103,6 +104,12 @@ class QuizMeetingResource extends Resource
                     ->modalSubmitAction(false)
                     ->modalCancelActionLabel('Tutup'),
                 EditAction::make(),
+                DeleteAction::make()
+                    ->label('Hapus pertemuan')
+                    ->modalHeading(fn (QuizMeeting $record): string => 'Hapus '.$record->title.'?')
+                    ->modalDescription('Semua versi bank soal, jawaban peserta, dan hasil peringkat pertemuan ini akan dihapus permanen. Jika pertemuan sedang aktif, kuis akan langsung ditutup.')
+                    ->modalSubmitActionLabel('Hapus permanen')
+                    ->successNotificationTitle('Pertemuan dan seluruh datanya dihapus'),
             ]);
     }
 

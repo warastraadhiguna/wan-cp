@@ -81,6 +81,37 @@ class QuizTest extends TestCase
         $this->get(route('admin.quiz-banks.example'))->assertForbidden();
     }
 
+    public function test_deleting_a_meeting_removes_every_bank_and_attempt_for_that_meeting(): void
+    {
+        $admin = User::factory()->create(['is_admin' => true]);
+        $meeting = QuizMeeting::create(['title' => 'Pertemuan yang dihapus']);
+        $meeting->forceFill(['active_slot' => 1])->save();
+        $oldBank = $this->createBank($meeting);
+        $currentBank = $this->createBank($meeting);
+        $this->addPlayer($oldBank, 'Sudah Selesai', 2, 2500);
+        $this->addPlayer($currentBank, 'Masih Bermain', 0, 0, false);
+        $completed = $oldBank->attempts()->sole();
+        $playing = $currentBank->attempts()->sole();
+
+        $other = QuizMeeting::create(['title' => 'Pertemuan lain']);
+        $otherBank = $this->createBank($other);
+        $this->addPlayer($otherBank, 'Peserta Lain', 1, 1000);
+
+        $this->actingAs($admin);
+        Livewire::test(ListQuizMeetings::class)->callTableAction('delete', $meeting);
+
+        $this->assertDatabaseMissing('quiz_meetings', ['id' => $meeting->id]);
+        $this->assertDatabaseMissing('quiz_banks', ['quiz_meeting_id' => $meeting->id]);
+        $this->assertDatabaseMissing('quiz_attempts', ['id' => $completed->id]);
+        $this->assertDatabaseMissing('quiz_attempts', ['id' => $playing->id]);
+        $this->assertDatabaseHas('quiz_meetings', ['id' => $other->id]);
+        $this->assertDatabaseHas('quiz_banks', ['id' => $otherBank->id]);
+        $this->assertDatabaseHas('quiz_attempts', ['quiz_bank_id' => $otherBank->id]);
+        $this->get(route('tools.quiz.play', $playing))->assertNotFound();
+        $this->get(route('tools.quiz.results', $completed))->assertNotFound();
+        $this->get(route('tools.quiz.index'))->assertOk()->assertSee('Tunggu pengajar membuka pertemuan');
+    }
+
     public function test_countdown_scoring_and_leaderboard_use_server_time_and_completed_attempts(): void
     {
         $this->freezeTime();

@@ -55,8 +55,8 @@ class QuizController extends Controller
             return $this->resume($attempt);
         }
 
-        $bank = $attempt->bank;
-        $meeting = $bank->meeting;
+        $bank = $attempt->bank()->firstOrFail();
+        $meeting = $bank->meeting()->firstOrFail();
 
         if (! $meeting->active_slot || $meeting->currentBank?->id !== $bank->id) {
             return $this->closed();
@@ -130,8 +130,8 @@ class QuizController extends Controller
             return $this->resume($attempt);
         }
 
-        $bank = $attempt->bank;
-        $meeting = $bank->meeting;
+        $bank = $attempt->bank()->firstOrFail();
+        $meeting = $bank->meeting()->firstOrFail();
         $leaderboard = $bank->attempts()->completed()->ranked()->limit(10)
             ->get(['id', 'nickname', 'correct_count', 'correct_time_ms']);
         $rank = $bank->attempts()->completed()->where(function (Builder $query) use ($attempt): void {
@@ -154,7 +154,7 @@ class QuizController extends Controller
     {
         $this->ensureOwner($request, $attempt);
         $data = $request->validate(['position' => ['required', 'integer', 'min:0']]);
-        $bank = $attempt->bank;
+        $bank = $attempt->bank()->firstOrFail();
 
         $current = DB::transaction(function () use ($attempt, $bank, $data, $update): ?QuizAttempt {
             $meeting = QuizMeeting::query()->sharedLock()->findOrFail($bank->quiz_meeting_id);
