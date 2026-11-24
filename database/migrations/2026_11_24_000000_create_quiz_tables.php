@@ -9,6 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('quiz_meetings', function (Blueprint $table): void {
+            $table->engine('InnoDB');
             $table->id();
             $table->string('title', 120);
             $table->unsignedTinyInteger('active_slot')->nullable()->unique();
@@ -16,6 +17,7 @@ return new class extends Migration
         });
 
         Schema::create('quiz_banks', function (Blueprint $table): void {
+            $table->engine('InnoDB');
             $table->id();
             $table->foreignId('quiz_meeting_id')->constrained()->cascadeOnDelete();
             $table->json('questions');
@@ -24,6 +26,7 @@ return new class extends Migration
         });
 
         Schema::create('quiz_attempts', function (Blueprint $table): void {
+            $table->engine('InnoDB');
             $table->id();
             $table->foreignId('quiz_bank_id')->constrained()->cascadeOnDelete();
             $table->string('player_key', 64);
