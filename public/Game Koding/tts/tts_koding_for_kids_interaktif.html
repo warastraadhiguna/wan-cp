@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTS Coding Kids — 14 Kata Rahasia</title>
+<style>
+:root{--ink:#18243d;--muted:#60708d;--indigo:#5546da;--indigo-d:#4234b7;--cyan:#11a9c9;--pale:#f6f7ff;--border:#e0e7f3;--correct:#dbfce8;--correct-border:#39a876;--cell: min(3.75vw, 44px);}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#eef2ff 0%,#f8fbff 50%,#e9f8ff 100%);font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;color:var(--ink)}
+button,input{font:inherit}button{cursor:pointer}
+.wrap{max-width:1500px;margin:auto;padding:17px 20px 24px}
+header{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:14px}
+.kicker{font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.12em;color:var(--indigo)}
+h1{font-size:clamp(23px,2.4vw,37px);letter-spacing:-.05em;margin:2px 0 3px;line-height:1.1}
+.subtitle{color:var(--muted);font-size:14px;margin:0}
+.header-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.timer{background:#152448;color:#fff;border-radius:16px;padding:9px 16px;min-width:105px;text-align:center;font-size:23px;font-variant-numeric:tabular-nums;font-weight:800;box-shadow:0 7px 15px #2437601a}
+.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:750;color:var(--ink);background:#e9edfa;transition:transform .12s,background .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);filter:brightness(.98)}.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--indigo);color:white}.btn.success{background:#138d63;color:white}.btn.warn{background:#ffedaf;color:#725200}.btn.minor{background:white;border:1px solid var(--border)}
+.panel{background:#fff;border:1px solid #e3e8f5;border-radius:20px;box-shadow:0 10px 35px rgba(34,47,85,.065)}
+.teams{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:10px;margin-bottom:13px}
+.team{position:relative;display:flex;align-items:center;gap:10px;text-align:left;border-radius:13px;border:2px solid transparent;background:#f4f6fc;padding:9px 10px;min-width:0;color:var(--ink)}
+.team.active{border-color:#7365ea;background:#f0edff}
+.team-num{background:#dee3f5;color:#534d9e;width:30px;height:30px;display:grid;place-items:center;font-weight:900;border-radius:9px;flex:0 0 30px}
+.team.active .team-num{background:var(--indigo);color:#fff}
+.team-body{min-width:0;display:flex;justify-content:space-between;gap:5px;width:100%;align-items:center}
+.team-name{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:750}
+.team-score{font-weight:900;font-size:21px;color:var(--indigo);font-variant-numeric:tabular-nums}
+.main{display:grid;grid-template-columns:minmax(480px,1fr) minmax(420px,.9fr);gap:14px;align-items:start}
+.board-panel{padding:16px;min-width:0}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.panel-title h2{font-size:17px;letter-spacing:-.02em;margin:0}
+.progress{font-weight:800;background:#e8f7f4;color:#07765a;padding:6px 10px;border-radius:99px;font-size:12px}
+.board-wrap{display:flex;justify-content:center;align-items:center;min-height:505px}
+.board{width:min(100%,540px);aspect-ratio:1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:repeat(12,minmax(0,1fr));gap:3px;background:#253456;padding:7px;border-radius:13px;box-shadow:0 12px 22px #16264530;user-select:none}
+.black{background:#253456;border-radius:3px}
+.cell{position:relative;background:#fff;border-radius:3px;overflow:hidden;border:2px solid transparent;min-width:0;min-height:0}
+.cell.selected{background:#fff2bc;border-color:#efbe34}.cell.cursor{background:#eadcff;border-color:#7c59ec}
+.cell.done{background:var(--correct);border-color:var(--correct-border)}
+.cell.wrong{background:#ffcccc;border-color:#f46366}
+.cell-num{position:absolute;top:1px;left:3px;pointer-events:none;font-size:clamp(8px,.72vw,11px);line-height:1;color:#52627c;font-weight:800;z-index:2}
+.cell input{width:100%;height:100%;text-align:center;border:0;background:transparent;outline:0;color:#203157;font-size:clamp(15px,1.5vw,25px);font-weight:900;text-transform:uppercase;caret-color:transparent;padding:8px 0 0;min-width:0}
+.cell.done input{color:#087448}
+.board-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:15px}
+.puzzle-hint{font-size:13px;color:#66728a;text-align:center;margin:12px 0 0}
+.side{padding:17px;min-width:0}
+.status{background:#f3f2ff;border:1px solid #dbd5ff;border-radius:14px;padding:12px 14px;margin-bottom:11px;min-height:98px}
+.status-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.status-heading{font-size:12px;font-weight:850;letter-spacing:.08em;color:#5e52b0;text-transform:uppercase}
+.status-current{font-weight:900;color:#5546da;font-size:14px}
+.status p{margin:0;font-size:17px;font-weight:750;line-height:1.35}
+.status small{display:block;color:#67718b;margin-top:5px;font-size:12px}
+.msg{min-height:36px;border-radius:10px;background:#f1f6ff;margin:10px 0 13px;padding:9px 12px;font-size:13px;color:#36517e;line-height:1.35;font-weight:650}
+.msg.ok{background:#e5faed;color:#0b7b53}.msg.bad{background:#fff0ee;color:#b54836}
+.clue-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.clue-col h3{font-size:14px;color:#4e46aa;margin:0 0 7px;padding-bottom:6px;border-bottom:1px solid #e4e7f2}
+.clue-list{display:flex;flex-direction:column;gap:5px;max-height:430px;overflow-y:auto;padding-right:3px}
+.clue{display:flex;gap:7px;width:100%;background:#fafbff;border:1px solid #e9edf6;text-align:left;border-radius:9px;padding:8px;font-size:12.5px;line-height:1.3;color:var(--ink)}
+.clue.selected{background:#fff5ce;border-color:#f5c64c}.clue.solved{background:#e4faee;border-color:#82d9ac}
+.clue-number{font-weight:900;color:#5546da;flex:0 0 19px}.clue.solved .clue-number{color:#0a8852}
+.clue-content{flex:1}.wordlen{font-size:11px;color:#74819a;white-space:nowrap}
+.footer{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#6d7892;font-size:12px;margin-top:12px}
+.modal{position:fixed;inset:0;background:#101a34b3;z-index:100;display:grid;place-items:center;padding:20px}
+.modal[hidden]{display:none}.modal-body{max-width:590px;width:100%;background:white;border-radius:24px;padding:26px;box-shadow:0 30px 70px #0004;max-height:86vh;overflow-y:auto}
+.modal h2{margin:0 0 8px}.answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.answer-row{background:#f5f7fc;border-radius:8px;padding:9px;font-size:13px;font-weight:700}
+@media(max-width:1100px){.main{grid-template-columns:1fr}.board-wrap{min-height:0}.board{width:min(92vw,560px)}.clue-list{max-height:none}.cell input{font-size:clamp(14px,2.6vw,24px)}.cell-num{font-size:10px}}
+@media(max-width:640px){.wrap{padding:10px}.teams{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:5px}.team{padding:4px;display:block;text-align:center}.team-num{display:none}.team-body{display:block}.team-name{font-size:10px}.team-score{font-size:18px}.main{grid-template-columns:minmax(0,1fr)}.board-panel,.side{padding:10px}.board{gap:2px;padding:4px}.board-actions{gap:5px}.btn{padding:9px 10px;font-size:12px}.clue-columns{grid-template-columns:1fr 1fr;gap:6px}.clue{font-size:11px;padding:6px}.clue-list{max-height:350px}.status p{font-size:15px}}
+@media print{body{background:white}.wrap{padding:0}.header-actions,.teams,.board-actions,.progress,.status,.msg,.footer,.puzzle-hint{display:none!important}.main{grid-template-columns:1fr 1fr}.panel{box-shadow:none;border:0}.board-wrap{min-height:0}.board{width:430px;background:#333;print-color-adjust:exact;-webkit-print-color-adjust:exact}.cell.done,.cell.selected,.cell.cursor{background:white;border:2px solid transparent}.cell input{color:transparent!important}.clue-list{max-height:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><div class="kicker">WAn Ko-Ki · Coding for Kids</div><h1>🧩 Teka-Teki Silang Koding</h1><p class="subtitle">14 kata rahasia • Kelas 4–5 SD • Main bersama lewat LCD</p></div>
+    <div class="header-actions">
+      <div class="timer" id="clock" aria-label="Sisa waktu">25:00</div>
+      <button class="btn primary" id="timerBtn">▶ Mulai Waktu</button>
+      <button class="btn minor" id="resetBtn">↺ Ulang Game</button>
+    </div>
+  </header>
+  <section class="panel teams" id="teams" aria-label="Pilih kelompok yang sedang bermain"></section>
+  <main class="main">
+    <section class="panel board-panel">
+      <div class="panel-title"><h2>🔎 Kotak Misteri</h2><span class="progress" id="progress">0 dari 14 kata</span></div>
+      <div class="board-wrap"><div id="board" class="board" role="group" aria-label="Teka-teki silang 12 kali 12"></div></div>
+      <div class="board-actions">
+        <button class="btn success" id="checkBtn">✓ Periksa Kata</button>
+        <button class="btn warn" id="hintBtn">💡 Buka 1 Huruf (−3)</button>
+        <button class="btn minor" id="eraseBtn">⌫ Hapus Kata</button>
+      </div>
+      <p class="puzzle-hint">Klik petunjuk ➜ ketik jawaban di kotak ➜ tekan <b>Periksa Kata</b>.</p>
+    </section>
+    <aside class="panel side">
+      <div class="status"><div class="status-head"><span class="status-heading">Sedang Dikerjakan</span><span class="status-current" id="current-label">Mendatar 1</span></div><p id="current-clue">Pilih salah satu petunjuk di bawah.</p><small id="current-length"></small></div>
+      <div id="msg" class="msg" aria-live="polite">Pilih kelompok yang bermain, lalu pilih sebuah petunjuk.</div>
+      <div class="clue-columns">
+        <div class="clue-col"><h3>➡ Mendatar</h3><div class="clue-list" id="across"></div></div>
+        <div class="clue-col"><h3>⬇ Menurun</h3><div class="clue-list" id="down"></div></div>
+      </div>
+      <div class="footer"><span>✅ Jawaban benar: +10 poin</span><span>💡 Bantuan: −3 poin</span></div>
+      <div class="footer"><button class="btn minor" id="answersBtn">🔒 Kunci Jawaban Guru</button><button class="btn minor" id="printBtn">🖨 Cetak TTS Kosong</button></div>
+    </aside>
+  </main>
+</div>
+<div id="modal" class="modal" hidden><div class="modal-body"><h2 id="modalTitle">Kunci Jawaban Guru</h2><div id="modalContent"></div><div style="display:flex;justify-content:end;margin-top:18px"><button id="closeModal" class="btn primary">Tutup</button></div></div></div>
+<script>
+const puzzle={"rows": 12, "cols": 12, "entries": [{"word": "DEBUG", "clue": "Kegiatan mencari dan memperbaiki kesalahan program.", "dir": "A", "r": 0, "c": 0, "num": 1}, {"word": "DATA", "clue": "Informasi seperti angka, nama, atau gambar.", "dir": "D", "r": 0, "c": 0, "num": 1}, {"word": "ULANGI", "clue": "Perintah untuk melakukan tindakan lebih dari sekali.", "dir": "D", "r": 0, "c": 3, "num": 2}, {"word": "POLA", "clue": "Susunan yang berulang atau memiliki aturan tertentu.", "dir": "A", "r": 0, "c": 7, "num": 3}, {"word": "PERINTAH", "clue": "Instruksi yang diberikan kepada komputer atau robot.", "dir": "D", "r": 0, "c": 7, "num": 3}, {"word": "ALGORITMA", "clue": "Urutan langkah yang disusun untuk menyelesaikan masalah.", "dir": "A", "r": 2, "c": 3, "num": 4}, {"word": "KONDISI", "clue": "Syarat yang diperiksa sebelum menjalankan perintah.", "dir": "A", "r": 4, "c": 5, "num": 5}, {"word": "KOMPUTER", "clue": "Alat elektronik yang dapat menjalankan program.", "dir": "D", "r": 4, "c": 5, "num": 5}, {"word": "INPUT", "clue": "Data yang kita masukkan ke dalam komputer.", "dir": "D", "r": 4, "c": 11, "num": 6}, {"word": "LOGIKA", "clue": "Cara berpikir menggunakan alasan dan aturan.", "dir": "D", "r": 6, "c": 9, "num": 7}, {"word": "ROBOT", "clue": "Mesin yang bergerak mengikuti instruksi.", "dir": "D", "r": 7, "c": 1, "num": 8}, {"word": "OUTPUT", "clue": "Hasil yang ditampilkan setelah program bekerja.", "dir": "A", "r": 8, "c": 1, "num": 9}, {"word": "BUG", "clue": "Kesalahan di dalam sebuah program.", "dir": "D", "r": 9, "c": 7, "num": 10}, {"word": "PROGRAM", "clue": "Kumpulan perintah yang dijalankan komputer.", "dir": "A", "r": 11, "c": 4, "num": 11}]};
+const cellKey=(r,c)=>`${r},${c}`;
+const allWords=puzzle.entries.map((entry,i)=>({...entry,id:i,positions:Array.from({length:entry.word.length},(_,j)=>({r:entry.r+(entry.dir==='D'?j:0),c:entry.c+(entry.dir==='A'?j:0)}))}));
+const solution={};const members={};const starts={};
+allWords.forEach(w=>{
+  w.positions.forEach((p,i)=>{
+    const k=cellKey(p.r,p.c);
+    if(solution[k]&&solution[k]!==w.word[i])throw Error('TTS tidak valid: '+k);
+    solution[k]=w.word[i];(members[k]??=[]).push(w.id);
+  });
+  starts[cellKey(w.r,w.c)]=w.num;
+});
+let team=0, scores=[0,0,0,0,0],letters={},solved=[],hinted={},active=0,seconds=25*60,running=false,interval=null;
+const els={board:document.getElementById('board'),teams:document.getElementById('teams'),msg:document.getElementById('msg'),progress:document.getElementById('progress'),clock:document.getElementById('clock'),timerBtn:document.getElementById('timerBtn')};
+const storeKey='wan-koki-crossword-koding-v1';
+try{const saved=JSON.parse(localStorage.getItem(storeKey)||'null');if(saved&&saved.version===1){team=saved.team??0;scores=saved.scores??scores;letters=saved.letters??{};solved=saved.solved??[];hinted=saved.hinted??{};active=saved.active??0;seconds=saved.seconds??seconds}}catch(e){}
+const persist=()=>{try{localStorage.setItem(storeKey,JSON.stringify({version:1,team,scores,letters,solved,hinted,active,seconds}))}catch(e){}};
+const solvedSet=()=>new Set(solved);
+const isLocked=k=>members[k]?.some(id=>solved.includes(id));
+const message=(s,type='')=>{els.msg.textContent=s;els.msg.className='msg '+type};
+function drawTeams(){els.teams.innerHTML='';scores.forEach((points,i)=>{
+ const b=document.createElement('button');b.className='team'+(i===team?' active':'');b.type='button';b.innerHTML=`<span class="team-num">${i+1}</span><span class="team-body"><span class="team-name">Tim ${i+1}</span><span class="team-score">${points}</span></span>`;
+ b.addEventListener('click',()=>{team=i;drawTeams();message(`Giliran Tim ${i+1}. Pilih kata yang ingin dijawab.`);persist()});els.teams.appendChild(b)
+})}
+function drawBoard(){els.board.innerHTML='';for(let r=0;r<puzzle.rows;r++)for(let c=0;c<puzzle.cols;c++){
+ const k=cellKey(r,c);if(!solution[k]){const div=document.createElement('div');div.className='black';els.board.appendChild(div);continue}
+ const div=document.createElement('div');div.className='cell';div.dataset.key=k;
+ if(starts[k]){const marker=document.createElement('span');marker.className='cell-num';marker.textContent=starts[k];div.appendChild(marker)}
+ const input=document.createElement('input');input.type='text';input.autocomplete='off';input.spellcheck=false;input.maxLength=1;input.inputMode='text';input.setAttribute('aria-label',`Baris ${r+1}, kolom ${c+1}`);input.dataset.key=k;input.value=letters[k]??'';
+ input.addEventListener('click',()=>onCellClick(k));input.addEventListener('input',()=>onInput(k,input));input.addEventListener('keydown',ev=>onKey(ev,k));
+ div.appendChild(input);els.board.appendChild(div)
+ }updateHighlights()}
+function updateHighlights(){const chosen=allWords[active];const chosenKeys=new Set(chosen.positions.map(p=>cellKey(p.r,p.c)));
+ document.querySelectorAll('.cell').forEach(el=>{
+  const k=el.dataset.key;el.className='cell';if(chosenKeys.has(k))el.classList.add('selected');if(isLocked(k))el.classList.add('done');
+  const field=el.querySelector('input');field.readOnly=isLocked(k);field.value=letters[k]||'';
+ });
+ document.querySelectorAll('.clue').forEach(el=>{const id=+el.dataset.word;el.classList.toggle('selected',id===active);el.classList.toggle('solved',solved.includes(id))});
+ document.getElementById('current-label').textContent=(chosen.dir==='A'?'Mendatar ':'Menurun ')+chosen.num;
+ document.getElementById('current-clue').textContent=chosen.clue;
+ document.getElementById('current-length').textContent=`${chosen.word.length} huruf`+(solved.includes(chosen.id)?' • ✅ Sudah terjawab':'');
+ els.progress.textContent=`${solved.length} dari ${allWords.length} kata`;
+}
+function drawClues(){for(const [dir,holder] of [['A','across'],['D','down']]){
+  const parent=document.getElementById(holder);parent.innerHTML='';
+  allWords.filter(w=>w.dir===dir).sort((a,b)=>a.num-b.num).forEach(w=>{
+   const b=document.createElement('button');b.type='button';b.className='clue';b.dataset.word=w.id;
+   const no=document.createElement('span');no.className='clue-number';no.textContent=w.num+'.';
+   const body=document.createElement('span');body.className='clue-content';body.textContent=w.clue;
+   const len=document.createElement('span');len.className='wordlen';len.textContent=w.word.length;
+   b.append(no,body,len);b.addEventListener('click',()=>selectWord(w.id));parent.appendChild(b)
+  })
+ }}
+function selectWord(id,focus=true){active=id;updateHighlights();persist();if(focus){const w=allWords[active];const target=w.positions.find(p=>!isLocked(cellKey(p.r,p.c))&&!letters[cellKey(p.r,p.c)])||w.positions.find(p=>!isLocked(cellKey(p.r,p.c)));if(target)focusKey(cellKey(target.r,target.c))}}
+function focusKey(k){const el=els.board.querySelector(`input[data-key="${k}"]`);if(el&&!el.readOnly){el.focus();el.select()}}
+let lastCellClick=null;
+function onCellClick(k){const options=members[k];if(!options.includes(active)){selectWord(options[0],false)}else if(options.length>1&&lastCellClick===k){const idx=options.indexOf(active);selectWord(options[(idx+1)%options.length],false)}lastCellClick=k}
+function onInput(k,input){if(isLocked(k)){input.value=letters[k]||'';return}
+ const text=input.value.toUpperCase().replace(/[^A-Z]/g,'');const val=text.slice(-1);
+ if(val)letters[k]=val;else delete letters[k];input.value=val;persist();
+ if(val){const w=allWords[active],idx=w.positions.findIndex(p=>cellKey(p.r,p.c)===k);if(idx>=0){for(let j=idx+1;j<w.positions.length;j++){const next=cellKey(w.positions[j].r,w.positions[j].c);if(!isLocked(next)){focusKey(next);break}}}}
+}
+function onKey(ev,k){if(ev.key==='Enter'){ev.preventDefault();checkWord();return}
+ const w=allWords[active];const idx=w.positions.findIndex(p=>cellKey(p.r,p.c)===k);
+ if(idx<0)return;
+ if(ev.key==='Backspace'&&!letters[k]){for(let j=idx-1;j>=0;j--){const last=cellKey(w.positions[j].r,w.positions[j].c);if(!isLocked(last)){ev.preventDefault();delete letters[last];focusKey(last);persist();updateHighlights();break}}}
+ if(ev.key==='ArrowRight'||ev.key==='ArrowDown'){ev.preventDefault();if(idx+1<w.positions.length)focusKey(cellKey(w.positions[idx+1].r,w.positions[idx+1].c))}
+ if(ev.key==='ArrowLeft'||ev.key==='ArrowUp'){ev.preventDefault();if(idx>0)focusKey(cellKey(w.positions[idx-1].r,w.positions[idx-1].c))}
+}
+function checkWord(){const w=allWords[active];if(solved.includes(active)){message('Kata ini sudah berhasil dijawab. Pilih petunjuk lainnya.','ok');return}
+ const word=w.positions.map(p=>letters[cellKey(p.r,p.c)]||'').join('');
+ if(word.length<w.word.length){message(`Masih ada kotak kosong. Isi ${w.word.length} huruf terlebih dahulu.`,'bad');return}
+ if(word===w.word){solved.push(w.id);scores[team]+=10;drawTeams();updateHighlights();persist();message(`🎉 Tepat! Tim ${team+1} mendapat +10 poin. Kata: ${w.word}.`,'ok');if(solved.length===allWords.length){running=false;syncTimer();showModal('🎉 Semua Kata Terpecahkan!',`<p>Hebat! Seluruh 14 istilah koding sudah ditemukan.</p><h3>Hasil akhir</h3>${scores.map((x,i)=>`<div class="answer-row">Tim ${i+1}: ${x} poin</div>`).join('')}`)}return}
+ message('Belum tepat. Periksa lagi huruf dan petunjuknya.','bad');
+ const wrong=[];w.positions.forEach((p,i)=>{const k=cellKey(p.r,p.c);if(letters[k]!==w.word[i]&&!isLocked(k))wrong.push(k)});
+ wrong.forEach(k=>els.board.querySelector(`.cell[data-key="${k}"]`)?.classList.add('wrong'));
+ setTimeout(()=>wrong.forEach(k=>els.board.querySelector(`.cell[data-key="${k}"]`)?.classList.remove('wrong')),950)
+}
+function hint(){const w=allWords[active];if(solved.includes(w.id)){message('Kata ini sudah selesai, tidak perlu bantuan.');return}
+ const idx=w.positions.findIndex((p,i)=>{const k=cellKey(p.r,p.c);return letters[k]!==w.word[i]&&!isLocked(k)});
+ if(idx<0){message('Hurufnya sudah lengkap. Tekan Periksa Kata.');return}
+ const k=cellKey(w.positions[idx].r,w.positions[idx].c);letters[k]=w.word[idx];hinted[k]=true;scores[team]=Math.max(0,scores[team]-3);drawTeams();updateHighlights();persist();message(`💡 Satu huruf dibuka. Skor Tim ${team+1} dikurangi 3. Fokus pada petunjuknya.`)
+}
+function erase(){const w=allWords[active];if(solved.includes(w.id)){message('Kata yang sudah benar tidak dapat dihapus.');return}
+ w.positions.forEach(p=>{const k=cellKey(p.r,p.c);if(!isLocked(k))delete letters[k]});updateHighlights();persist();message('Isian kata ini sudah dikosongkan.')}
+function syncTimer(){els.timerBtn.textContent=running?'⏸ Jeda Waktu':'▶ '+(seconds===0?'Ulang Waktu':'Mulai Waktu');const m=Math.floor(seconds/60);els.clock.textContent=`${String(m).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;els.clock.style.background=seconds<=60?'#c63244':'#152448';persist()}
+function showModal(title,html){document.getElementById('modalTitle').textContent=title;document.getElementById('modalContent').innerHTML=html;document.getElementById('modal').hidden=false}
+function closeModal(){document.getElementById('modal').hidden=true}
+document.getElementById('checkBtn').onclick=checkWord;
+document.getElementById('hintBtn').onclick=hint;
+document.getElementById('eraseBtn').onclick=erase;
+document.getElementById('printBtn').onclick=()=>window.print();
+document.getElementById('resetBtn').onclick=()=>{if(!confirm('Ulang dari awal? Seluruh jawaban, skor, dan waktu akan dihapus.'))return;team=0;scores=[0,0,0,0,0];letters={};solved=[];hinted={};active=0;seconds=25*60;running=false;drawTeams();drawBoard();syncTimer();message('Game diulang. Pilih Tim 1 dan mulai jawab.')};
+document.getElementById('timerBtn').onclick=()=>{if(seconds<=0)seconds=25*60;running=!running;syncTimer()};
+interval=setInterval(()=>{if(!running)return;seconds=Math.max(0,seconds-1);if(seconds===0){running=false;message('⏰ Waktu habis! Hitung total skor setiap kelompok.','bad')}syncTimer()},1000);
+document.getElementById('answersBtn').onclick=()=>{if(!confirm('Buka kunci jawaban guru? Pastikan siswa tidak sedang melihat LCD.'))return;showModal('🔐 Kunci Jawaban untuk Guru',`<p>Jangan tampilkan saat siswa masih mengerjakan.</p><div class="answer-grid">${allWords.map(w=>`<div class="answer-row">${w.num} ${w.dir==='A'?'Mendatar':'Menurun'}: <b>${w.word}</b></div>`).join('')}</div>`)};
+document.getElementById('closeModal').onclick=closeModal;
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+drawTeams();drawClues();drawBoard();syncTimer();
+</script>
+</body>
+</html>

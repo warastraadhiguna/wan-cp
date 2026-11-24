@@ -1,0 +1,363 @@
+# ROBOT SINYAL - 25 MISI UNTUK 5 KELOMPOK
+# M = MERAH, K = KUNING, H = HIJAU
+# JENIS: DECODE (baca arti), POLA (tebak lampu), PLAN (pilih urutan kode)
+# Pisahkan setiap soal dengan ===. Baris diawali # diabaikan.
+# Format PILIHAN adalah 4 opsi dipisah tanda | (urutan A | B | C | D).
+# Untuk PLAN: tulis pilihan berupa rangkaian M K H yang dipisah spasi.
+
+===
+JUDUL: 01. Alarm di Koridor
+TEMA: Sekolah
+JENIS: DECODE
+CERITA: Robot sekolah menerima 3 lampu sebelum berjalan ke ruang guru. Apa yang harus dilakukan robot?
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H K M
+TANYA: Apa arti urutan lampu tersebut?
+PILIHAN: MAJU → AMBIL → AMBIL|AMBIL → AMBIL → BERHENTI|MAJU → AMBIL → BERHENTI|BERHENTI → AMBIL → BERHENTI
+JAWABAN: C
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, KUNING = AMBIL, MERAH = BERHENTI.
+
+===
+JUDUL: 02. Jalan Menuju Kelas
+TEMA: Sekolah
+JENIS: DECODE
+CERITA: Robot pembawa buku bergerak melewati dua meja lalu berhenti. Baca sinyalnya.
+WAKTU: 75
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H H M
+TANYA: Apa urutan perintah untuk robot?
+PILIHAN: MAJU → MAJU → MAJU|MAJU → BERHENTI → BERHENTI|MAJU → MAJU → BERHENTI|AMBIL → MAJU → BERHENTI
+JAWABAN: C
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, HIJAU = MAJU, MERAH = BERHENTI.
+
+===
+JUDUL: 03. Lampu yang Terputus
+TEMA: Ruang Komputer
+JENIS: POLA
+CERITA: Sebagian kode dari agen hilang. Temukan warna berikutnya dengan melihat pola yang berulang.
+WAKTU: 75
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M H M H ?
+TANYA: Warna lampu apa yang hilang?
+PILIHAN: HIJAU|TIDAK MENYALA|MERAH|KUNING
+JAWABAN: C
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu MERAH.
+
+===
+JUDUL: 04. Antarkan Buku
+TEMA: Perpustakaan
+JENIS: PLAN
+CERITA: Robot harus bergerak, mengambil buku, lalu berhenti. Pilih kode lampu yang benar.
+WAKTU: 85
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: ? ? ?
+TANYA: Kode manakah yang mengirim perintah dengan urutan yang diminta?
+PILIHAN: H K K|H K H|K K M|H K M
+JAWABAN: D
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: MAJU = HIJAU, AMBIL = KUNING, BERHENTI = MERAH.
+TARGET: MAJU → AMBIL → BERHENTI
+
+===
+JUDUL: 05. Robot Piket
+TEMA: Ruang Kelas
+JENIS: DECODE
+CERITA: Robot sedang membereskan kelas. Lampu sinyal sudah dikirim—terjemahkan gerakannya.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H K H M
+TANYA: Apa yang dikerjakan robot secara berurutan?
+PILIHAN: MAJU → AMBIL → MAJU → MAJU|MAJU → BERHENTI → MAJU → BERHENTI|AMBIL → AMBIL → MAJU → BERHENTI|MAJU → AMBIL → MAJU → BERHENTI
+JAWABAN: D
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, KUNING = AMBIL, HIJAU = MAJU, MERAH = BERHENTI.
+
+===
+JUDUL: 06. Sinyal Kantin
+TEMA: Kantin
+JENIS: POLA
+CERITA: Lampu kantin berkedip dengan pola yang sama. Temukan lampu sesudah tanda tanya.
+WAKTU: 70
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: K H K H ?
+TANYA: Warna lampu apa berikutnya?
+PILIHAN: HIJAU|TIDAK MENYALA|MERAH|KUNING
+JAWABAN: D
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu KUNING.
+
+===
+JUDUL: 07. Kembali ke Markas
+TEMA: Markas Agen
+JENIS: DECODE
+CERITA: Robot melangkah dua kali sebelum mengambil paket, lalu berhenti.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H H K M
+TANYA: Urutan perintah mana yang diterima robot?
+PILIHAN: MAJU → MAJU → AMBIL → BERHENTI|AMBIL → MAJU → AMBIL → BERHENTI|MAJU → MAJU → MAJU → BERHENTI|MAJU → MAJU → AMBIL → AMBIL
+JAWABAN: A
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, HIJAU = MAJU, KUNING = AMBIL, MERAH = BERHENTI.
+
+===
+JUDUL: 08. Ambil Kotak Makan
+TEMA: Kantin
+JENIS: PLAN
+CERITA: Agen memesan dua langkah maju lalu mengambil kotak makan. Tentukan kodenya.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: ? ? ?
+TANYA: Pilih kode lampu yang tepat untuk instruksi tersebut.
+PILIHAN: H K K|H M K|K H K|H H K
+JAWABAN: D
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: MAJU = HIJAU, MAJU = HIJAU, AMBIL = KUNING.
+TARGET: MAJU → MAJU → AMBIL
+
+===
+JUDUL: 09. Robot Pengantar Surat
+TEMA: Kantor Pos
+JENIS: DECODE
+CERITA: Robot penjaga surat menerima empat lampu dari petugas.
+WAKTU: 85
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M H K H
+TANYA: Apa arti pesan lampu ini?
+PILIHAN: BERHENTI → MAJU → AMBIL → MAJU|BERHENTI → BERHENTI → AMBIL → MAJU|BERHENTI → MAJU → AMBIL → BERHENTI|BERHENTI → MAJU → AMBIL → AMBIL
+JAWABAN: A
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: MERAH = BERHENTI, HIJAU = MAJU, KUNING = AMBIL, HIJAU = MAJU.
+
+===
+JUDUL: 10. Pola Tiga Warna
+TEMA: Taman Kota
+JENIS: POLA
+CERITA: Lampu mercusuar mini berulang dalam kelompok tiga warna.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M K H M K ?
+TANYA: Warna lampu terakhir yang hilang adalah ...
+PILIHAN: KUNING|TIDAK MENYALA|HIJAU|MERAH
+JAWABAN: C
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu HIJAU.
+
+===
+JUDUL: 11. Lorong Berbelok
+TEMA: Gedung Misteri
+JENIS: DECODE
+CERITA: Di lorong baru, lampu kuning berarti BELOK. Ingat: kamusnya berubah!
+WAKTU: 90
+KAMUS: M=BERHENTI;K=BELOK;H=MAJU
+KODE: H K H
+TANYA: Apa urutan gerakan robot?
+PILIHAN: MAJU → BELOK → BERHENTI|BELOK → BELOK → MAJU|MAJU → BERHENTI → MAJU|MAJU → BELOK → MAJU
+JAWABAN: D
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, KUNING = BELOK, HIJAU = MAJU.
+
+===
+JUDUL: 12. Peta Belokan
+TEMA: Gedung Misteri
+JENIS: PLAN
+CERITA: Peta meminta MAJU, BELOK, MAJU, lalu BERHENTI. Pilih kombinasi sinyal yang sesuai.
+WAKTU: 90
+KAMUS: M=BERHENTI;K=BELOK;H=MAJU
+KODE: ? ? ? ?
+TANYA: Kode lampu manakah yang benar?
+PILIHAN: H K H M|H K H H|H H H M|K K H M
+JAWABAN: A
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: MAJU = HIJAU, BELOK = KUNING, MAJU = HIJAU, BERHENTI = MERAH.
+TARGET: MAJU → BELOK → MAJU → BERHENTI
+
+===
+JUDUL: 13. Pintu Otomatis
+TEMA: Laboratorium
+JENIS: DECODE
+CERITA: Kini sinyal lampu dipakai untuk mengendalikan pintu: buka, nyalakan, lalu tutup.
+WAKTU: 85
+KAMUS: M=TUTUP;K=BUKA;H=NYALAKAN
+KODE: K H M
+TANYA: Apa urutan aksi pintu?
+PILIHAN: BUKA → NYALAKAN → TUTUP|BUKA → TUTUP → TUTUP|TUTUP → NYALAKAN → TUTUP|NYALAKAN → NYALAKAN → TUTUP
+JAWABAN: A
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: KUNING = BUKA, HIJAU = NYALAKAN, MERAH = TUTUP.
+
+===
+JUDUL: 14. Lampu Penjaga
+TEMA: Halaman
+JENIS: POLA
+CERITA: Dua lampu hijau selalu disusul satu lampu kuning.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H H K H H K ?
+TANYA: Warna yang hilang adalah ...
+PILIHAN: TIDAK MENYALA|KUNING|HIJAU|MERAH
+JAWABAN: C
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu HIJAU.
+
+===
+JUDUL: 15. Robot Penari
+TEMA: Panggung
+JENIS: DECODE
+CERITA: Robot penari punya kamus lampu baru. Baca sinyal sebelum musik dimulai.
+WAKTU: 90
+KAMUS: M=DIAM;K=PUTAR;H=JALAN
+KODE: H K H M
+TANYA: Tarian robot berurutan menjadi ...
+PILIHAN: JALAN → PUTAR → JALAN → DIAM|JALAN → JALAN → JALAN → DIAM|PUTAR → PUTAR → JALAN → DIAM|JALAN → PUTAR → DIAM → DIAM
+JAWABAN: A
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = JALAN, KUNING = PUTAR, HIJAU = JALAN, MERAH = DIAM.
+
+===
+JUDUL: 16. Latihan Menari
+TEMA: Panggung
+JENIS: PLAN
+CERITA: Instruksi pelatih: JALAN, PUTAR, JALAN, DIAM. Pilih kode lampunya.
+WAKTU: 95
+KAMUS: M=DIAM;K=PUTAR;H=JALAN
+KODE: ? ? ? ?
+TANYA: Kode mana yang cocok dengan instruksi pelatih?
+PILIHAN: H H H M|H K M M|H K H M|H K H H
+JAWABAN: C
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: JALAN = HIJAU, PUTAR = KUNING, JALAN = HIJAU, DIAM = MERAH.
+TARGET: JALAN → PUTAR → JALAN → DIAM
+
+===
+JUDUL: 17. Alarm Berkedip
+TEMA: Gudang
+JENIS: POLA
+CERITA: Dua lampu merah diikuti satu hijau, berulang terus.
+WAKTU: 85
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M M H M M H ?
+TANYA: Warna lampu setelah tanda tanya?
+PILIHAN: MERAH|KUNING|HIJAU|TIDAK MENYALA
+JAWABAN: A
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu MERAH.
+
+===
+JUDUL: 18. Kiriman Kado
+TEMA: Gudang Hadiah
+JENIS: DECODE
+CERITA: Robot pengangkut kado berjalan dua kali, mengangkat paket, lalu berhenti.
+WAKTU: 90
+KAMUS: M=STOP;K=ANGKAT;H=JALAN
+KODE: H H K M
+TANYA: Apa yang dilakukan robot?
+PILIHAN: ANGKAT → JALAN → ANGKAT → STOP|JALAN → JALAN → STOP → STOP|JALAN → JALAN → ANGKAT → STOP|JALAN → JALAN → ANGKAT → JALAN
+JAWABAN: C
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = JALAN, HIJAU = JALAN, KUNING = ANGKAT, MERAH = STOP.
+
+===
+JUDUL: 19. Pindahkan Kotak
+TEMA: Gudang Hadiah
+JENIS: PLAN
+CERITA: Perintah kepala gudang: JALAN, ANGKAT, JALAN, STOP.
+WAKTU: 95
+KAMUS: M=STOP;K=ANGKAT;H=JALAN
+KODE: ? ? ? ?
+TANYA: Pilih kode lampu yang benar.
+PILIHAN: K K H M|H K M M|H K H H|H K H M
+JAWABAN: D
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: JALAN = HIJAU, ANGKAT = KUNING, JALAN = HIJAU, STOP = MERAH.
+TARGET: JALAN → ANGKAT → JALAN → STOP
+
+===
+JUDUL: 20. Dua Kuning Berturut-turut
+TEMA: Toko Mainan
+JENIS: POLA
+CERITA: Pola lampu: satu merah, dua kuning, lalu diulang.
+WAKTU: 85
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M K K M K K ?
+TANYA: Apa warna lampu selanjutnya?
+PILIHAN: MERAH|TIDAK MENYALA|HIJAU|KUNING
+JAWABAN: A
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu MERAH.
+
+===
+JUDUL: 21. Brankas Mini
+TEMA: Ruang Rahasia
+JENIS: DECODE
+CERITA: Kamus berubah lagi: hijau untuk membuka, kuning mengambil, merah menutup.
+WAKTU: 95
+KAMUS: M=TUTUP;K=AMBIL;H=BUKA
+KODE: H K M
+TANYA: Apa urutan instruksi brankas?
+PILIHAN: BUKA → BUKA → TUTUP|BUKA → AMBIL → AMBIL|BUKA → AMBIL → TUTUP|BUKA → TUTUP → TUTUP
+JAWABAN: C
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = BUKA, KUNING = AMBIL, MERAH = TUTUP.
+
+===
+JUDUL: 22. Ambil Petunjuk
+TEMA: Ruang Rahasia
+JENIS: PLAN
+CERITA: Robot diminta membuka kotak, mengambil petunjuk, dan menutup kotak.
+WAKTU: 95
+KAMUS: M=TUTUP;K=AMBIL;H=BUKA
+KODE: ? ? ?
+TANYA: Manakah kode yang benar?
+PILIHAN: H K M|H M M|H H M|H K H
+JAWABAN: A
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: BUKA = HIJAU, AMBIL = KUNING, TUTUP = MERAH.
+TARGET: BUKA → AMBIL → TUTUP
+
+===
+JUDUL: 23. Sinyal Empat Langkah
+TEMA: Menara Sinyal
+JENIS: POLA
+CERITA: Perhatikan: merah, kuning, hijau, hijau. Empat lampu itu selalu diulang.
+WAKTU: 95
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M K H H M K H H ?
+TANYA: Lampu setelah tanda tanya adalah ...
+PILIHAN: TIDAK MENYALA|KUNING|MERAH|HIJAU
+JAWABAN: C
+PETUNJUK: Cari kelompok warna yang berulang, lalu lihat warna pertama kelompok berikutnya.
+PENJELASAN: Pola lampu berulang. Sesudah pola tersebut, giliran lampu MERAH.
+
+===
+JUDUL: 24. Misi Final Dimulai
+TEMA: Markas Rahasia
+JENIS: DECODE
+CERITA: Sebelum membawa hadiah keluar, robot harus mengikuti lima lampu.
+WAKTU: 100
+KAMUS: M=BERHENTI;K=BELOK;H=MAJU
+KODE: H K H H M
+TANYA: Apa arti lima lampu tersebut?
+PILIHAN: MAJU → BELOK → MAJU → MAJU → MAJU|BELOK → BELOK → MAJU → MAJU → BERHENTI|MAJU → BELOK → BERHENTI → MAJU → BERHENTI|MAJU → BELOK → MAJU → MAJU → BERHENTI
+JAWABAN: D
+PETUNJUK: Mulai dari lampu paling kiri. Cari artinya pada kamus sinyal.
+PENJELASAN: Baca lampu dari kiri ke kanan: HIJAU = MAJU, KUNING = BELOK, HIJAU = MAJU, HIJAU = MAJU, MERAH = BERHENTI.
+
+===
+JUDUL: 25. Kode Penyelamat
+TEMA: Final
+JENIS: PLAN
+CERITA: Robot harus MAJU dua kali, AMBIL paket, MAJU sekali lagi, lalu BERHENTI.
+WAKTU: 105
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: ? ? ? ? ?
+TANYA: Pilih sinyal untuk menyelesaikan misi terakhir!
+PILIHAN: H H K M M|H H K H M|H H K H K|H H K K M
+JAWABAN: B
+PETUNJUK: Cari arti tindakan pertama di kamus, kemudian lanjutkan sampai tindakan terakhir.
+PENJELASAN: Ubah setiap tindakan menjadi warna: MAJU = HIJAU, MAJU = HIJAU, AMBIL = KUNING, MAJU = HIJAU, BERHENTI = MERAH.
+TARGET: MAJU → MAJU → AMBIL → MAJU → BERHENTI

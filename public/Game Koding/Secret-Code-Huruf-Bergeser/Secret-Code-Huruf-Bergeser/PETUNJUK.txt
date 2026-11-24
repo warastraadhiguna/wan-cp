@@ -1,0 +1,36 @@
+SECRET CODE — MISI 2: HURUF BERGESER (5 KELOMPOK)
+================================================
+
+TUJUAN
+Anak usia 10–11 tahun belajar algoritma dengan menggeser huruf satu langkah atau lebih.
+GESER +1 artinya pembuat sandi mengganti A menjadi B, B menjadi C, dst.
+Untuk membuka pesan, anak menggeser HURUF SANDI KE KIRI (mundur).
+Contoh: CVLV → BUKU (geser mundur 1).
+
+CARA MAIN (offline)
+1. Buka index.html langsung di Chrome/Edge, tidak perlu internet atau instalasi.
+2. Ganti nama kelima tim di kotak papan skor bila perlu.
+3. Tampilkan pesan, buka tabel bantuan jika diperlukan, lalu mulai timer.
+4. Setiap tim menuliskan jawaban di kertas. Guru ketik jawaban tim.
+5. Klik PERIKSA 5 JAWABAN: setiap jawaban benar memperoleh 10 poin.
+6. Guru membahas pergeseran huruf, kemudian buka pesan berikutnya.
+7. Bonus strategi +5 dapat diberikan guru melalui tombol +5 di tim.
+
+BUAT / EDIT SOAL TXT
+- Edit soal.txt dengan Notepad, simpan sebagai UTF-8.
+- Klik Unggah Soal TXT pada game, pilih file yang telah diedit.
+- Awal tiap soal harus baris ===.
+- Wajib: JUDUL dan JAWABAN.
+- GESER: angka 1 sampai 5 (disarankan 1-3 untuk anak SD).
+- PESAN boleh diisi sesuai hasil enkripsi atau dihapus agar dibuat otomatis.
+- WAKTU dalam detik (15 sampai 600).
+- JAWABAN memakai A-Z dan spasi saja. Contoh: BUKA KOTAK.
+- Contoh: JAWABAN: BUKU, GESER: 1, PESAN: CVLV.
+- Aplikasi akan memeriksa konsistensi PESAN dan JAWABAN saat impor.
+
+CATATAN
+- Soal bawaan sudah tersedia di HTML; file TXT hanya diperlukan jika ingin mengganti soal.
+- Skor, nama tim, dan penilaian tersimpan dalam browser yang sama.
+- Setiap soal hanya memberi poin otomatis satu kali agar tidak dobel.
+- Setelah waktu habis guru tetap bisa mengetik jawaban yang ditulis siswa.
+- Gunakan layar penuh (F11 atau tombol Layar Penuh) untuk proyektor.

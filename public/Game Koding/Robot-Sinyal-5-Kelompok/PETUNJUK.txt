@@ -1,0 +1,111 @@
+ROBOT SINYAL - GAME COMPUTATIONAL THINKING UNTUK SD KELAS 4-5
+================================================================
+
+APA SAJA ISINYA?
+- index.html: aplikasi game. Buka lewat Chrome/Edge, tanpa internet.
+- soal.txt: 25 misi bawaan. Boleh diedit menggunakan Notepad.
+- pratinjau.png: contoh tampilan saat diproyeksikan.
+
+CARA MAIN DI KELAS
+1. Buka index.html dari folder ini.
+2. Lima kelompok akan muncul: Merah, Biru, Hijau, Ungu, Kuning. Nama dapat diubah.
+3. Pilih misi dan mulai timer.
+4. Klik "Putar Sinyal" untuk menyalakan warna secara berurutan.
+5. Semua kelompok berdiskusi, lalu guru memilih A/B/C/D pada tiap kelompok.
+6. Klik "Periksa 5 Tim". Jawaban pertama benar +10 poin.
+7. Jika suatu kelompok salah, perbaiki jawabannya; benar pada percobaan
+   berikutnya mendapat +5 poin. Setelah petunjuk dibuka, jawaban benar +5.
+8. Klik "Buka Jawaban" untuk menampilkan pembahasan. Setelah jawaban
+   dibuka, perolehan poin baru pada misi itu ditutup.
+9. Klik misi berikutnya. Skor tersimpan di browser yang sama.
+
+Ada tiga jenis permainan:
+- DECODE = menerjemahkan sinyal lampu menjadi perintah robot.
+- POLA   = melihat urutan lampu dan memilih warna yang hilang.
+- PLAN   = memilih urutan kode lampu agar robot melakukan tugas tertentu.
+
+KODE WARNA
+- M = merah
+- K = kuning
+- H = hijau
+- ? = warna yang hilang / kode yang belum dipilih
+
+Catatan: Kamus arti perintah boleh berubah antarmisi dan selalu tampil di layar.
+Ini melatih anak agar mengikuti aturan yang diberikan, bukan menghafal
+satu arti warna untuk seluruh permainan.
+
+MENGUBAH SOAL VIA TXT
+1. Buka soal.txt di Notepad.
+2. Ubah satu blok soal atau tambahkan blok yang diawali ===.
+3. Simpan sebagai UTF-8.
+4. Klik tombol "Unggah soal.txt" di aplikasi dan pilih file yang baru.
+   Browser tidak otomatis membaca perubahan file dari folder karena alasan
+   keamanan. Aplikasi sudah mempunyai 25 soal bawaan walau belum unggah.
+
+CONTOH 1: TERJEMAH KODE (DECODE)
+===
+JUDUL: Pergi ke Perpustakaan
+TEMA: Sekolah
+JENIS: DECODE
+CERITA: Robot menerima tiga lampu.
+WAKTU: 70
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: H K M
+TANYA: Apa urutan perintah yang diterima robot?
+PILIHAN: MAJU → AMBIL → BERHENTI|BERHENTI → AMBIL → MAJU|AMBIL → MAJU → BERHENTI|MAJU → MAJU → BERHENTI
+JAWABAN: A
+PETUNJUK: Baca dari kiri ke kanan.
+PENJELASAN: H berarti MAJU, K berarti AMBIL, M berarti BERHENTI.
+
+CONTOH 2: MENCARI POLA (POLA)
+===
+JUDUL: Lampu yang Hilang
+TEMA: Menara
+JENIS: POLA
+CERITA: Perhatikan lampu yang berulang.
+WAKTU: 60
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: M H M H ?
+TANYA: Warna apa yang hilang?
+PILIHAN: MERAH|KUNING|HIJAU|TIDAK MENYALA
+JAWABAN: A
+PETUNJUK: Cari pasangan yang berulang.
+PENJELASAN: Lampunya bergantian merah dan hijau.
+
+CONTOH 3: MERANCANG SINYAL (PLAN)
+===
+JUDUL: Misi Bawa Paket
+TEMA: Gudang
+JENIS: PLAN
+CERITA: Robot harus maju, mengambil kotak, lalu berhenti.
+WAKTU: 80
+KAMUS: M=BERHENTI;K=AMBIL;H=MAJU
+KODE: ? ? ?
+TARGET: MAJU → AMBIL → BERHENTI
+TANYA: Pilih urutan warna yang tepat!
+PILIHAN: M-K-H|H-K-M|K-H-M|H-M-K
+JAWABAN: B
+PETUNJUK: Ubah setiap tindakan menjadi warna yang sesuai.
+PENJELASAN: MAJU=H, AMBIL=K, BERHENTI=M.
+
+FORMAT DAN VALIDASI
+- Setiap soal dipisahkan dengan baris ===.
+- Nama field harus sama seperti contoh, boleh ditulis huruf kecil/besar.
+- PILIHAN wajib 4 opsi, dipisahkan tanda | (A | B | C | D).
+- KODE memakai spasi antarsimbol.
+- KAMUS memakai titik koma antararti warna: M=...;K=...;H=...
+- WAKTU 20 sampai 600 detik.
+- Sistem memeriksa bahwa jawaban pada DECODE atau PLAN cocok dengan kamus.
+- Maksimal 150 soal per unggahan.
+- Jangan menulis simbol | di dalam teks opsi, karena tanda itu pemisah.
+
+SARAN PEMBELAJARAN 60 MENIT
+- 5 menit: jelaskan bahwa informasi dapat dikodekan menjadi warna.
+- 10 menit: soal 1-5 (menerjemahkan sinyal).
+- 15 menit: soal 6-10 (pola dan pilihan sinyal).
+- 20 menit: soal 11-20 (kamus berbeda dan soal campuran).
+- 10 menit: 1-2 tantangan final + refleksi.
+
+TUJUAN PEMBELAJARAN
+Representasi data, pencocokan aturan, pengenalan pola, algoritma
+pengurutan perintah, pengujian hasil dan debugging.

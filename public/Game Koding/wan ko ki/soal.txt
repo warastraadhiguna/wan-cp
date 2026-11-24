@@ -1,0 +1,462 @@
+# ROBOT TERJEBAK! - 25 LEVEL UNTUK 5 KELOMPOK
+# Cara mengubah soal: lihat PETUNJUK.txt di folder yang sama.
+# U=atas, D=bawah, L=kiri, R=kanan. PETA: S=robot, F=tujuan, #=tembok, .=jalan.
+
+===
+JUDUL: 01. Robot Terlambat ke Kelas
+TEMA: Sekolah
+CERITA: Bel sekolah sudah berbunyi! Bantu robot mencapai pintu kelas tanpa menabrak lemari.
+WAKTU: 55
+PETA:
+S...
+...#
+.##.
+...F
+PILIHAN:
+A: D D D R R R
+B: D D U R R R
+C: D D D R R R D
+D: D D D R R U
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → bawah → kanan → kanan → kanan.
+
+===
+JUDUL: 02. Buku untuk Perpustakaan
+TEMA: Perpustakaan
+CERITA: Robot membawa buku cerita. Arahkan ke rak pengembalian buku.
+WAKTU: 55
+PETA:
+F...
+..#.
+.#..
+...S
+PILIHAN:
+A: L L U U U
+B: L L L U U U
+C: D L L U U U
+D: L D L U U U
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → kiri → atas → atas → atas.
+
+===
+JUDUL: 03. Botol Minum Tertinggal
+TEMA: Olahraga
+CERITA: Botol minum ada di ujung koridor. Pilih perintah yang tepat untuk mengambilnya.
+WAKTU: 55
+PETA:
+.#..
+...F
+....
+S.#.
+PILIHAN:
+A: R U R U R R
+B: R U R U R D
+C: R U R U R
+D: R U R U L
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → atas → kanan → atas → kanan.
+
+===
+JUDUL: 04. Pesanan Kantin
+TEMA: Kantin
+CERITA: Makanan pesanan teman sudah siap. Bantu robot sampai ke meja pesanan.
+WAKTU: 55
+PETA:
+...S
+.#..
+.##.
+F...
+PILIHAN:
+A: L U L D D D
+B: L R L D D D
+C: L L D D D D
+D: L L L D D D
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → kiri → bawah → bawah → bawah.
+
+===
+JUDUL: 05. Menuju Lapangan
+TEMA: Sekolah
+CERITA: Kegiatan olahraga hampir dimulai. Temukan jalan teraman ke lapangan.
+WAKTU: 55
+PETA:
+S...
+..#.
+....
+..F#
+PILIHAN:
+A: D D R D R
+B: L D R D R
+C: D D R D R L
+D: D D R D R D
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → kanan → bawah → kanan.
+
+===
+JUDUL: 06. Hadiah Ulang Tahun
+TEMA: Pesta
+CERITA: Robot membawa hadiah ulang tahun. Jangan sampai menabrak meja!
+WAKTU: 55
+PETA:
+..##
+F...
+....
+...S
+PILIHAN:
+A: U L D U L
+B: U L L U L
+C: U L L L L
+D: U L L U L R
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → kiri → kiri → atas → kiri.
+
+===
+JUDUL: 07. Boneka di Toko Mainan
+TEMA: Mainan
+CERITA: Boneka terselip di antara rak toko. Robot harus mengambilnya.
+WAKTU: 55
+PETA:
+...F
+....
+..#.
+S##.
+PILIHAN:
+A: U U D R R R
+B: U L U R R R
+C: U U U R R R
+D: U U R R R
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → atas → atas → kanan → kanan → kanan.
+
+===
+JUDUL: 08. Antar Paket ke Rumah
+TEMA: Rumah
+CERITA: Kurir robot membawa paket. Cari jalan sampai depan rumah.
+WAKTU: 55
+PETA:
+...S
+.#..
+..#.
+.F..
+PILIHAN:
+A: D U D L L
+B: D D R L L
+C: R D D L L
+D: D D D L L
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → bawah → kiri → kiri.
+
+===
+JUDUL: 09. Menyiram Kebun
+TEMA: Kebun
+CERITA: Tanaman menunggu disiram. Bantu robot mencari jalur menuju keran.
+WAKTU: 60
+PETA:
+S#..#
+.....
+.....
+.#..F
+PILIHAN:
+A: D D R R D R R
+B: D R R R D R R
+C: D D R D R R
+D: D D R R D R R D
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → kanan → kanan → bawah → kanan → kanan.
+
+===
+JUDUL: 10. Mencari Es Krim
+TEMA: Taman
+CERITA: Gerobak es krim sudah datang! Antar robot menuju lokasi gerobak.
+WAKTU: 60
+PETA:
+F....
+#.#..
+.....
+.#.#S
+PILIHAN:
+A: U L L U U L
+B: U L L L U U L
+C: L L L U U L
+D: U L U L U U L
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → kiri → kiri → kiri → atas → atas → kiri.
+
+===
+JUDUL: 11. Tiket Kereta Hilang
+TEMA: Stasiun
+CERITA: Robot harus menemukan loket sebelum kereta berangkat.
+WAKTU: 60
+PETA:
+#....
+..#.F
+.....
+S#...
+PILIHAN:
+A: R U R R U R
+B: U D R R U R
+C: U R R R U R
+D: U R R R U R D
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → kanan → kanan → kanan → atas → kanan.
+
+===
+JUDUL: 12. Misi Kebun Binatang
+TEMA: Hewan
+CERITA: Petugas butuh bantuan. Arahkan robot ke kandang jerapah.
+WAKTU: 60
+PETA:
+....S
+.#..#
+...#.
+F....
+PILIHAN:
+A: L L D D L D
+B: L L D L D L D
+C: L L D D L L D L
+D: L L D D L L D
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → bawah → bawah → kiri → kiri → bawah.
+
+===
+JUDUL: 13. Lampu Kota Padam
+TEMA: Kota
+CERITA: Satu lampu taman mati. Cari jalan untuk robot teknisi.
+WAKTU: 60
+PETA:
+S.#..
+.....
+##...
+#..F.
+PILIHAN:
+A: R D R D R D
+B: R R R D R D
+C: R L R D R D
+D: R R D R D
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → bawah → kanan → bawah → kanan → bawah.
+
+===
+JUDUL: 14. Payung Saat Hujan
+TEMA: Cuaca
+CERITA: Hujan mulai turun. Arahkan robot ke tempat penyimpanan payung.
+WAKTU: 60
+PETA:
+.....
+F....
+.#.##
+....S
+PILIHAN:
+A: L L R U L L
+B: L L U U L L
+C: L U U L L
+D: L L U U L
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → atas → atas → kiri → kiri.
+
+===
+JUDUL: 15. Harta di Tepi Pantai
+TEMA: Pantai
+CERITA: Kotak harta tersembunyi di ujung jalur pasir. Bantu robot menemukannya.
+WAKTU: 60
+PETA:
+....F
+#....
+#....
+S.#..
+PILIHAN:
+A: R U U R R R
+B: U R U U R R R
+C: R U U U R R R
+D: R U U L R R R
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → atas → atas → atas → kanan → kanan → kanan.
+
+===
+JUDUL: 16. Obat untuk Klinik
+TEMA: Klinik
+CERITA: Obat harus diantar ke ruang pemeriksaan. Pilih langkah yang aman.
+WAKTU: 60
+PETA:
+.#.#S
+..#..
+.....
+#F...
+PILIHAN:
+A: D R D L L D
+B: D L D L D
+C: D L U L L D
+D: D L D L L D
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → kiri → bawah → kiri → kiri → bawah.
+
+===
+JUDUL: 17. Bersihkan Taman
+TEMA: Lingkungan
+CERITA: Robot kebersihan mencari tempat sampah besar di ujung taman.
+WAKTU: 65
+PETA:
+S....
+...#.
+.....
+##...
+#...F
+PILIHAN:
+A: R R D D R D R D
+B: R R D R D R D
+C: R R D D L D R D
+D: R R U D R D R D
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → kanan → bawah → bawah → kanan → bawah → kanan → bawah.
+
+===
+JUDUL: 18. Berkemah di Bukit
+TEMA: Kemah
+CERITA: Robot membawa senter menuju tenda. Hindari batu-batu besar!
+WAKTU: 65
+PETA:
+F...#
+.#...
+.....
+.#...
+#...S
+PILIHAN:
+A: U U U L U U L L
+B: U U U L L U L L
+C: U U U L L D L L
+D: U U U L L U L L D
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → atas → atas → kiri → kiri → atas → kiri → kiri.
+
+===
+JUDUL: 19. Kue untuk Nenek
+TEMA: Keluarga
+CERITA: Robot membawa kue ulang tahun ke rumah nenek. Jangan salah belok.
+WAKTU: 65
+PETA:
+.#...
+#..#F
+#....
+.#...
+S....
+PILIHAN:
+A: U R R U R U U
+B: R R R R U U
+C: R R R U R U U
+D: R R D U R U U
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → kanan → kanan → atas → kanan → atas → atas.
+
+===
+JUDUL: 20. Museum Rahasia
+TEMA: Museum
+CERITA: Patung museum perlu diperiksa. Bantu robot menemukan ruang pamer.
+WAKTU: 65
+PETA:
+.#..S
+.....
+.....
+..##.
+F...#
+PILIHAN:
+A: L L D L L D D
+B: L L D D L D D D
+C: L L D D L L D D U
+D: L L D D L L D D
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → bawah → bawah → kiri → kiri → bawah → bawah.
+
+===
+JUDUL: 21. Pasar Malam Meriah
+TEMA: Pasar Malam
+CERITA: Robot mencari panggung utama di antara stan-stan permainan.
+WAKTU: 65
+PETA:
+S....
+#....
+.....
+.#...
+##.F.
+PILIHAN:
+A: R D D R R D D
+B: R D D R R D D U
+C: R D D R R D L
+D: D D R R D D
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → bawah → bawah → kanan → kanan → bawah → bawah.
+
+===
+JUDUL: 22. Resep yang Hilang
+TEMA: Dapur
+CERITA: Buku resep berada di lemari. Arahkan robot dapur mencarinya.
+WAKTU: 65
+PETA:
+...#.
+F....
+..#..
+##...
+.#..S
+PILIHAN:
+A: U L U L L L
+B: U L U U L L L
+C: U L U R L L L
+D: U D U U L L L
+JAWABAN: B
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: atas → kiri → atas → atas → kiri → kiri → kiri.
+
+===
+JUDUL: 23. Labirin Stadion
+TEMA: Olahraga
+CERITA: Robot pemain harus masuk ke gerbang stadion yang tepat.
+WAKTU: 65
+PETA:
+#...F
+#.#..
+.....
+...#.
+S....
+PILIHAN:
+A: R R R R U U U
+B: R U R R U U U U
+C: R R R R U U U U
+D: R R R R U U U R
+JAWABAN: C
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → kanan → kanan → kanan → atas → atas → atas → atas.
+
+===
+JUDUL: 24. Jelajah Luar Angkasa
+TEMA: Angkasa
+CERITA: Robot astronot perlu mencapai kapsul penyelamat. Hindari asteroid!
+WAKTU: 70
+PETA:
+#..#S
+##...
+.....
+.....
+.F...
+PILIHAN:
+A: D L R D D L L
+B: D L L D D L L
+C: D L D D D R L
+D: D L D D D L L
+JAWABAN: D
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → kiri → bawah → bawah → bawah → kiri → kiri.
+
+===
+JUDUL: 25. Pintu Kemenangan
+TEMA: Final
+CERITA: Misi terakhir! Arahkan robot ke pintu kemenangan tanpa menyentuh tembok.
+WAKTU: 70
+PETA:
+S.###
+.#...
+...#.
+.....
+....F
+PILIHAN:
+A: D D D D R R R R
+B: D D D D R R R L
+C: D D D D R R R R D
+D: L D D D R R R R
+JAWABAN: A
+PENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → bawah → bawah → kanan → kanan → kanan → kanan.

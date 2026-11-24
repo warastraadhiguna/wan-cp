@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="color-scheme" content="dark"/>
+  <title>Detektif Data — Siapa Robot Penyusup?</title>
+  <style>
+    :root { --bg:#0b1028; --panel:#141a3a; --panel2:#1b2449; --stroke:#303962; --ink:#f3f5ff; --sub:#b5bee4; --cyan:#55e4e7; --yellow:#ffd66d; --pink:#fd89ae; --green:#7ae2af; --red:#ff8087; }
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:ui-rounded,system-ui,-apple-system,"Segoe UI",Arial,sans-serif} button,input,select{font:inherit} button{cursor:pointer} button:disabled{cursor:not-allowed;opacity:.44} button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+    body:before{content:"";pointer-events:none;position:fixed;inset:0;background:radial-gradient(ellipse at 21% 0%,#2636786e,transparent 44%),radial-gradient(ellipse at 90% 70%,#35235a42,transparent 42%);z-index:0}
+    .app{position:relative;z-index:1;max-width:1800px;margin:auto;min-height:100vh;display:flex;flex-direction:column}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 27px;border-bottom:1px solid #343e64;background:#101633c7;backdrop-filter:blur(10px)}
+    .brand{display:flex;align-items:center;gap:13px;min-width:0}.brand-icon{font-size:32px;background:#25346a;border-radius:16px;display:grid;place-items:center;width:52px;height:52px;box-shadow:inset 0 0 0 1px #4761b0}.brand h1{margin:0;font-size:22px;font-weight:900;letter-spacing:-.55px}.brand p{margin:0;font-size:12px;color:#a4b1e0;font-weight:700;letter-spacing:.12em}
+    .top-actions,.nav-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn{border:1px solid #3b4978;border-radius:12px;background:#25305b;color:#ecf2ff;padding:10px 15px;font-weight:800;transition:transform .12s,background .12s;display:inline-flex;justify-content:center;align-items:center;gap:7px;white-space:nowrap}.btn:hover:not(:disabled){background:#334579;transform:translateY(-1px)}.btn-primary{background:#4ce3d7;color:#09233d;border-color:#5af5e9}.btn-primary:hover:not(:disabled){background:#80ffed}.btn-yellow{background:var(--yellow);color:#292140;border-color:#ffe9aa}.btn-yellow:hover:not(:disabled){background:#ffe99b}.btn-ghost{background:#171d3d}.btn-danger{color:#ffadb2}
+    .small{font-size:12px;padding:7px 10px;border-radius:9px}.progress-top{font-size:12px;font-weight:900;color:#d6dfff;border:1px solid #475584;border-radius:999px;padding:10px 14px;background:#252e55}.wrap{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:18px;padding:20px 23px 23px;flex:1;min-height:0}.stage{display:flex;flex-direction:column;gap:14px;min-width:0}.side{min-width:0}
+    .panel{background:linear-gradient(160deg,#192347,#131936);border:1px solid #343f70;border-radius:19px;box-shadow:0 14px 36px #060a206e}
+    .story{padding:18px 22px 17px;position:relative;overflow:hidden}.story:after{content:'?';position:absolute;right:30px;top:-43px;font-size:170px;font-weight:900;color:#789cff0c;pointer-events:none}.overline{display:flex;gap:8px;align-items:center;color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:.11em;text-transform:uppercase}.level{display:inline-block;padding:5px 9px;border-radius:7px;background:#394679;color:#fff6b5;letter-spacing:0;font-size:11px}.story h2{margin:7px 0;font-size:clamp(21px,2.35vw,32px);line-height:1.12;letter-spacing:-.025em}.story p{font-size:14px;color:#d1d9f7;line-height:1.45;max-width:870px;margin:0}
+    .cluebox{padding:15px 19px}.section-head{font-size:13px;font-weight:900;letter-spacing:.02em;display:flex;align-items:center;gap:8px;margin-bottom:11px}.clues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.clue{border:1px solid #485582;border-radius:12px;background:#27315c;display:flex;gap:10px;align-items:center;padding:11px 12px;min-width:0}.clue-ico{width:35px;height:35px;flex-shrink:0;border-radius:9px;background:#354578;display:grid;place-items:center;font-size:20px}.clue span{color:#a9b7e4;font-size:11px;font-weight:700;display:block}.clue strong{font-size:15px;line-height:1.1;display:block;margin-top:2px;white-space:normal}.clue.disabled{opacity:.4;border-style:dashed}.clue.disabled .clue-ico{background:#253055}
+    .suspects-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:1px 3px -2px}.suspects-heading h3{margin:0;font-size:16px}.suspects-heading span{color:var(--sub);font-size:12px;font-weight:700}.suspects{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+    .robot{position:relative;min-width:0;border:2px solid #394570;border-radius:17px;background:linear-gradient(160deg,#25305a,#17203f);color:var(--ink);padding:12px 9px 12px;display:flex;flex-direction:column;align-items:stretch;text-align:center;gap:8px;min-height:252px;transition:transform .15s,border-color .15s,background .15s;user-select:none}.robot:hover:not(:disabled){transform:translateY(-2px);border-color:#7180b9}.robot.chosen{border-color:#6de6f6;box-shadow:0 0 0 2px #58d8e943; background:linear-gradient(165deg,#2b4371,#1b2b50)}.robot.correct{border-color:#6ff0b1;background:linear-gradient(165deg,#195c57,#143a42);box-shadow:0 0 0 2px #6ff0b14a}.robot.wrong-picked{border-color:#ff848d;background:linear-gradient(165deg,#563049,#30203c)}.robot.faded{opacity:.64}.letter{position:absolute;top:10px;left:10px;background:#6572b2;color:#fff;font-size:13px;font-weight:950;display:grid;place-items:center;width:29px;height:29px;border-radius:10px}.correct .letter{background:#2cac78}.wrong-picked .letter{background:#d75764}.robot-name{font-weight:900;font-size:17px;line-height:1;letter-spacing:.01em}.robot-art{width:115px;height:109px;align-self:center;display:block;margin:-3px 0 -9px;filter:drop-shadow(0 7px 7px #050a2180)}.robot-info{display:flex;flex-direction:column;gap:5px;margin-top:auto}.fact{background:#161e3f;border:1px solid #3a4575;border-radius:8px;padding:6px 5px;font-size:12px;font-weight:800;color:#ecf2ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fact .emoji{margin-right:4px}.fact .shoe{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;border:1px solid #ffffff90}.fact.time{color:#c8dcff}.robot-state{position:absolute;right:9px;top:12px;font-weight:900;font-size:19px}.hint{font-size:12px;color:#b5bee7;text-align:center;margin:0}
+    .controlbar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 14px}.timerbox{display:flex;align-items:center;gap:10px;min-width:205px;flex:1}.time-icon{font-size:24px}.time-text{font-weight:1000;font-variant-numeric:tabular-nums;font-size:24px;letter-spacing:.03em;line-height:1}.time-progress{height:6px;width:min(170px,100%);border-radius:20px;background:#465077;overflow:hidden;margin-top:5px}.time-progress b{height:100%;width:100%;display:block;background:var(--cyan);transition:width .4s linear}.time-text.urgent{color:var(--red)}.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 4px}.nav select{color:#ecf4ff;background:#242c50;border:1px solid #414e82;border-radius:10px;padding:9px;min-width:170px;max-width:100%;font-weight:800}.nav-left{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .answer{border:1px solid #4e9d82;border-radius:17px;padding:15px 18px;background:linear-gradient(130deg,#1e4a49,#183047);animation:rise .25s both}@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}.answer h3{margin:0 0 6px;font-size:22px;color:#b0ffdb}.answer p{color:#e0f4f0;font-size:14px;line-height:1.45;margin:5px 0}.reasons{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.reason{background:#142a36;border-radius:9px;padding:7px 9px;font-size:12px;color:#bed7dd;line-height:1.35}.reason b{color:#ffbdc2}
+    .scorepanel{padding:16px 13px 12px;display:flex;flex-direction:column;gap:10px;position:sticky;top:15px}.scorehead{display:flex;align-items:start;justify-content:space-between;gap:8px;padding:0 4px}.scorehead h2{font-size:20px;margin:0 0 3px}.scorehead p{font-size:11px;margin:0;color:#b3c2e5}.team{background:#202950;border:1px solid #3e4b7b;border-radius:12px;padding:8px 9px}.teamtop{display:flex;align-items:center;gap:7px;margin-bottom:8px}.teamdot{height:11px;width:11px;border-radius:50%;flex-shrink:0}.teamname{width:100%;min-width:20px;flex:1;background:none;border:none;border-bottom:1px dashed #586493;color:#fff;font-weight:900;font-size:13px;padding:2px 0}.points{font-size:17px;font-weight:950;color:var(--yellow);font-variant-numeric:tabular-nums;white-space:nowrap}.options{display:flex;align-items:center;gap:5px}.pick{flex:1;padding:5px 0;border-radius:7px;border:1px solid #4d5b91;background:#293461;color:#d9e6ff;font-weight:950;font-size:12px}.pick.active{color:#0d2441;background:#77ecf5;border-color:#94fbff}.pick.hit{color:#073222;background:#8af0b8;border-color:#a2ffd1}.pick.miss{background:#71384c;color:#ffcbcf;border-color:#bf6374}.bonuses{display:flex;align-items:center;gap:5px;margin-left:3px}.mini{border:1px solid #53608a;background:#374269;color:#fff;border-radius:6px;font-size:11px;font-weight:850;padding:5px 6px}.mini:hover{background:#505d92}.mini.minus{color:#ffbdc0}
+    .score-footer{padding:8px 2px 0;border-top:1px solid #3b456f;display:flex;flex-direction:column;gap:9px}.score-footer .btn{width:100%;font-size:13px}.score-note{font-size:11px;line-height:1.4;color:#a5b6dc;text-align:center;margin:0}.score-util{display:flex;align-items:center;justify-content:center;gap:9px}.score-util button{background:none;border:0;color:#99aed5;text-decoration:underline;font-size:11px;cursor:pointer}.toast{position:fixed;z-index:20;bottom:20px;left:50%;transform:translateX(-50%) translateY(35px);background:#f6faff;color:#19233f;padding:13px 20px;border-radius:13px;font-size:14px;font-weight:850;box-shadow:0 10px 30px #0009;opacity:0;pointer-events:none;transition:.22s;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translateX(-50%)}.appfoot{color:#7f8cb7;font-size:10px;text-align:center;padding:0 12px 11px}
+    @media(max-width:1170px){.wrap{grid-template-columns:minmax(0,1fr) 280px;gap:12px;padding:13px}.topbar{padding:12px}.robot-art{width:90px;height:91px}.robot{padding:12px 6px;min-height:226px}.fact{font-size:11px}.clue{gap:6px;padding:8px}.clue strong{font-size:13px}.scorepanel{padding:11px 9px}}
+    @media(max-width:940px){.wrap{grid-template-columns:1fr}.side{order:2}.scorepanel{position:static}.suspects{grid-template-columns:repeat(4,minmax(0,1fr))}.topbar{flex-wrap:wrap}.top-actions{justify-content:flex-end}.score-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.team{min-width:0}.score-footer{max-width:600px;margin:auto;width:100%}}
+    @media(max-width:600px){.brand h1{font-size:17px}.brand p{font-size:10px}.brand-icon{font-size:24px;width:44px;height:44px}.top-actions .btn{font-size:12px;padding:8px}.story{padding:15px}.story h2{font-size:21px}.clues{grid-template-columns:1fr}.clue.disabled{display:none}.suspects{grid-template-columns:repeat(2,minmax(0,1fr))}.robot-art{width:90px;height:92px}.robot{min-height:222px}.score-list{grid-template-columns:1fr}.nav{flex-wrap:wrap}.nav-left,.nav-right{width:100%;justify-content:center}.timerbox{min-width:100%;justify-content:center}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-icon" aria-hidden="true">🕵️</div><div><h1>DETEKTIF DATA</h1><p>SIAPA ROBOT PENYUSUP? · KODING FOR KIDS</p></div></div>
+  <div class="top-actions"><span class="progress-top" id="progressTop">MISI 1 / 25</span><button class="btn" id="loadBtn">📂 Unggah soal.txt</button><input type="file" accept=".txt,text/plain" id="fileInput" hidden/><button class="btn btn-ghost" id="fullBtn">⛶ Layar penuh</button></div>
+</header>
+<div class="wrap">
+  <main class="stage">
+    <section class="panel story"><div class="overline">🔍 MISI <span class="level" id="difficulty">PEMANASAN</span> <span id="sourceLabel" style="color:#a5b9ed;letter-spacing:0;margin-left:auto">25 soal siap main</span></div><h2 id="questionTitle"></h2><p id="questionStory"></p></section>
+    <section class="panel cluebox"><div class="section-head">🧩 PETUNJUK DETEKTIF <span style="margin-left:auto;color:#a4b1e0;font-weight:600;font-size:11px">Robot yang benar harus cocok dengan SEMUA petunjuk</span></div><div class="clues" id="clues"></div></section>
+    <div class="suspects-heading"><h3>🤖 Empat robot yang dicurigai</h3><span>Klik robot untuk menebak</span></div>
+    <div id="robots" class="suspects"></div>
+    <div class="panel controlbar"><div class="timerbox"><div class="time-icon" aria-hidden="true">⏱️</div><div><div class="time-text" id="timerText">00:55</div><div class="time-progress"><b id="timerBar"></b></div></div></div><button class="btn small" id="timerToggle">▶ Mulai timer</button><button class="btn small" id="timerReset">↻ Ulangi</button><button class="btn btn-yellow" id="revealBtn">🔓 Buka jawaban</button></div>
+    <div id="answerArea" aria-live="polite"></div>
+    <div class="nav"><div class="nav-left"><button class="btn small" id="prevBtn">← Sebelumnya</button><button class="btn small" id="nextBtn">Berikutnya →</button></div><div class="nav-right"><label for="missionPicker" style="color:#b8c6ec;font-size:12px;font-weight:800">Pilih misi:</label><select id="missionPicker" aria-label="Pilih misi"></select></div></div>
+  </main>
+  <aside class="side"><section class="panel scorepanel"><div class="scorehead"><div><h2>🏆 5 Kelompok</h2><p>Isi jawaban setiap kelompok (A, B, C, D)</p></div><span style="font-size:20px">⭐</span></div><div id="scoreList" class="score-list"></div><div class="score-footer"><button id="awardBtn" class="btn btn-primary" disabled>✨ Beri +10 untuk jawaban benar</button><p class="score-note">Buka jawaban dulu, kemudian beri poin otomatis. Tombol +5 untuk bonus penjelasan.</p><div class="score-util"><button id="resetScores">Reset skor</button><span>·</span><button id="howtoBtn">Cara main</button></div></div></section></aside>
+</div>
+<footer class="appfoot">Permainan offline · 25 misi bawaan · Soal dapat diganti dari berkas TXT · Cocok untuk proyektor</footer>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script type="text/plain" id="builtinTxt">
+# DETEKTIF DATA - 25 MISI ROBOT PENYUSUP
+# Untuk anak SD usia 10-11 tahun; 5 kelompok.
+# CARA EDIT: ubah nilai setelah tanda titik dua.
+# ROBOT: HURUF|NAMA|BARANG|JAM|SEPATU
+# JAM bisa: TEPAT 09:00, SEBELUM 10:00, SETELAH 09:00.
+# Kalau JAM tidak dipakai, tulis - pada data jam robot.
+# Setiap misi berisi tepat 4 robot dan 1 jawaban A/B/C/D.
+# Jangan hapus tanda === untuk memisahkan misi.
+
+===
+JUDUL: 01. Rahasia Rak Perpustakaan
+KATEGORI: PEMANASAN
+CERITA: Sebuah robot membawa buku yang hilang dari rak perpustakaan. Siapa yang terekam kamera?
+WAKTU: 55
+BARANG: Buku
+SEPATU: Biru
+ROBOT: A|Bibo|Buku|-|Biru
+ROBOT: B|Kiko|Pensil|-|Merah
+ROBOT: C|Mimi|Pensil|-|Biru
+ROBOT: D|Zuzu|Buku|-|Merah
+JAWABAN: A
+PENJELASAN: Robot A membawa buku dan memakai sepatu biru. Semua petunjuk cocok!
+
+===
+JUDUL: 02. Bola di Lapangan
+KATEGORI: PEMANASAN
+CERITA: Bola kelas hilang tepat sebelum pertandingan. Cari robot pembawanya!
+WAKTU: 55
+BARANG: Bola
+SEPATU: Merah
+ROBOT: A|Kiko|Raket|-|Merah
+ROBOT: B|Mimi|Raket|-|Hijau
+ROBOT: C|Zuzu|Bola|-|Hijau
+ROBOT: D|Bibo|Bola|-|Merah
+JAWABAN: D
+PENJELASAN: Robot D membawa bola dan memakai sepatu merah. Semua petunjuk cocok!
+
+===
+JUDUL: 03. Pesanan Kantin
+KATEGORI: PEMANASAN
+CERITA: Sepotong roti terselip dalam pesanan kantin. Temukan robot yang membawanya.
+WAKTU: 55
+BARANG: Roti
+SEPATU: Kuning
+ROBOT: A|Mimi|Roti|-|Biru
+ROBOT: B|Zuzu|Nasi|-|Biru
+ROBOT: C|Bibo|Roti|-|Kuning
+ROBOT: D|Kiko|Nasi|-|Kuning
+JAWABAN: C
+PENJELASAN: Robot C membawa roti dan memakai sepatu kuning. Semua petunjuk cocok!
+
+===
+JUDUL: 04. Alat Kebun Sekolah
+KATEGORI: PEMANASAN
+CERITA: Sekop kecil di kebun berpindah tempat. Robot manakah yang mengambilnya?
+WAKTU: 55
+BARANG: Sekop
+SEPATU: Hijau
+ROBOT: A|Zuzu|Ember|-|Hijau
+ROBOT: B|Bibo|Sekop|-|Hijau
+ROBOT: C|Kiko|Ember|-|Merah
+ROBOT: D|Mimi|Sekop|-|Merah
+JAWABAN: B
+PENJELASAN: Robot B membawa sekop dan memakai sepatu hijau. Semua petunjuk cocok!
+
+===
+JUDUL: 05. Kado Ulang Tahun
+KATEGORI: PEMANASAN
+CERITA: Kado kejutan ada di tangan salah satu robot. Temukan sebelum pesta dimulai!
+WAKTU: 55
+BARANG: Kado
+SEPATU: Ungu
+ROBOT: A|Bibo|Kado|-|Ungu
+ROBOT: B|Kiko|Balon|-|Ungu
+ROBOT: C|Mimi|Kado|-|Kuning
+ROBOT: D|Zuzu|Balon|-|Kuning
+JAWABAN: A
+PENJELASAN: Robot A membawa kado dan memakai sepatu ungu. Semua petunjuk cocok!
+
+===
+JUDUL: 06. Hujan Sepulang Sekolah
+KATEGORI: PEMANASAN
+CERITA: Ada robot yang membawa payung untuk membantu teman kehujanan. Siapa?
+WAKTU: 55
+BARANG: Payung
+SEPATU: Biru
+ROBOT: A|Kiko|Jas Hujan|-|Merah
+ROBOT: B|Mimi|Payung|-|Merah
+ROBOT: C|Zuzu|Jas Hujan|-|Biru
+ROBOT: D|Bibo|Payung|-|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa payung dan memakai sepatu biru. Semua petunjuk cocok!
+
+===
+JUDUL: 07. Kuas Ruang Seni
+KATEGORI: PEMANASAN
+CERITA: Kuas untuk menggambar hilang dari kelas seni. Temukan robot pembawanya.
+WAKTU: 55
+BARANG: Kuas
+SEPATU: Merah
+ROBOT: A|Mimi|Krayon|-|Hijau
+ROBOT: B|Zuzu|Krayon|-|Merah
+ROBOT: C|Bibo|Kuas|-|Merah
+ROBOT: D|Kiko|Kuas|-|Hijau
+JAWABAN: C
+PENJELASAN: Robot C membawa kuas dan memakai sepatu merah. Semua petunjuk cocok!
+
+===
+JUDUL: 08. Misi Bersih Kelas
+KATEGORI: PEMANASAN
+CERITA: Sapu untuk piket kelas ada pada salah satu robot. Cari robot yang tepat.
+WAKTU: 55
+BARANG: Sapu
+SEPATU: Kuning
+ROBOT: A|Zuzu|Sapu|-|Biru
+ROBOT: B|Bibo|Sapu|-|Kuning
+ROBOT: C|Kiko|Lap|-|Biru
+ROBOT: D|Mimi|Lap|-|Kuning
+JAWABAN: B
+PENJELASAN: Robot B membawa sapu dan memakai sepatu kuning. Semua petunjuk cocok!
+
+===
+JUDUL: 09. Apel di Toko Buah
+KATEGORI: DETEKTIF
+CERITA: Pedagang buah melihat robot mengambil apel. Cocokkan barang, jam, dan sepatunya.
+WAKTU: 65
+BARANG: Apel
+SEPATU: Hijau
+JAM: TEPAT 09:00
+ROBOT: A|Bibo|Apel|09:00|Hijau
+ROBOT: B|Kiko|Apel|09:00|Merah
+ROBOT: C|Mimi|Jeruk|09:00|Hijau
+ROBOT: D|Zuzu|Apel|10:00|Hijau
+JAWABAN: A
+PENJELASAN: Robot A membawa apel dan memakai sepatu hijau, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 10. Tiket Stasiun
+KATEGORI: DETEKTIF
+CERITA: Petugas stasiun mencari robot pembawa tiket pada pagi hari.
+WAKTU: 65
+BARANG: Tiket
+SEPATU: Biru
+JAM: TEPAT 08:00
+ROBOT: A|Kiko|Koper|08:00|Biru
+ROBOT: B|Mimi|Tiket|10:00|Biru
+ROBOT: C|Zuzu|Tiket|08:00|Merah
+ROBOT: D|Bibo|Tiket|08:00|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa tiket dan memakai sepatu biru, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 11. Panci di Dapur
+KATEGORI: DETEKTIF
+CERITA: Seorang koki lupa robot mana yang membawa panci dari dapur.
+WAKTU: 65
+BARANG: Panci
+SEPATU: Merah
+JAM: TEPAT 10:00
+ROBOT: A|Mimi|Panci|09:00|Merah
+ROBOT: B|Zuzu|Panci|10:00|Biru
+ROBOT: C|Bibo|Panci|10:00|Merah
+ROBOT: D|Kiko|Sendok|10:00|Merah
+JAWABAN: C
+PENJELASAN: Robot C membawa panci dan memakai sepatu merah, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 12. Bunga Taman Kota
+KATEGORI: DETEKTIF
+CERITA: Penjaga taman ingin mencari robot yang membawa bunga.
+WAKTU: 65
+BARANG: Bunga
+SEPATU: Ungu
+JAM: TEPAT 09:00
+ROBOT: A|Zuzu|Daun|09:00|Ungu
+ROBOT: B|Bibo|Bunga|09:00|Ungu
+ROBOT: C|Kiko|Bunga|09:00|Kuning
+ROBOT: D|Mimi|Bunga|10:00|Ungu
+JAWABAN: B
+PENJELASAN: Robot B membawa bunga dan memakai sepatu ungu, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 13. Latihan Basket
+KATEGORI: DETEKTIF
+CERITA: Salah satu robot membawa bola untuk latihan basket. Temukan robotnya!
+WAKTU: 65
+BARANG: Bola
+SEPATU: Kuning
+JAM: TEPAT 11:00
+ROBOT: A|Bibo|Bola|11:00|Kuning
+ROBOT: B|Kiko|Bola|10:00|Kuning
+ROBOT: C|Mimi|Sepatu|11:00|Kuning
+ROBOT: D|Zuzu|Bola|11:00|Merah
+JAWABAN: A
+PENJELASAN: Robot A membawa bola dan memakai sepatu kuning, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 14. Musik Pagi
+KATEGORI: DETEKTIF
+CERITA: Gitar kelompok musik dibawa seorang robot. Cari dari ciri-cirinya!
+WAKTU: 65
+BARANG: Gitar
+SEPATU: Hijau
+JAM: TEPAT 08:00
+ROBOT: A|Kiko|Gitar|09:00|Hijau
+ROBOT: B|Mimi|Gitar|08:00|Biru
+ROBOT: C|Zuzu|Drum|08:00|Hijau
+ROBOT: D|Bibo|Gitar|08:00|Hijau
+JAWABAN: D
+PENJELASAN: Robot D membawa gitar dan memakai sepatu hijau, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 15. Rumah Kucing
+KATEGORI: DETEKTIF
+CERITA: Petugas penitipan kucing melihat robot membawa makanan kucing.
+WAKTU: 65
+BARANG: Makanan Kucing
+SEPATU: Ungu
+JAM: TEPAT 07:00
+ROBOT: A|Mimi|Makanan Kucing|07:00|Merah
+ROBOT: B|Zuzu|Mainan|07:00|Ungu
+ROBOT: C|Bibo|Makanan Kucing|07:00|Ungu
+ROBOT: D|Kiko|Makanan Kucing|09:00|Ungu
+JAWABAN: C
+PENJELASAN: Robot C membawa makanan kucing dan memakai sepatu ungu, serta lewat pada pukul 07:00. Semua petunjuk cocok!
+
+===
+JUDUL: 16. Wortel di Pasar
+KATEGORI: DETEKTIF
+CERITA: Penjual sayur ingin menemukan robot pembawa wortel di pagi hari.
+WAKTU: 65
+BARANG: Wortel
+SEPATU: Oranye
+JAM: TEPAT 09:00
+ROBOT: A|Zuzu|Wortel|09:00|Hijau
+ROBOT: B|Bibo|Wortel|09:00|Oranye
+ROBOT: C|Kiko|Tomat|09:00|Oranye
+ROBOT: D|Mimi|Wortel|10:00|Oranye
+JAWABAN: B
+PENJELASAN: Robot B membawa wortel dan memakai sepatu oranye, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 17. Dokter Kecil
+KATEGORI: DETEKTIF
+CERITA: Kotak pertolongan pertama kehilangan satu plester. Robot mana pembawanya?
+WAKTU: 65
+BARANG: Plester
+SEPATU: Biru
+JAM: TEPAT 10:00
+ROBOT: A|Bibo|Plester|10:00|Biru
+ROBOT: B|Kiko|Plester|10:00|Merah
+ROBOT: C|Mimi|Termometer|10:00|Biru
+ROBOT: D|Zuzu|Plester|11:00|Biru
+JAWABAN: A
+PENJELASAN: Robot A membawa plester dan memakai sepatu biru, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 18. Peta Terminal
+KATEGORI: DETEKTIF
+CERITA: Peta perjalanan di terminal dibawa oleh salah satu robot.
+WAKTU: 65
+BARANG: Peta
+SEPATU: Hijau
+JAM: TEPAT 11:00
+ROBOT: A|Kiko|Peta|10:00|Hijau
+ROBOT: B|Mimi|Kompas|11:00|Hijau
+ROBOT: C|Zuzu|Peta|11:00|Kuning
+ROBOT: D|Bibo|Peta|11:00|Hijau
+JAWABAN: D
+PENJELASAN: Robot D membawa peta dan memakai sepatu hijau, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 19. Museum Dinosaurus
+KATEGORI: MISI FINAL
+CERITA: Penjaga museum melihat robot membawa fosil sebelum jam 10 pagi.
+WAKTU: 75
+BARANG: Fosil
+SEPATU: Merah
+JAM: SEBELUM 10:00
+ROBOT: A|Mimi|Fosil|11:00|Merah
+ROBOT: B|Zuzu|Fosil|09:00|Biru
+ROBOT: C|Bibo|Fosil|09:00|Merah
+ROBOT: D|Kiko|Buku|09:00|Merah
+JAWABAN: C
+PENJELASAN: Robot C membawa fosil dan memakai sepatu merah, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 20. Kue Baru Matang
+KATEGORI: MISI FINAL
+CERITA: Toko kue mencari robot pembawa kue setelah jam 9 pagi.
+WAKTU: 75
+BARANG: Kue
+SEPATU: Pink
+JAM: SETELAH 09:00
+ROBOT: A|Zuzu|Kue|10:00|Ungu
+ROBOT: B|Bibo|Kue|10:00|Pink
+ROBOT: C|Kiko|Roti|10:00|Pink
+ROBOT: D|Mimi|Kue|08:00|Pink
+JAWABAN: B
+PENJELASAN: Robot B membawa kue dan memakai sepatu pink, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 21. Kompas Petualang
+KATEGORI: MISI FINAL
+CERITA: Tim petualang kehilangan kompas sebelum jam 9 pagi. Temukan pembawanya.
+WAKTU: 75
+BARANG: Kompas
+SEPATU: Hijau
+JAM: SEBELUM 09:00
+ROBOT: A|Bibo|Kompas|08:00|Hijau
+ROBOT: B|Kiko|Kompas|10:00|Hijau
+ROBOT: C|Mimi|Kompas|08:00|Merah
+ROBOT: D|Zuzu|Senter|08:00|Hijau
+JAWABAN: A
+PENJELASAN: Robot A membawa kompas dan memakai sepatu hijau, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 22. Kerang Tepi Laut
+KATEGORI: MISI FINAL
+CERITA: Penjaga pantai mencari robot pembawa kerang setelah jam 10 pagi.
+WAKTU: 75
+BARANG: Kerang
+SEPATU: Biru
+JAM: SETELAH 10:00
+ROBOT: A|Kiko|Ikan|11:00|Biru
+ROBOT: B|Mimi|Kerang|11:00|Hijau
+ROBOT: C|Zuzu|Kerang|09:00|Biru
+ROBOT: D|Bibo|Kerang|11:00|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa kerang dan memakai sepatu biru, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 23. Tiket Pasar Malam
+KATEGORI: MISI FINAL
+CERITA: Tiket wahana dibawa robot setelah jam 8 malam. Cari robotnya!
+WAKTU: 75
+BARANG: Tiket
+SEPATU: Kuning
+JAM: SETELAH 20:00
+ROBOT: A|Mimi|Tiket|19:00|Kuning
+ROBOT: B|Zuzu|Tiket|21:00|Merah
+ROBOT: C|Bibo|Tiket|21:00|Kuning
+ROBOT: D|Kiko|Balon|21:00|Kuning
+JAWABAN: C
+PENJELASAN: Robot C membawa tiket dan memakai sepatu kuning, serta lewat pada pukul 21:00. Semua petunjuk cocok!
+
+===
+JUDUL: 24. Baterai Sekolah Robot
+KATEGORI: MISI FINAL
+CERITA: Satu baterai penting hilang sebelum jam 10 pagi. Siapa robot pembawanya?
+WAKTU: 75
+BARANG: Baterai
+SEPATU: Ungu
+JAM: SEBELUM 10:00
+ROBOT: A|Zuzu|Baterai|09:00|Biru
+ROBOT: B|Bibo|Baterai|09:00|Ungu
+ROBOT: C|Kiko|Kabel|09:00|Ungu
+ROBOT: D|Mimi|Baterai|11:00|Ungu
+JAWABAN: B
+PENJELASAN: Robot B membawa baterai dan memakai sepatu ungu, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 25. FINAL: Kunci Kotak Hadiah
+KATEGORI: MISI FINAL
+CERITA: Kunci kotak hadiah dibawa robot setelah jam 9 pagi. Pecahkan semua petunjuk untuk menang!
+WAKTU: 75
+BARANG: Kunci
+SEPATU: Biru
+JAM: SETELAH 09:00
+ROBOT: A|Bibo|Kunci|10:00|Biru
+ROBOT: B|Kiko|Kunci|10:00|Merah
+ROBOT: C|Mimi|Peta|10:00|Biru
+ROBOT: D|Zuzu|Kunci|08:00|Biru
+JAWABAN: A
+PENJELASAN: Robot A membawa kunci dan memakai sepatu biru, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+</script>
+<script>
+(()=>{'use strict';
+  const $=s=>document.querySelector(s);
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const shoeColors={'biru':'#69b6ff','merah':'#ff737d','hijau':'#7deab0','kuning':'#ffdd69','ungu':'#c69dff','oranye':'#ffb25f','pink':'#ff9bc8'};
+  const emojis={'buku':'📚','pensil':'✏️','bola':'⚽','raket':'🏸','roti':'🍞','nasi':'🍚','sekop':'🪏','ember':'🪣','kado':'🎁','balon':'🎈','payung':'☂️','jas hujan':'🧥','kuas':'🖌️','krayon':'🖍️','sapu':'🧹','lap':'🧽','apel':'🍎','jeruk':'🍊','tiket':'🎟️','koper':'🧳','panci':'🍲','sendok':'🥄','bunga':'🌼','daun':'🍃','sepatu':'👟','gitar':'🎸','drum':'🥁','makanan kucing':'🐈','mainan':'🪀','wortel':'🥕','tomat':'🍅','plester':'🩹','termometer':'🌡️','peta':'🗺️','kompas':'🧭','fosil':'🦕','kue':'🧁','senter':'🔦','kerang':'🐚','ikan':'🐟','baterai':'🔋','kabel':'🔌','kunci':'🗝️'};
+  const iconOf=s=>emojis[String(s).toLowerCase()]||'📦';
+  const colors=['#ff7888','#79baff','#71dfb0','#c5a0ff','#ffcc6e'];
+  const storageKey='detektif-data-5-tim-v1';
+  let questions=[],index=0,selected=null,revealed=false,remaining=55,running=false,timerId=null,source='25 soal bawaan';
+  let teams=['Tim Merah','Tim Biru','Tim Hijau','Tim Ungu','Tim Kuning'].map((name,i)=>({name,score:0,color:colors[i],guess:null}));
+  let awarded=new Set();
+  try{const obj=JSON.parse(localStorage.getItem(storageKey)||'null');if(obj?.teams?.length===5){teams=teams.map((t,i)=>({...t,name:String(obj.teams[i].name||t.name),score:Number(obj.teams[i].score)||0}));} if(Array.isArray(obj?.awarded)) awarded=new Set(obj.awarded)}catch(e){}
+  const save=()=>{try{localStorage.setItem(storageKey,JSON.stringify({teams:teams.map(({name,score})=>({name,score})),awarded:[...awarded]}))}catch(e){}};
+  const readTime=t=>{let m=/^(\d{1,2}):(\d{2})$/.exec(t||'');return m?Number(m[1])*60+Number(m[2]):NaN};
+  function complies(q,r){if(r.item.toLowerCase()!==q.item.toLowerCase()||r.shoe.toLowerCase()!==q.shoe.toLowerCase())return false;if(!q.time)return true;let m=/^(TEPAT|SEBELUM|SETELAH)\s+(\d{1,2}:\d{2})$/i.exec(q.time);if(!m)return false;let a=readTime(r.time),b=readTime(m[2]);return m[1]==='TEPAT'?a===b:m[1]==='SEBELUM'?a<b:a>b}
+  function parseTxt(txt){const blocks=String(txt).replace(/^\uFEFF/,'').split(/^\s*===\s*$/m).map(s=>s.trim()).filter(Boolean);let parsed=[];for(let raw of blocks){let data={},robots=[];for(let line of raw.split(/\r?\n/)){line=line.trim();if(!line||line.startsWith('#'))continue;const k=line.indexOf(':');if(k<0)continue;const key=line.slice(0,k).trim().toUpperCase(),val=line.slice(k+1).trim();if(key==='ROBOT'){let fields=val.split('|').map(a=>a.trim());if(fields.length!==5)throw Error('ROBOT harus memiliki 5 bagian: HURUF|NAMA|BARANG|JAM|SEPATU');robots.push({id:fields[0].toUpperCase(),name:fields[1],item:fields[2],time:fields[3],shoe:fields[4]})}else data[key]=val;}
+     if(!data.JUDUL){continue;}const q={title:data.JUDUL,category:data.KATEGORI||'DETEKTIF',story:data.CERITA||'Temukan robot yang cocok dengan semua petunjuk.',duration:Math.max(15,Math.min(600,Number(data.WAKTU)||55)),item:data.BARANG||'',shoe:data.SEPATU||'',time:(data.JAM||'').toUpperCase(),robots,answer:(data.JAWABAN||'').toUpperCase(),explanation:data.PENJELASAN||''};
+     if(!q.item||!q.shoe||!q.answer||robots.length!==4||'ABCD'.split('').some(s=>!robots.some(r=>r.id===s)))throw Error(`Soal "${q.title}" belum lengkap. Periksa BARANG, SEPATU, ROBOT A-D dan JAWABAN.`);
+     if(q.time&&!/^(TEPAT|SEBELUM|SETELAH)\s+\d{1,2}:\d{2}$/.test(q.time))throw Error(`Format JAM pada "${q.title}" harus TEPAT, SEBELUM, atau SETELAH HH:MM.`);
+     const winners=robots.filter(r=>complies(q,r));if(winners.length!==1||winners[0].id!==q.answer)throw Error(`Petunjuk soal "${q.title}" tidak menghasilkan tepat satu jawaban ${q.answer}. Periksa data keempat robot.`);
+     parsed.push(q);
+  }if(!parsed.length)throw Error('Tidak ada soal valid. Pisahkan setiap soal dengan baris ===.');return parsed;}
+  function avatar(n){let p=[['#81deff','#4682e8'],['#ffbc91','#ed7692'],['#baf1a9','#50bfa4'],['#e2c0ff','#9b7dea']][n%4];return `<svg aria-hidden="true" class="robot-art" viewBox="0 0 145 125" xmlns="http://www.w3.org/2000/svg"><path d="M72 16V6" stroke="${p[1]}" stroke-width="6" stroke-linecap="round"/><circle cx="72" cy="5" r="5" fill="#ffda6d"/><path d="M30 83L13 93M115 83l17 10" stroke="${p[1]}" stroke-width="11" stroke-linecap="round"/><rect x="39" y="72" width="67" height="43" rx="16" fill="${p[1]}"/><rect x="35" y="10" width="75" height="74" rx="26" fill="${p[0]}" stroke="${p[1]}" stroke-width="6"/><rect x="42" y="29" width="61" height="40" rx="18" fill="#25385b"/><rect x="56" y="43" width="8" height="11" rx="4" fill="#e8fcff"/><rect x="82" y="43" width="8" height="11" rx="4" fill="#e8fcff"/><path d="M64 59Q73 66 82 59" fill="none" stroke="#ffda6d" stroke-linecap="round" stroke-width="3"/><circle cx="41" cy="56" r="7" fill="#ff8f9d" opacity=".8"/><circle cx="104" cy="56" r="7" fill="#ff8f9d" opacity=".8"/><rect x="57" y="85" width="30" height="16" rx="7" fill="#293b66"/><circle cx="72" cy="93" r="5" fill="#ffdd8a"/><path d="M57 114v7M89 114v7" stroke="${p[1]}" stroke-width="12" stroke-linecap="round"/></svg>`}
+  function renderClues(q){const list=[{ico:iconOf(q.item),label:'Barang yang dibawa',value:q.item},{ico:'👟',label:'Warna sepatu',value:q.shoe}];if(q.time){let [op,time]=q.time.split(' ');list.push({ico:'🕒',label:'Waktu lewat',value:(op==='TEPAT'?'Tepat ':op==='SEBELUM'?'Sebelum ':'Setelah ')+time})}else list.push({ico:'⭐',label:'Tantangan',value:'Cukup 2 petunjuk',disabled:true});$('#clues').innerHTML=list.map(l=>`<div class="clue ${l.disabled?'disabled':''}"><div class="clue-ico">${l.ico}</div><div><span>${esc(l.label)}</span><strong>${esc(l.value)}</strong></div></div>`).join('')}
+  function showTime(q){return !!q.time}
+  function renderRobots(){let q=questions[index];$('#robots').innerHTML=q.robots.map((r,i)=>{let isRight=revealed&&r.id===q.answer,wrongSelected=revealed&&selected===r.id&&!isRight;let cls=['robot',selected===r.id?'chosen':'',isRight?'correct':'',wrongSelected?'wrong-picked':'',revealed&&!isRight&&!wrongSelected?'faded':''].join(' ');return `<button type="button" class="${cls}" data-robot="${esc(r.id)}" aria-label="Robot ${r.id}, ${esc(r.name)}, ${esc(r.item)}, sepatu ${esc(r.shoe)}"><span class="letter">${esc(r.id)}</span><span class="robot-state">${isRight?'✅':wrongSelected?'❌':selected===r.id?'🔎':''}</span>${avatar(i)}<span class="robot-name">${esc(r.name)}</span><span class="robot-info"><span class="fact"><span class="emoji">${iconOf(r.item)}</span>${esc(r.item)}</span><span class="fact"><span class="shoe" style="background:${shoeColors[r.shoe.toLowerCase()]||'#aaa'}"></span>Sepatu ${esc(r.shoe)}</span>${showTime(q)?`<span class="fact time">🕒 ${esc(r.time)}</span>`:''}</span></button>`}).join('')}
+  function whyFails(q,r){let reasons=[];if(r.item.toLowerCase()!==q.item.toLowerCase())reasons.push(`membawa ${r.item.toLowerCase()}, bukan ${q.item.toLowerCase()}`);if(r.shoe.toLowerCase()!==q.shoe.toLowerCase())reasons.push(`sepatu ${r.shoe.toLowerCase()}, bukan ${q.shoe.toLowerCase()}`);if(q.time){const [op,t]=q.time.split(' '),cur=readTime(r.time),target=readTime(t);let pass=op==='TEPAT'?cur===target:op==='SEBELUM'?cur<target:cur>target;if(!pass)reasons.push(`lewat pukul ${r.time}, tidak sesuai waktu`)}return reasons.join('; ')}
+  function renderAnswer(){let area=$('#answerArea'),q=questions[index];if(!revealed){area.innerHTML='';return}let loser=q.robots.filter(r=>r.id!==q.answer);area.innerHTML=`<div class="answer"><h3>✅ Robot ${q.answer} adalah jawabannya!</h3><p>${esc(q.explanation||'Semua petunjuk cocok.')}</p><div class="reasons">${loser.map(r=>`<div class="reason"><b>${r.id} gugur:</b> ${esc(whyFails(q,r))}</div>`).join('')}</div></div>`}
+  const missionKey=()=>`${source}|${index}|${questions[index]?.title}`;
+  function renderScoreboard(){const q=questions[index];$('#scoreList').innerHTML=teams.map((team,i)=>{let hit=revealed&&team.guess===q.answer,miss=revealed&&team.guess&&team.guess!==q.answer;return `<div class="team"><div class="teamtop"><span class="teamdot" style="background:${team.color}"></span><input class="teamname" data-teamname="${i}" value="${esc(team.name)}" maxlength="24" aria-label="Nama kelompok ${i+1}" title="Klik untuk mengganti nama kelompok"><strong class="points">${team.score} <span style="font-size:10px;color:#bdc7e4">pt</span></strong></div><div class="options">${'ABCD'.split('').map(letter=>`<button type="button" data-guess="${i}|${letter}" ${revealed?'disabled':''} class="pick ${team.guess===letter?'active':''} ${team.guess===letter&&hit?'hit':''} ${team.guess===letter&&miss?'miss':''}" aria-label="Jawaban ${letter} untuk ${esc(team.name)}">${letter}</button>`).join('')}<div class="bonuses"><button type="button" data-bonus="${i}|5" class="mini" title="Bonus 5 poin">+5</button><button type="button" data-bonus="${i}|-5" class="mini minus" title="Kurangi 5 poin">−5</button></div></div></div>`}).join('');let numCorrect=teams.filter(t=>t.guess===q.answer).length,eligible=revealed&&!awarded.has(missionKey())&&numCorrect>0;$('#awardBtn').disabled=!eligible;$('#awardBtn').textContent=awarded.has(missionKey())?'✓ Poin misi ini sudah dibagikan':`✨ Beri +10 ke ${numCorrect} kelompok benar`}
+  function renderTimer(){let m=String(Math.floor(remaining/60)).padStart(2,'0'),s=String(remaining%60).padStart(2,'0');$('#timerText').textContent=`${m}:${s}`;$('#timerText').classList.toggle('urgent',remaining<=10);$('#timerBar').style.width=`${(remaining/questions[index].duration)*100}%`;$('#timerBar').style.background=remaining<=10?'#ff818e':'#56e7df';$('#timerToggle').textContent=running?'⏸ Jeda timer':'▶ Mulai timer';$('#timerToggle').disabled=remaining<=0}
+  function stopTimer(){clearInterval(timerId);timerId=null;running=false}
+  function initTimer(){stopTimer();remaining=questions[index].duration;renderTimer()}
+  function toggleTimer(){if(running){stopTimer();renderTimer();return}if(remaining<=0)return;running=true;renderTimer();timerId=setInterval(()=>{remaining=Math.max(0,remaining-1);if(!remaining){stopTimer();toast('⏰ Waktu habis! Minta semua kelompok menunjukkan jawabannya.')};renderTimer()},1000)}
+  function chooseQuestion(n){if(n<0||n>=questions.length)return;index=n;selected=null;revealed=false;teams.forEach(t=>t.guess=null);initTimer();renderAll()}
+  function renderAll(){let q=questions[index];$('#questionTitle').textContent=q.title;$('#questionStory').textContent=q.story;$('#difficulty').textContent=q.category;$('#progressTop').textContent=`MISI ${index+1} / ${questions.length}`;$('#sourceLabel').textContent=source;$('#missionPicker').innerHTML=questions.map((p,i)=>`<option value="${i}">${esc(p.title)}</option>`).join('');$('#missionPicker').value=String(index);$('#prevBtn').disabled=index===0;$('#nextBtn').disabled=index===questions.length-1;$('#revealBtn').textContent=revealed?'🙈 Tutup jawaban':'🔓 Buka jawaban';renderClues(q);renderRobots();renderAnswer();renderScoreboard();renderTimer()}
+  let toastTimeout;function toast(message){let el=$('#toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>el.classList.remove('show'),3600)}
+  function loadBank(t,src){let newq=parseTxt(t);questions=newq;source=src;awarded.clear();save();chooseQuestion(0);toast(`✅ ${newq.length} soal berhasil dimuat!`)}
+  $('#robots').addEventListener('click',e=>{let card=e.target.closest('[data-robot]');if(!card||revealed)return;selected=card.dataset.robot;renderRobots()});
+  $('#scoreList').addEventListener('click',e=>{let guess=e.target.closest('[data-guess]'),bonus=e.target.closest('[data-bonus]');if(guess&&!revealed){const [idx,letter]=guess.dataset.guess.split('|');teams[Number(idx)].guess=teams[Number(idx)].guess===letter?null:letter;renderScoreboard()}if(bonus){const [idx,point]=bonus.dataset.bonus.split('|');teams[Number(idx)].score=Math.max(0,teams[Number(idx)].score+Number(point));save();renderScoreboard()}});
+  $('#scoreList').addEventListener('change',e=>{let inp=e.target.closest('[data-teamname]');if(inp){let i=Number(inp.dataset.teamname);teams[i].name=inp.value.trim()||`Kelompok ${i+1}`;save();renderScoreboard()}});
+  $('#awardBtn').onclick=()=>{if(!revealed||awarded.has(missionKey()))return;let n=0;teams.forEach(t=>{if(t.guess===questions[index].answer){t.score+=10;n++}});if(n){awarded.add(missionKey());save();renderScoreboard();toast(`🎉 ${n} kelompok mendapat +10 poin!`)}};
+  $('#revealBtn').onclick=()=>{revealed=!revealed;if(revealed)stopTimer();renderAll()};$('#timerToggle').onclick=toggleTimer;$('#timerReset').onclick=initTimer;
+  $('#prevBtn').onclick=()=>chooseQuestion(index-1);$('#nextBtn').onclick=()=>chooseQuestion(index+1);$('#missionPicker').onchange=e=>chooseQuestion(Number(e.target.value));
+  $('#loadBtn').onclick=()=>$('#fileInput').click();$('#fileInput').onchange=async(e)=>{let f=e.target.files[0];if(!f)return;try{loadBank(await f.text(),`Dari file: ${f.name}`)}catch(err){alert(`Gagal membuka TXT:\n${err.message}`)}finally{e.target.value=''}};
+  $('#fullBtn').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen?.();else document.documentElement.requestFullscreen?.()};
+  $('#resetScores').onclick=()=>{if(!confirm('Yakin reset poin 5 kelompok menjadi 0? Nama kelompok tetap disimpan.'))return;teams.forEach(t=>t.score=0);awarded.clear();save();renderScoreboard();toast('Poin 5 kelompok sudah direset.')};
+  $('#howtoBtn').onclick=()=>alert('CARA MAIN (5 KELOMPOK)\n\n1. Baca cerita dan 2–3 petunjuk di layar.\n2. Diskusikan robot yang cocok dengan SEMUA petunjuk.\n3. Masukkan jawaban A/B/C/D untuk masing-masing kelompok pada papan skor.\n4. Klik Buka Jawaban, lihat robot yang benar serta alasan robot lain gugur.\n5. Klik Beri +10 untuk memberi poin otomatis ke kelompok yang benar.\n6. Klik +5 untuk bonus jika kelompok bisa menjelaskan alasan.\n\nSoal dapat diganti: klik Unggah soal.txt.\nNama kelompok bisa diedit langsung.\nSaran: 10–15 misi untuk kelas 60 menit.');
+  document.addEventListener('keydown',e=>{const tag=e.target?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag))return;if(e.key==='ArrowRight')chooseQuestion(index+1);else if(e.key==='ArrowLeft')chooseQuestion(index-1);else if(e.key===' '){e.preventDefault();toggleTimer()}else if(['1','2','3','4'].includes(e.key)&&!revealed){selected='ABCD'[Number(e.key)-1];renderRobots()}});
+  // Game tetap langsung berfungsi walau dibuka dari file:// tanpa server.
+  try{loadBank($('#builtinTxt').textContent,'25 soal bawaan')}catch(e){alert(`Kesalahan soal bawaan: ${e.message}`)}
+  // Kalau dijalankan dari server lokal (lihat mulai-windows.bat), soal.txt dibaca otomatis.
+  if(location.protocol==='http:'||location.protocol==='https:'){fetch('./soal.txt',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('not found');return r.text()}).then(t=>loadBank(t,'Otomatis dari soal.txt')).catch(()=>{})}
+})();
+</script>
+</body></html>

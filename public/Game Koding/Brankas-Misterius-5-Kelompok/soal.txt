@@ -1,0 +1,267 @@
+# BRANKAS MISTERIUS - 25 LEVEL
+# S1= sakelar pertama, S2= sakelar kedua, dan seterusnya.
+# ON = nyala, OFF = mati.
+# Untuk soal baru: salin satu blok === lalu ubah JUDUL, CERITA, SAKELAR, ATURAN.
+# Setiap level harus memiliki SATU kombinasi jawaban yang benar.
+
+===
+JUDUL: 01. Brankas Kelas
+TEMA: Sekolah
+CERITA: Papan kunci kelas terkunci! Temukan kombinasi sakelar agar bisa masuk.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- S1 = ON
+- S2 = OFF
+- JUMLAH ON = 2
+
+===
+JUDUL: 02. Kotak Bekal
+TEMA: Kantin
+CERITA: Robot kantin lupa kode kotak bekal. Bantu membukanya!
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- S1 = OFF
+- S2 = ON
+- JUMLAH ON = 2
+
+===
+JUDUL: 03. Peti Mainan
+TEMA: Kamar Main
+CERITA: Ada mainan kejutan di dalam peti. Nyalakan sakelar yang tepat.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- S1 = ON
+- S3 = OFF
+- JUMLAH ON = 2
+
+===
+JUDUL: 04. Gudang Peralatan
+TEMA: Sekolah
+CERITA: Bola dan raket terkunci di gudang olahraga.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- S1 = OFF
+- S2 = ON
+- JUMLAH ON = 1
+
+===
+JUDUL: 05. Kotak Hadiah
+TEMA: Ulang Tahun
+CERITA: Hadiah pesta akan muncul jika kodenya benar.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- S1 = ON
+- S2 = OFF
+- JUMLAH ON = 1
+
+===
+JUDUL: 06. Rumah Pintar
+TEMA: Rumah
+CERITA: Lampu rumah pintar tidak mau menyala sebelum sakelar diatur.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- JUMLAH ON = 1
+- S1 = S2
+
+===
+JUDUL: 07. Kandang Kelinci
+TEMA: Kebun Binatang
+CERITA: Gerbang kandang otomatis butuh kombinasi sakelar.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- JUMLAH ON = 2
+- S1 = OFF
+
+===
+JUDUL: 08. Pintu Perpustakaan
+TEMA: Perpustakaan
+CERITA: Cari kunci digital untuk membuka pintu perpustakaan.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- JUMLAH ON = 1
+- S1 = ON
+
+===
+JUDUL: 09. Mesin Jus
+TEMA: Dapur
+CERITA: Mesin jus buah membutuhkan kombinasi yang tepat.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- JUMLAH ON = 2
+- S1 = S3
+
+===
+JUDUL: 10. Peti Pasir Pantai
+TEMA: Pantai
+CERITA: Kalian menemukan peti misterius di bawah pohon kelapa.
+SAKELAR: 3
+WAKTU: 85
+ATURAN:
+- JUMLAH ON = 1
+- S3 = ON
+
+===
+JUDUL: 11. Lift Rahasia
+TEMA: Gedung
+CERITA: Lift rahasia hanya bekerja dengan empat sakelar.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S3 DAN S4 = ON
+
+===
+JUDUL: 12. Studio Musik
+TEMA: Sekolah
+CERITA: Musik berhenti! Aktifkan panel studio agar suara kembali.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S1 DAN S3 = ON
+
+===
+JUDUL: 13. Gerbang Taman
+TEMA: Taman
+CERITA: Gerbang taman macet. Bantu penjaga membuka kendalinya.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 1
+- S2 != S3
+- TEPAT SATU: S2, S4
+
+===
+JUDUL: 14. Garasi Sepeda
+TEMA: Garasi
+CERITA: Sepeda tersimpan di garasi pintar yang terkunci.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 3
+- S2 = OFF
+
+===
+JUDUL: 15. Pabrik Es Krim
+TEMA: Pabrik
+CERITA: Robot pembuat es krim tidak mau bergerak sebelum kode benar.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 1
+- TEPAT SATU: S2, S3
+- TEPAT SATU: S1, S2
+
+===
+JUDUL: 16. Ruang Komputer
+TEMA: Sekolah
+CERITA: Komputer pusat meminta kode sakelar untuk menyala.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 3
+- S1 DAN S3 = ON
+- S1 DAN S4 = ON
+
+===
+JUDUL: 17. Menara Jam
+TEMA: Kota
+CERITA: Menara jam perlu pengaturan listrik yang benar.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S2 DAN S4 = ON
+
+===
+JUDUL: 18. Pintu Akuarium
+TEMA: Akuarium
+CERITA: Gerbang kaca akuarium memerlukan kode dari panel kontrol.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S1 DAN S2 = ON
+
+===
+JUDUL: 19. Kapal Penjelajah
+TEMA: Laut
+CERITA: Kapal belum bisa berlayar. Periksa panel sakelar mesin.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S2 DAN S4 = ON
+
+===
+JUDUL: 20. Laboratorium Robot
+TEMA: Laboratorium
+CERITA: Robot penjaga terkunci di ruang percobaan.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S1 DAN S2 = ON
+
+===
+JUDUL: 21. Ruang Satelit
+TEMA: Luar Angkasa
+CERITA: Satelit perlu mengaktifkan sistem komunikasi.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 2
+- S2 DAN S3 = ON
+
+===
+JUDUL: 22. Roket Peluncur
+TEMA: Luar Angkasa
+CERITA: Hitung mundur roket tertahan oleh panel keamanan.
+SAKELAR: 4
+WAKTU: 105
+ATURAN:
+- JUMLAH ON = 3
+- S2 DAN S4 = ON
+- S3 != S4
+
+===
+JUDUL: 23. Pulau Rahasia
+TEMA: Petualangan
+CERITA: Peti peta pulau memiliki banyak sakelar misterius.
+SAKELAR: 5
+WAKTU: 125
+ATURAN:
+- JUMLAH ON = 2
+- S2 DAN S5 = ON
+
+===
+JUDUL: 24. Pusat Kontrol
+TEMA: Petualangan
+CERITA: Agen harus mengaktifkan panel sebelum pintu terakhir dibuka.
+SAKELAR: 5
+WAKTU: 125
+ATURAN:
+- JUMLAH ON = 1
+- S1 ATAU S5 = ON
+- S1 ATAU S4 = ON
+
+===
+JUDUL: 25. BRANKAS FINAL
+TEMA: Misi Terakhir
+CERITA: Ini pintu terakhir! Semua agen bekerja sama memecahkan kodenya.
+SAKELAR: 5
+WAKTU: 125
+ATURAN:
+- JUMLAH ON = 4
+- TEPAT SATU: S2, S3
+- S1 = S3
+

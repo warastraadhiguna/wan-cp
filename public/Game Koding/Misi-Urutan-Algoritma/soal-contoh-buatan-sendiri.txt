@@ -1,0 +1,15 @@
+# Contoh membuat soal sendiri. Urutan di bawah adalah kunci jawaban.
+===
+JUDUL: Membuat Sereal
+TEMA: Sarapan
+LEVEL: Mudah
+CERITA: Bantu robot menyiapkan sarapan.
+WAKTU: 75
+PETUNJUK: Mangkuk harus tersedia lebih dahulu.
+LANGKAH:
+- Siapkan mangkuk bersih
+- Masukkan sereal ke dalam mangkuk
+- Tuang susu dingin ke mangkuk
+- Siapkan sendok
+- Nikmati sereal
+PENJELASAN: Mangkuk dan sereal disiapkan sebelum susu dituang.

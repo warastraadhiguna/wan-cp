@@ -1,0 +1,406 @@
+# GAME ALGORITMA: MISI SUSUN LANGKAH
+ # Ubah/Tambah soal di sini. Urutan langkah ditulis dari awal sampai akhir.
+# Pisahkan tiap soal dengan ===
+# LANGKAH: tulis satu langkah per baris (diawali - )
+# Maksimal 8 langkah untuk satu soal.
+# CATATAN: saat tampil, aplikasi akan MENGACAK langkah otomatis.
+
+===
+JUDUL: 01. Membuat Kopi untuk Ayah
+TEMA: Dapur
+LEVEL: Mudah
+CERITA: Ayah meminta kopi hangat. Susun langkahnya dengan aman; air panas ditangani orang dewasa.
+WAKTU: 80
+PETUNJUK: Ingat, cangkir dan bahan harus siap sebelum dituangi air.
+LANGKAH:
+- Siapkan cangkir bersih
+- Masukkan kopi dan gula ke cangkir
+- Minta orang dewasa menyiapkan air panas
+- Tuang air panas ke cangkir dengan bantuan orang dewasa
+- Aduk hingga kopi tercampur
+PENJELASAN: Bahan disiapkan sebelum dicampur, lalu kopi diaduk setelah air dituang.
+
+===
+JUDUL: 02. Cuci Tangan yang Benar
+TEMA: Kebersihan
+LEVEL: Mudah
+CERITA: Robot kebersihan ingin mencuci tangan sebelum makan.
+WAKTU: 70
+PETUNJUK: Air, sabun, gosok, bilas, keringkan.
+LANGKAH:
+- Basahi kedua tangan dengan air
+- Tuang sabun ke telapak tangan
+- Gosok kedua tangan dan sela jari
+- Bilas tangan sampai sabunnya hilang
+- Keringkan tangan dengan handuk bersih
+PENJELASAN: Sabun digunakan setelah tangan basah, lalu dibilas dan dikeringkan.
+
+===
+JUDUL: 03. Membuat Susu Cokelat Dingin
+TEMA: Minuman
+LEVEL: Mudah
+CERITA: Buat segelas susu cokelat tanpa kompor.
+WAKTU: 70
+PETUNJUK: Gelas kosong lebih dahulu, aduk setelah semua bahan masuk.
+LANGKAH:
+- Siapkan gelas bersih
+- Masukkan bubuk cokelat ke dalam gelas
+- Tuang susu dingin ke gelas
+- Aduk hingga bubuk larut
+- Sajikan susu cokelat
+PENJELASAN: Bubuk dan susu dicampurkan di gelas sebelum diaduk.
+
+===
+JUDUL: 04. Menanam Kacang Hijau
+TEMA: Kebun
+LEVEL: Mudah
+CERITA: Bantu Bimo melakukan percobaan menanam kacang hijau di kapas.
+WAKTU: 80
+PETUNJUK: Kapas harus basah sebelum biji diletakkan.
+LANGKAH:
+- Siapkan wadah dan kapas
+- Basahi kapas dengan sedikit air
+- Letakkan biji kacang hijau di atas kapas
+- Taruh wadah di tempat yang cukup terang
+- Periksa kapas setiap hari agar tetap lembap
+- Amati kecambah yang tumbuh beberapa hari kemudian
+PENJELASAN: Menanam butuh persiapan, air, biji, perawatan, lalu pengamatan.
+
+===
+JUDUL: 05. Menyiapkan Tas Sekolah
+TEMA: Sekolah
+LEVEL: Mudah
+CERITA: Besok ada pelajaran berbeda. Jangan sampai buku tertinggal!
+WAKTU: 75
+PETUNJUK: Lihat jadwal dahulu sebelum memilih buku.
+LANGKAH:
+- Buka jadwal pelajaran besok
+- Tentukan buku yang dibutuhkan
+- Masukkan buku sesuai jadwal ke tas
+- Tambahkan kotak pensil dan alat tulis
+- Tutup ritsleting tas
+- Letakkan tas di dekat pintu
+PENJELASAN: Memeriksa jadwal lebih dulu membantu memilih buku yang tepat.
+
+===
+JUDUL: 06. Memakai Payung Saat Hujan
+TEMA: Cuaca
+LEVEL: Mudah
+CERITA: Nisa harus berjalan dari teras ke halaman saat hujan.
+WAKTU: 65
+PETUNJUK: Buka payung sebelum berjalan di bawah hujan.
+LANGKAH:
+- Lihat ke luar dan pastikan hujan turun
+- Ambil payung yang ada di dekat pintu
+- Buka payung di teras dengan aman
+- Berjalan ke halaman sambil memegang payung
+- Kembali ke teras setelah selesai
+- Tutup payung dan letakkan di tempatnya
+PENJELASAN: Payung dibuka sebelum digunakan, lalu ditutup ketika kembali ke tempat teduh.
+
+===
+JUDUL: 07. Meminjam Buku Perpustakaan
+TEMA: Sekolah
+LEVEL: Mudah
+CERITA: Rani ingin membaca cerita petualangan dari perpustakaan.
+WAKTU: 80
+PETUNJUK: Buku harus dicatat sebagai pinjaman sebelum dibawa pulang.
+LANGKAH:
+- Cari buku cerita pada rak
+- Pilih buku yang ingin dipinjam
+- Bawa buku ke meja petugas
+- Minta petugas mencatat peminjaman
+- Bawa buku pulang dengan hati-hati
+- Kembalikan buku sebelum batas waktu
+PENJELASAN: Urutan meminjam memastikan buku tercatat dan dapat dikembalikan.
+
+===
+JUDUL: 08. Membuat Salad Buah
+TEMA: Makanan
+LEVEL: Sedang
+CERITA: Lima menit lagi piknik dimulai. Siapkan salad buah bersama orang dewasa.
+WAKTU: 85
+PETUNJUK: Buah harus bersih sebelum dipotong.
+LANGKAH:
+- Cuci tangan terlebih dahulu
+- Cuci buah dengan air bersih
+- Minta orang dewasa mengupas dan memotong buah
+- Masukkan potongan buah ke mangkuk
+- Tambahkan yogurt sesuai selera
+- Aduk perlahan dan sajikan
+PENJELASAN: Mencuci dan menyiapkan buah mendahului pencampuran dengan yogurt.
+
+===
+JUDUL: 09. Membuat Roti Selai
+TEMA: Sarapan
+LEVEL: Mudah
+CERITA: Tara ingin membuat roti selai sederhana untuk sarapan.
+WAKTU: 75
+PETUNJUK: Oles selai sebelum dua roti ditumpuk.
+LANGKAH:
+- Cuci tangan dengan sabun
+- Siapkan dua lembar roti dan selai
+- Oles selai pada satu lembar roti
+- Tutup dengan lembar roti lainnya
+- Letakkan roti di atas piring
+PENJELASAN: Roti disiapkan sebelum dioles dan ditumpuk.
+
+===
+JUDUL: 10. Mencuci Piring Kotor
+TEMA: Rumah
+LEVEL: Sedang
+CERITA: Setelah makan malam, Edo membantu mencuci piring.
+WAKTU: 85
+PETUNJUK: Sabun yang sudah dipakai harus dibilas.
+LANGKAH:
+- Buang sisa makanan dari piring
+- Basahi piring menggunakan air
+- Beri sabun pada spons
+- Gosok bagian piring yang kotor
+- Bilas piring sampai bersih dari sabun
+- Taruh piring di rak untuk dikeringkan
+PENJELASAN: Piring dicuci dari sisa makanan sampai sabun hilang sebelum dikeringkan.
+
+===
+JUDUL: 11. Menyeduh Teh Hangat
+TEMA: Dapur
+LEVEL: Sedang
+CERITA: Ibu membuat teh hangat. Anak membantu menata alat, bukan menuang air panas sendiri.
+WAKTU: 80
+PETUNJUK: Teh harus berada di cangkir sebelum diseduh.
+LANGKAH:
+- Siapkan cangkir dan teh celup
+- Masukkan teh celup ke dalam cangkir
+- Minta orang dewasa menyiapkan air panas
+- Minta orang dewasa menuang air panas ke cangkir
+- Tunggu sampai warna teh keluar
+- Angkat teh celup dengan bantuan orang dewasa
+PENJELASAN: Teh diseduh dengan air panas setelah alat dan teh siap.
+
+===
+JUDUL: 12. Memotret dengan Ponsel
+TEMA: Teknologi
+LEVEL: Sedang
+CERITA: Satu robot ingin memotret bunga di halaman.
+WAKTU: 70
+PETUNJUK: Aplikasi kamera harus terbuka sebelum memotret.
+LANGKAH:
+- Ambil ponsel dengan izin pemiliknya
+- Buka aplikasi kamera
+- Arahkan kamera ke bunga
+- Pastikan bunga terlihat jelas di layar
+- Tekan tombol ambil foto
+- Periksa hasil foto di galeri
+PENJELASAN: Kamera dibuka, objek diarahkan, lalu tombol foto ditekan dan hasil dicek.
+
+===
+JUDUL: 13. Membuat Pesawat Kertas
+TEMA: Kerajinan
+LEVEL: Sedang
+CERITA: Bima ingin mencoba pesawat kertas di halaman.
+WAKTU: 90
+PETUNJUK: Lipat bagian tengah dahulu sebagai panduan lipatan.
+LANGKAH:
+- Siapkan satu lembar kertas
+- Lipat kertas menjadi dua memanjang
+- Buka lipatan untuk melihat garis tengah
+- Lipat dua sudut atas menuju garis tengah
+- Lipat kedua sisi menjadi sayap
+- Lempar pesawat pelan di tempat aman
+PENJELASAN: Garis lipatan awal menjadi panduan untuk sayap pesawat.
+
+===
+JUDUL: 14. Mencetak Tugas Sekolah
+TEMA: Teknologi
+LEVEL: Sedang
+CERITA: Tugas Nina tersimpan di komputer dan harus dicetak.
+WAKTU: 95
+PETUNJUK: Cek isi dokumen sebelum menekan cetak.
+LANGKAH:
+- Nyalakan komputer dan buka dokumen tugas
+- Periksa kembali tulisan pada dokumen
+- Pilih menu Cetak atau Print
+- Pastikan printer dan kertas sudah siap
+- Klik tombol Cetak
+- Ambil hasil cetakan dari printer
+PENJELASAN: Periksa dokumen dan perangkat sebelum melakukan perintah cetak.
+
+===
+JUDUL: 15. Merapikan Mainan
+TEMA: Rumah
+LEVEL: Sedang
+CERITA: Robot pembersih mendapat misi membereskan mainan di ruang keluarga.
+WAKTU: 80
+PETUNJUK: Pindahkan mainan dahulu, baru membersihkan lantai.
+LANGKAH:
+- Kumpulkan mainan yang berserakan
+- Pisahkan mainan berdasarkan jenis
+- Masukkan mainan ke kotak masing-masing
+- Letakkan kotak mainan ke rak
+- Sapu lantai yang sudah kosong
+- Periksa apakah ruangan sudah rapi
+PENJELASAN: Mengelompokkan dan menyimpan benda membuat lantai mudah dibersihkan.
+
+===
+JUDUL: 16. Membuat Jus Jeruk
+TEMA: Makanan
+LEVEL: Sedang
+CERITA: Misi dapur hari ini: membuat jus jeruk segar.
+WAKTU: 85
+PETUNJUK: Jeruk perlu dicuci sebelum diperas.
+LANGKAH:
+- Cuci tangan sebelum menyiapkan minuman
+- Cuci jeruk menggunakan air bersih
+- Minta orang dewasa membelah jeruk
+- Peras jeruk ke wadah bersih
+- Tuang air perasan jeruk ke gelas
+- Sajikan jus jeruk
+PENJELASAN: Jeruk dicuci dan dibelah sebelum diperas lalu disajikan.
+
+===
+JUDUL: 17. Mengirim Surat
+TEMA: Komunikasi
+LEVEL: Sedang
+CERITA: Dika ingin mengirim surat kepada sepupunya.
+WAKTU: 95
+PETUNJUK: Surat perlu ditulis sebelum dimasukkan ke amplop.
+LANGKAH:
+- Siapkan kertas dan alat tulis
+- Tulis pesan untuk sepupu
+- Masukkan surat ke amplop
+- Tulis alamat tujuan pada amplop
+- Tempel perangko sesuai ketentuan
+- Kirim melalui layanan pos
+PENJELASAN: Surat ditulis, dimasukkan, dialamatkan, lalu dikirim.
+
+===
+JUDUL: 18. Membangun Menara Balok
+TEMA: Mainan
+LEVEL: Sedang
+CERITA: Lima balok harus menjadi menara yang tidak mudah roboh.
+WAKTU: 75
+PETUNJUK: Balok besar di dasar, balok kecil di bagian atas.
+LANGKAH:
+- Kumpulkan balok yang akan dipakai
+- Pilih balok besar untuk bagian dasar
+- Letakkan balok dasar di lantai rata
+- Susun balok sedang di atasnya
+- Tambahkan balok kecil di bagian puncak
+- Periksa apakah menara berdiri stabil
+PENJELASAN: Bangunan lebih stabil jika dimulai dari dasar yang kuat.
+
+===
+JUDUL: 19. Membuat Layang-Layang
+TEMA: Kerajinan
+LEVEL: Tantangan
+CERITA: Layang-layang kelas akan diterbangkan bersama guru.
+WAKTU: 100
+PETUNJUK: Rangka dulu, baru kertas dan tali.
+LANGKAH:
+- Siapkan bambu ringan, kertas, benang, dan lem
+- Susun dua bilah menjadi rangka silang
+- Ikat bagian tengah rangka dengan kuat
+- Tempel kertas mengikuti bentuk rangka
+- Ikat benang layangan pada rangka
+- Terbangkan di tempat terbuka jauh dari kabel listrik
+PENJELASAN: Rangka disiapkan sebelum penutup dan benang dipasang.
+
+===
+JUDUL: 20. Membuat Poster Pelangi
+TEMA: Seni
+LEVEL: Sedang
+CERITA: Kelas ingin membuat poster pelangi berwarna cerah.
+WAKTU: 75
+PETUNJUK: Gambar pola dahulu sebelum diberi warna.
+LANGKAH:
+- Siapkan kertas gambar
+- Siapkan pensil dan krayon
+- Gambar garis lengkung pelangi dengan pensil
+- Warnai bagian pelangi menggunakan krayon
+- Tambahkan awan dan matahari
+- Pajang poster yang selesai
+PENJELASAN: Sketsa membantu mengatur gambar sebelum pewarnaan.
+
+===
+JUDUL: 21. Membeli Roti di Toko
+TEMA: Kehidupan
+LEVEL: Sedang
+CERITA: Robot belanja diminta membeli roti untuk keluarga.
+WAKTU: 85
+PETUNJUK: Bayar sebelum meninggalkan toko.
+LANGKAH:
+- Siapkan uang belanja
+- Datang ke toko roti
+- Pilih roti sesuai daftar belanja
+- Bawa roti ke kasir
+- Bayar sesuai harga
+- Terima roti dan uang kembalian bila ada
+- Pulang membawa roti
+PENJELASAN: Memilih dan membayar barang merupakan bagian berurutan dalam belanja.
+
+===
+JUDUL: 22. Menyiram Tanaman
+TEMA: Kebun
+LEVEL: Sedang
+CERITA: Tanaman di pot membutuhkan air. Apa urutan kerja robot taman?
+WAKTU: 75
+PETUNJUK: Air harus ada di penyiram sebelum dipakai.
+LANGKAH:
+- Periksa apakah tanah tanaman terasa kering
+- Ambil alat penyiram tanaman
+- Isi alat penyiram dengan air secukupnya
+- Siram tanah di sekitar tanaman perlahan
+- Berhenti saat tanah sudah cukup basah
+- Kembalikan alat penyiram ke tempatnya
+PENJELASAN: Periksa kebutuhan tanaman, isi alat, siram, dan rapikan.
+
+===
+JUDUL: 23. Mengirim Pesan Sopan
+TEMA: Teknologi
+LEVEL: Tantangan
+CERITA: Dina ingin bertanya tugas kepada guru lewat aplikasi pesan.
+WAKTU: 90
+PETUNJUK: Baca ulang pesan sebelum dikirim.
+LANGKAH:
+- Minta izin orang tua untuk menggunakan ponsel
+- Buka aplikasi pesan
+- Pilih percakapan dengan guru yang benar
+- Ketik salam dan pertanyaan dengan sopan
+- Baca ulang untuk memeriksa salah ketik
+- Tekan Kirim
+- Tunggu balasan tanpa mengirim pesan berulang
+PENJELASAN: Pilih penerima, tulis, periksa, lalu kirim pesan.
+
+===
+JUDUL: 24. Robot Mengantar Paket
+TEMA: Robot
+LEVEL: Tantangan
+CERITA: Robot kurir otomatis harus memastikan paket tiba ke orang yang tepat.
+WAKTU: 95
+PETUNJUK: Alamat harus dicek sebelum robot berangkat.
+LANGKAH:
+- Baca label tujuan pada paket
+- Cari lokasi penerima pada peta
+- Ambil paket dengan penjepit robot
+- Berjalan menuju lokasi penerima
+- Periksa nama penerima saat tiba
+- Serahkan paket kepada penerima yang benar
+- Catat bahwa pengiriman selesai
+PENJELASAN: Data tujuan harus diperiksa sebelum paket diserahkan.
+
+===
+JUDUL: 25. Membuat Game Sederhana
+TEMA: Coding
+LEVEL: BOSS LEVEL
+CERITA: Misi final! Susun langkah membuat game karakter bergerak di Scratch.
+WAKTU: 120
+PETUNJUK: Program diuji setelah perintah disusun.
+LANGKAH:
+- Tentukan ide permainan sederhana
+- Pilih karakter atau sprite
+- Pilih latar belakang permainan
+- Tambahkan blok ketika bendera hijau diklik
+- Pasang blok untuk menggerakkan karakter
+- Klik bendera hijau untuk mencoba
+- Periksa gerakan dan perbaiki jika ada kesalahan
+PENJELASAN: Perancang menentukan ide, membuat objek, menyusun perintah, lalu menguji dan memperbaiki program.

@@ -1,0 +1,140 @@
+# SECRET CODE - LEVEL 2: KODE SIMBOL
+# Untuk kelas 4-5 SD. Guru dapat mengubah kata dan cerita.
+# Pesan simbol dibuat OTOMATIS dari JAWABAN menggunakan kamus tetap.
+# Satu soal dimulai dengan ===
+# Huruf A-Z dan spasi didukung pada JAWABAN.
+
+===
+JUDUL: 01. Sinyal dari Taman
+TEMA: Pembuka Misi
+CERITA: Setelah memecahkan kode angka, Agen X mengirim pesan dalam bentuk simbol. Temukan lokasi pertama yang harus kita kunjungi!
+JAWABAN: TAMAN
+PETUNJUK: Tempat bermain yang banyak tumbuh tanaman.
+TEMUAN: Kalian menemukan jejak kaki kecil di dekat ayunan.
+WAKTU: 90
+
+===
+JUDUL: 02. Jejak di Bawah Pohon
+TEMA: Petualangan
+CERITA: Jejak kaki itu berakhir di dekat suatu benda besar yang memiliki batang dan daun. Pecahkan petunjuk berikut!
+JAWABAN: POHON
+PETUNJUK: Tumbuhan tinggi yang memiliki batang besar.
+TEMUAN: Ada pita merah di salah satu cabangnya.
+WAKTU: 90
+
+===
+JUDUL: 03. Pesan di Ranting
+TEMA: Alam
+CERITA: Di atas ranting, ada benda hijau yang ditempeli kode kecil. Benda apa itu?
+JAWABAN: DAUN
+PETUNJUK: Bagian tumbuhan yang biasanya hijau.
+TEMUAN: Di baliknya tertulis: 'Periksa benda keras di tanah.'
+WAKTU: 90
+
+===
+JUDUL: 04. Benda di Tanah
+TEMA: Detektif Alam
+CERITA: Di bawah pohon, kita melihat benda kecil, keras, dan tidak bergerak. Apa yang harus diperiksa?
+JAWABAN: BATU
+PETUNJUK: Benda keras yang sering ditemukan di sungai atau taman.
+TEMUAN: Di bawah batu ada gambar sebuah kotak.
+WAKTU: 85
+
+===
+JUDUL: 05. Temuan Aneh
+TEMA: Kotak Misteri
+CERITA: Gambar tadi mengarah pada wadah persegi yang tersembunyi di balik bangku. Apa nama benda itu?
+JAWABAN: KOTAK
+PETUNJUK: Wadah untuk menyimpan barang atau hadiah.
+TEMUAN: Kotaknya terkunci. Kita perlu mencari benda pembukanya.
+WAKTU: 85
+
+===
+JUDUL: 06. Buka Kotaknya!
+TEMA: Benda Sehari-hari
+CERITA: Kotak rahasia tidak bisa dibuka dengan tangan. Benda kecil apa yang diperlukan?
+JAWABAN: KUNCI
+PETUNJUK: Benda yang digunakan untuk membuka gembok atau pintu.
+TEMUAN: Kotak terbuka! Di dalamnya ada sebuah buku tua.
+WAKTU: 85
+
+===
+JUDUL: 07. Benda dalam Kotak
+TEMA: Perpustakaan
+CERITA: Di dalam kotak ada benda yang memiliki halaman dan sampul. Apa nama benda tersebut?
+JAWABAN: BUKU
+PETUNJUK: Kita membacanya untuk mendapat informasi.
+TEMUAN: Di halaman terakhir tertulis: 'Lihat tempat belajar.'
+WAKTU: 85
+
+===
+JUDUL: 08. Petunjuk di Ruangan
+TEMA: Ruang Kelas
+CERITA: Buku tadi menyebut perabot tempat kita menulis dan belajar. Perabot apakah itu?
+JAWABAN: MEJA
+PETUNJUK: Benda berkaki empat yang sering dipakai untuk menulis.
+TEMUAN: Ada kertas yang menunjuk ke laci meja.
+WAKTU: 85
+
+===
+JUDUL: 09. Ruang Penyimpanan
+TEMA: Ruang Kelas
+CERITA: Di bagian bawah meja terdapat tempat untuk menyimpan pensil dan kertas. Pecahkan nama tempatnya!
+JAWABAN: LACI
+PETUNJUK: Bagian meja yang bisa ditarik keluar.
+TEMUAN: Kita menemukan gambar jalan dan bangunan.
+WAKTU: 85
+
+===
+JUDUL: 10. Gambar Arah
+TEMA: Penjelajahan
+CERITA: Gambar itu menunjukkan lokasi dan jalan menuju suatu tempat. Benda apa yang kita dapatkan?
+JAWABAN: PETA
+PETUNJUK: Gambar yang menunjukkan tempat dan arah perjalanan.
+TEMUAN: Pada gambar terdapat tanda silang di ruang belajar.
+WAKTU: 85
+
+===
+JUDUL: 11. Tempat Belajar
+TEMA: Sekolah
+CERITA: Tanda silang pada peta ternyata menunjuk ke ruangan tempat kita belajar bersama guru.
+JAWABAN: KELAS
+PETUNJUK: Ruangan dengan papan tulis dan meja siswa.
+TEMUAN: Di ruangan itu, Agen X meninggalkan pesan dekat jalan keluar.
+WAKTU: 90
+
+===
+JUDUL: 12. Menuju Jalan Keluar
+TEMA: Sekolah
+CERITA: Pesan mengatakan kita harus menuju bagian ruangan yang bisa dibuka dan ditutup untuk keluar.
+JAWABAN: PINTU
+PETUNJUK: Biasanya punya gagang dan engsel.
+TEMUAN: Di sampingnya ada sakelar yang menyalakan suatu benda.
+WAKTU: 90
+
+===
+JUDUL: 13. Ruangan Gelap
+TEMA: Benda di Rumah
+CERITA: Ruangan agak gelap. Benda apa yang harus dinyalakan agar seluruh petunjuk terlihat?
+JAWABAN: LAMPU
+PETUNJUK: Benda yang mengeluarkan cahaya ketika dinyalakan.
+TEMUAN: Setelah terang, kita melihat pesan tertulis di atas meja.
+WAKTU: 90
+
+===
+JUDUL: 14. Pesan Tertulis
+TEMA: Alat Tulis
+CERITA: Pesan Agen X ditulis di atas lembaran putih yang biasanya digunakan untuk menggambar.
+JAWABAN: KERTAS
+PETUNJUK: Lembaran tipis yang bisa ditulisi dengan pensil.
+TEMUAN: Di pojok lembaran tertulis: 'Kalian berhasil! Ambil kejutan terakhir.'
+WAKTU: 100
+
+===
+JUDUL: 15. Hadiah Agen Rahasia
+TEMA: Misi Final
+CERITA: Semua petunjuk sudah berhasil dipecahkan. Di balik kotak terakhir ada sesuatu untuk tim yang hebat. Apa itu?
+JAWABAN: HADIAH
+PETUNJUK: Sesuatu yang diberikan sebagai tanda selamat atau apresiasi.
+TEMUAN: MISI SELESAI! Selamat, semua agen rahasia telah belajar memecahkan kode simbol.
+WAKTU: 100

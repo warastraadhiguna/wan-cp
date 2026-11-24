@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080d1d" />
+  <title>Kode yang Dihapus — Koding for Kids</title>
+  <style>
+    :root {
+      --bg:#080d1d; --surface:#111a30; --surface2:#15213a; --border:#293653;
+      --white:#f7f9ff; --muted:#aab8d2; --gold:#ffcf70; --orange:#ff985f;
+      --cyan:#66e6ed; --purple:#b8a2ff; --green:#67eab3; --red:#ff7d92;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{height:100%;scroll-behavior:smooth}
+    body{min-height:100vh;margin:0;color:var(--white);background:var(--bg);font-family:Inter,"Segoe UI",Arial,sans-serif;letter-spacing:.01em;overflow-x:hidden}
+    body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse 60% 48% at 6% 12%,rgba(100,86,226,.17),transparent 80%),radial-gradient(ellipse 55% 54% at 97% 80%,rgba(9,203,195,.09),transparent 80%),linear-gradient(135deg,#0b1022,#080c1c 66%)}
+    body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.33;background-image:radial-gradient(#61749e 1px,transparent 1px);background-size:24px 24px;mask-image:linear-gradient(90deg,#000,transparent 80%)}
+    button,input,select{font:inherit}
+    button{cursor:pointer;color:inherit}
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+    button:disabled{opacity:.34;cursor:not-allowed;transform:none!important}
+    .top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1540px;margin:auto;padding:22px 30px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-logo{width:51px;height:51px;display:grid;place-items:center;background:linear-gradient(150deg,#5041aa,#222c5d);border:1px solid #7e73cd;border-radius:16px;box-shadow:0 8px 28px #6b53ec29;font-size:27px}
+    .brand strong{display:block;font-size:17px;letter-spacing:.14em;font-weight:900}
+    .brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.18em;margin-top:3px}
+    .toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+    .file-status{display:inline-flex;align-items:center;gap:7px;border-radius:30px;padding:9px 12px;color:#d9e4fb;background:#141c32;border:1px solid var(--border);font-size:11px;max-width:290px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .dot{display:inline-block;min-width:8px;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #67eab388}
+    .btn{border-radius:12px;border:1px solid var(--border);background:#1a2742;color:var(--white);font-weight:750;padding:11px 15px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:background .2s,transform .2s,border-color .2s;font-size:13px}
+    .btn:hover:not(:disabled){transform:translateY(-1px);background:#253454;border-color:#53698f}
+    .btn-primary{background:linear-gradient(125deg,#ffbd66,#ff8e59);color:#26160e;border-color:#ffa766;box-shadow:0 5px 25px #ff9c5933}
+    .btn-primary:hover:not(:disabled){background:linear-gradient(125deg,#ffd18e,#ffa971);border-color:#ffd18e}
+    .btn-cyan{border:1px solid #478c9b;background:rgba(48,189,203,.17);color:#bbfaff}
+    .btn-subtle{background:transparent}
+    .btn-danger{color:#ffb3bd}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 302px;align-items:start;gap:23px;max-width:1540px;padding:32px 30px 40px;margin:auto}
+    main{min-width:0}
+    .heading{margin-bottom:22px}
+    .eyebrow{font-size:12px;letter-spacing:.27em;color:var(--cyan);font-weight:900;text-transform:uppercase}
+    h1{font-size:clamp(30px,3.8vw,56px);font-weight:950;line-height:1.1;letter-spacing:-.048em;margin:11px 0 12px}
+    h1 .gradient{background:linear-gradient(92deg,#ffdb8d 0%,#ffa56b 47%,#ef91b8);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .subtitle{color:#adbcd5;font-size:15px;margin:0;line-height:1.55}
+    .game-panel{position:relative;background:linear-gradient(150deg,#141e35ee,#11192eee);border:1px solid #2a3757;border-radius:24px;padding:28px;box-shadow:0 24px 65px #0004,inset 0 1px #ffffff0b;overflow:hidden}
+    .game-panel::before{content:"";position:absolute;width:320px;height:320px;border:1px solid #65769c18;border-radius:50%;right:-150px;top:-185px;pointer-events:none;box-shadow:0 0 0 45px #8190bf08,0 0 0 90px #a59ef206}
+    .panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}
+    .mission-num{font-size:11px;letter-spacing:.2em;font-weight:900;color:var(--gold);text-transform:uppercase}
+    h2{margin:9px 0 8px;font-size:clamp(22px,2.2vw,31px);letter-spacing:-.03em;line-height:1.2}
+    .category{display:inline-block;margin-top:6px;border-radius:999px;border:1px solid #64537c;background:#302841a6;color:#e6c5ff;padding:7px 11px;font-size:10px;letter-spacing:.13em;font-weight:850;white-space:nowrap}
+    .story{margin:15px 0 10px;color:#d6e0f1;line-height:1.65;font-size:15px;max-width:790px}
+    .hint{display:flex;gap:10px;align-items:flex-start;border:1px solid #38606d66;background:#11445b35;color:#a6eff8;padding:11px 13px;border-radius:11px;font-size:13px;line-height:1.4;margin:15px 0 20px}
+    .hint b{font-weight:900;color:#c3ffff}
+    .timer-panel{display:flex;align-items:center;gap:11px;flex-shrink:0}
+    .timer-circle{--progress:100%;position:relative;border-radius:50%;width:79px;height:79px;display:grid;place-items:center;background:conic-gradient(var(--cyan) var(--progress),#35435d var(--progress));box-shadow:0 0 25px #53d8ec16}
+    .timer-circle::before{content:"";position:absolute;inset:5px;background:#121b30;border-radius:50%}
+    .timer-content{position:relative;text-align:center}
+    .timer-number{font-size:24px;letter-spacing:-.06em;font-weight:950;line-height:1.05;font-variant-numeric:tabular-nums}
+    .timer-label{font-size:9px;font-weight:850;color:var(--muted);letter-spacing:.12em}
+    .timer-circle.urgent{background:conic-gradient(var(--red) var(--progress),#35435d var(--progress));animation:urgent 1s infinite}
+    @keyframes urgent{50%{filter:brightness(1.45)}}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:13px;margin:21px 0 20px}
+    .word-card{min-height:156px;border-radius:17px;border:1px solid #37496b;background:linear-gradient(160deg,#202e4d,#17233b);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 10px 12px;position:relative;text-align:center;transition:.2s;box-shadow:inset 0 1px #ffffff0d}
+    .word-card:hover{border-color:#f9c56f;transform:translateY(-3px);box-shadow:0 7px 24px #0004}
+    .word-card.revealed{border-color:#53baac;background:linear-gradient(145deg,#194347,#1c303c)}
+    .word-card .card-no{position:absolute;top:11px;left:12px;color:#aebdd4;font-size:11px;font-weight:900;letter-spacing:.15em}
+    .word-card .puzzle{display:flex;justify-content:center;align-items:center;flex-wrap:nowrap;font-weight:900;font-size:clamp(19px,2vw,29px);letter-spacing:.045em;white-space:nowrap;max-width:100%}
+    .word-card .puzzle .missing{color:var(--gold);text-decoration:underline;text-decoration-color:#ffe29b;text-underline-offset:8px;text-decoration-thickness:2px}
+    .word-card.revealed .puzzle .missing{color:var(--green);text-decoration:none}
+    .word-card .card-bottom{position:absolute;bottom:13px;left:0;right:0;color:#8297b8;text-align:center;font-size:10px;font-weight:750;letter-spacing:.08em}
+    .word-card.revealed .card-bottom{color:#96ead0}
+    .answer-section{border:1px dashed #647ba0;background:#070d1e66;border-radius:18px;padding:20px 16px 17px;text-align:center}
+    .answer-label{color:#a7b6d3;font-size:11px;font-weight:900;letter-spacing:.19em;text-transform:uppercase}
+    .letters{display:flex;justify-content:center;gap:clamp(4px,.8vw,10px);flex-wrap:wrap;margin:16px auto 11px}
+    .letter{width:clamp(33px,4.4vw,54px);height:clamp(47px,5.5vw,60px);display:grid;place-items:center;font-weight:950;font-size:clamp(22px,3vw,35px);background:#1b2a43;border:1px solid #435676;border-bottom:3px solid #fbca73;border-radius:10px;box-shadow:inset 0 -6px #0002}
+    .letter.open{color:var(--green);border-color:#4ea899;border-bottom-color:var(--green);background:#1c3b40;animation:pop .24s ease}
+    @keyframes pop{from{transform:scale(.7);opacity:.3}to{transform:scale(1);opacity:1}}
+    .answer-note{font-size:12px;color:#8fa1be}
+    .guess-form{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px auto 8px}
+    .guess-input{width:min(340px,100%);background:#080f23;border:1px solid #405474;color:#fff;border-radius:12px;padding:12px 16px;font-size:18px;font-weight:850;letter-spacing:.15em;text-align:center;text-transform:uppercase;min-height:50px}
+    .guess-input::placeholder{color:#6e819e;letter-spacing:0;font-size:13px;font-weight:500;text-transform:none}
+    .feedback{min-height:34px;text-align:center;padding:7px;font-size:14px;font-weight:800}
+    .feedback.success{color:var(--green)}
+    .feedback.wrong{color:#ffabba}
+    .feedback.info{color:var(--cyan)}
+    .actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+    .explanation{border:1px solid #4b827966;border-radius:13px;padding:14px;background:#123c3655;color:#c9f6e9;line-height:1.5;font-size:13px;margin-top:15px}
+    .nav-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 0;flex-wrap:wrap}
+    .nav-footer .nav-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .round-select{background:#17233b;color:#d3e3fb;border:1px solid #415071;border-radius:10px;min-height:44px;padding:0 10px;min-width:165px;max-width:250px;font-weight:700;font-size:12px}
+    .nav-caption{font-size:12px;font-weight:850;color:#b6c5dd;letter-spacing:.06em}
+    .sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:14px}
+    .sidebox{background:linear-gradient(160deg,#141e35,#11192f);border:1px solid #2b3857;border-radius:19px;padding:19px;box-shadow:0 14px 35px #0002}
+    .side-title{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:900;color:#bdcbe2;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+    .side-subtitle{font-size:11px;line-height:1.5;color:#94a8c6;margin:8px 0 0}
+    .team{background:#0d1527;border-radius:12px;border:1px solid #2d3a54;padding:9px 11px;margin:6px 0}
+    .team-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .team-swatch{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .team-name{min-width:0;flex:1;font-size:12px;font-weight:800;color:#e1ebfa;border:0;background:transparent;padding:4px;border-radius:4px}
+    .team-name:focus{background:#233250}
+    .score{font-size:26px;font-weight:950;letter-spacing:-.05em;min-width:47px;text-align:right;font-variant-numeric:tabular-nums}
+    .team-buttons{display:flex;gap:5px}
+    .score-btn{flex:1;border:1px solid #354767;color:#c6dbf7;background:#1c2c48;padding:7px 3px;border-radius:7px;font-size:11px;font-weight:900;min-height:31px}
+    .score-btn:hover{background:#2c456b}
+    .reset-link{border:0;background:none;padding:0;color:#a6b6d0;font-size:10px;text-decoration:underline;cursor:pointer}
+    .howto{font-size:13px;line-height:1.65;color:#c7d3e6}
+    .howto strong{color:var(--gold)}
+    .shortcuts{display:grid;grid-template-columns:auto 1fr;gap:7px 10px;align-items:center;font-size:11px;color:#b8c8e0}
+    kbd{background:#293955;border:1px solid #4b5a76;border-bottom-width:2px;border-radius:5px;padding:3px 7px;font-size:10px;color:#e7f1ff;font-family:inherit;min-width:28px;text-align:center}
+    .footerline{margin-top:18px;font-size:11px;color:#768aa9;text-align:center}
+    .overlay{position:fixed;inset:0;background:#030615dc;z-index:100;display:grid;place-items:center;padding:24px;backdrop-filter:blur(8px)}
+    .overlay[hidden]{display:none!important}
+    .modal{background:#15203a;border:1px solid #536382;border-radius:22px;box-shadow:0 20px 95px #000a;width:min(700px,100%);max-height:min(90vh,850px);overflow-y:auto;padding:28px}
+    .modal h3{font-size:25px;margin:0 0 10px}
+    .modal p,.modal li{color:#c1d0e5;line-height:1.65}
+    .modal pre{background:#070d1f;overflow:auto;padding:17px;border-radius:12px;border:1px solid #31415f;color:#b7f3ee;font-size:12px;line-height:1.65;white-space:pre}
+    .modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:16px}
+    .toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);max-width:min(500px,calc(100% - 30px));z-index:110;background:#233954;color:#f4f9ff;border:1px solid #6b91b2;border-radius:12px;padding:14px 18px;text-align:center;font-size:13px;box-shadow:0 15px 35px #0008}
+    .toast[hidden]{display:none}
+    #confetti{pointer-events:none;position:fixed;inset:0;z-index:60;overflow:hidden}
+    .confetti-piece{position:absolute;top:-22px;width:9px;height:16px;opacity:0;animation:fall linear forwards}
+    @keyframes fall{0%{transform:translate3d(0,-30px,0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translate3d(var(--drift),105vh,0) rotate(900deg);opacity:0}}
+    .source-banner{margin-bottom:14px;color:#a8c5ee;border:1px solid #3b537b;background:#1b304a8f;border-radius:11px;padding:10px 14px;font-size:12px;line-height:1.55}
+    .source-banner[hidden]{display:none}
+    .focus-mode .sidebar{display:none}
+    .focus-mode .layout{grid-template-columns:minmax(0,1fr);max-width:1280px}
+    @media(min-width:1700px){.layout{grid-template-columns:minmax(0,1fr) 330px}.card-grid{grid-template-columns:repeat(auto-fit,minmax(177px,1fr))}}
+    @media(max-width:1120px){.layout{grid-template-columns:minmax(0,1fr)}.sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;align-items:start}.card-grid{grid-template-columns:repeat(auto-fit,minmax(156px,1fr))}}
+    @media(max-width:680px){.top{padding:15px 15px 0}.layout{padding:24px 12px 30px;gap:16px}.brand strong{font-size:13px}.brand-logo{width:42px;height:42px;font-size:23px}.brand small{font-size:9px}.toolbar{gap:6px}.toolbar .btn{padding:9px 11px;min-height:40px;font-size:11px}.file-status{font-size:10px}.game-panel{padding:18px 12px;border-radius:18px}.panel-head{gap:8px}.timer-circle{width:63px;height:63px}.timer-number{font-size:19px}.category{font-size:9px}.story{font-size:13px}.card-grid{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}.word-card{min-height:128px;padding:14px 5px}.word-card .puzzle{font-size:clamp(17px,5vw,25px)}.sidebar{grid-template-columns:1fr}.guess-input{width:100%}.guess-form .btn{width:100%}.nav-footer .nav-right{width:100%}.round-select{flex:1;min-width:0}.heading{padding:0 5px}.heading h1{font-size:34px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div id="confetti" aria-hidden="true"></div>
+  <header class="top">
+    <div class="brand"><div class="brand-logo">⌘</div><div><strong>KODE YANG DIHAPUS</strong><small>KODING FOR KIDS · GAME SHOW</small></div></div>
+    <div class="toolbar">
+      <span class="file-status" id="fileStatus" title="Sumber soal"><span class="dot"></span><span id="fileName">Memuat soal...</span></span>
+      <input type="file" id="filePicker" accept=".txt,text/plain" hidden>
+      <button class="btn btn-cyan" id="loadFileBtn" title="Buka file soal.txt dari folder yang sama">📂 MUAT SOAL .TXT</button>
+      <button class="btn" id="focusBtn" title="Sembunyikan / tampilkan papan skor">◧ Fokus</button>
+      <button class="btn" id="fullBtn" title="Layar penuh (F)">⛶ Fullscreen</button>
+      <button class="btn btn-subtle" id="helpBtn" title="Petunjuk">? Bantuan</button>
+    </div>
+  </header>
+  <div class="layout">
+    <main>
+      <div class="heading"><div class="eyebrow">⚡ MISI DETEKTIF PROGRAMMER</div><h1>Temukan <span class="gradient">Huruf Rahasianya!</span></h1><p class="subtitle">Satu huruf hilang pada setiap kartu. Kerja sama, pecahkan petunjuk, dan buka password!</p></div>
+      <div class="source-banner" id="sourceBanner" hidden></div>
+      <section class="game-panel" aria-label="Permainan">
+        <div class="panel-head">
+          <div><div class="mission-num" id="missionNumber">MISI 01 / 25</div><h2 id="missionTitle">Memuat...</h2><span class="category" id="category">MISI</span></div>
+          <div class="timer-panel"><div class="timer-circle" id="timerCircle"><div class="timer-content"><div class="timer-number" id="timerNumber">60</div><div class="timer-label">DETIK</div></div></div></div>
+        </div>
+        <p class="story" id="story"></p>
+        <div class="hint">💡 <span id="hint"></span></div>
+        <div class="card-grid" id="cardGrid"></div>
+        <section class="answer-section" aria-label="Kode password">
+          <div class="answer-label">🔒 KODE PASSWORD</div>
+          <div class="letters" id="answerLetters"></div>
+          <div class="answer-note" id="answerNote">Klik kartu untuk mengungkap satu huruf, atau tebak kode langsung.</div>
+        </section>
+        <form class="guess-form" id="guessForm" autocomplete="off">
+          <input id="guessInput" class="guess-input" name="guess" placeholder="Ketik tebakan anak-anak..." spellcheck="false" aria-label="Tebakan password" maxlength="32" />
+          <button class="btn btn-primary" type="submit">🔓 CEK PASSWORD</button>
+        </form>
+        <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+        <div class="actions">
+          <button class="btn btn-cyan" id="timerToggle">▶ Mulai timer</button>
+          <button class="btn" id="timerReset">↺ Ulang timer</button>
+          <button class="btn" id="revealBtn">👁 Ungkap semua huruf</button>
+          <button class="btn btn-subtle" id="hideBtn">🙈 Sembunyikan</button>
+        </div>
+        <div class="explanation" id="explanation" hidden></div>
+      </section>
+      <div class="nav-footer"><span class="nav-caption" id="roundLabel">SOAL 1 DARI 25</span><div class="nav-right"><button class="btn" id="prevBtn">← Sebelumnya</button><select class="round-select" id="roundSelect" aria-label="Pilih soal"></select><button class="btn btn-primary" id="nextBtn">Berikutnya →</button></div></div>
+      <div class="footerline">Dibuat untuk kegiatan Koding for Kids · Offline friendly · Satu guru, satu layar, banyak detektif</div>
+    </main>
+    <aside class="sidebar">
+      <section class="sidebox"><div class="side-title"><span>🏆 Papan skor 5 tim</span><button class="reset-link" id="resetScores" title="Kosongkan semua poin">Reset skor</button></div><div id="teams"></div><p class="side-subtitle">Klik nama tim untuk mengganti nama. Tim yang menjelaskan alasannya bisa mendapat bonus +5.</p></section>
+      <section class="sidebox"><div class="side-title">🎮 Aturan main</div><div class="howto"><strong>1.</strong> Bagi kelas menjadi 5 tim.<br><strong>2.</strong> Baca cerita dan mulai timer.<br><strong>3.</strong> Tim menebak huruf yang hilang.<br><strong>4.</strong> Guru mengetik kode atau mengklik kartu.<br><strong>5.</strong> Berikan poin dan lanjutkan misi.</div></section>
+      <section class="sidebox"><div class="side-title">⌨️ Tombol cepat</div><div class="shortcuts"><kbd>Spasi</kbd><span>Mulai / jeda timer</span><kbd>→ / ←</kbd><span>Ganti soal</span><kbd>R</kbd><span>Ungkap / tutup jawaban</span><kbd>F</kbd><span>Fullscreen</span></div></section>
+    </aside>
+  </div>
+  <div class="overlay" id="helpOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="modal"><h3 id="helpTitle">📂 Cara mengubah soal dari TXT</h3><p>Simpan <b>index.html</b> dan <b>soal.txt</b> dalam <b>folder yang sama</b>. Edit <b>soal.txt</b> menggunakan Notepad. Untuk HTML yang dibuka langsung dari komputer (file://), klik <b>MUAT SOAL .TXT</b> setiap selesai mengedit dan pilih berkasnya.</p><pre>===
+JUDUL: Password Rahasia
+KATEGORI: PEMANASAN
+CERITA: Ada empat kartu misteri!
+PETUNJUK: Urutkan kartu 1 sampai 4.
+WAKTU: 45
+KARTU: 3|SE_OLAH|K
+KARTU: 1|RO_OT|B
+KARTU: 4|_PEL|A
+KARTU: 2|B_KU|U
+PENJELASAN: Password yang benar adalah BUKA.</pre><p>Setiap <b>KARTU</b> berisi <b>nomor | kata dengan satu _ | huruf yang hilang</b>. Password otomatis menjadi BUKA mengikuti nomor 1–4. Untuk tantangan lebih sulit, tambahkan <b>URUTAN: 4,1,3,2</b> dan pastikan semua nomor kartu dicantumkan.</p><p>Jika dijalankan melalui server lokal (misalnya menggunakan <b>mulai-windows.bat</b> dan Python), aplikasi akan membaca <b>soal.txt</b> otomatis saat halaman dibuka atau di-refresh, tetap tanpa internet.</p><div class="modal-actions"><button class="btn btn-primary" id="closeHelp">Mengerti!</button></div></div></div>
+  <div class="overlay" id="errorOverlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="errorTitle"><div class="modal"><h3 id="errorTitle">⚠️ Ada masalah pada soal.txt</h3><p>Periksa baris yang disebutkan, lalu simpan file dan muat ulang.</p><pre id="errorDetails" style="white-space:pre-wrap;color:#ffc8cd"></pre><div class="modal-actions"><button class="btn btn-primary" id="closeError">Tutup</button></div></div></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script id="embeddedQuestions" type="text/plain"># KODE YANG DIHAPUS - 25 soal baru, kartu selalu sesuai tema
+# Simpan sebagai soal.txt (UTF-8).
+# Format KARTU: nomor|kata_dengan_satu_huruf_hilang|huruf_hilang
+# Password disusun dari huruf yang hilang mengikuti nomor kartu.
+# Boss level memakai urutan khusus.
+
+===
+JUDUL: 01. Kelas Mulai Berantakan
+KATEGORI: PEMANASAN
+CERITA: Papan tulis kelas dikunci. Cari huruf hilang dari benda-benda yang biasa ada di kelas.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 2|P_NSIL|E
+KARTU: 4|P_PAN|A
+KARTU: 1|_APUR|K
+KARTU: 5|_PIDOL|S
+KARTU: 3|_EMARI|L
+PENJELASAN: KAPUR, PENSIL, LEMARI, PAPAN, SPIDOL. Password: KELAS.
+
+===
+JUDUL: 02. Rahasia Rak Perpustakaan
+KATEGORI: MUDAH
+CERITA: Rak perpustakaan tidak mau terbuka. Semua kartu berhubungan dengan kegiatan membaca.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 1|_ACA|B
+KARTU: 3|RA_|K
+KARTU: 4|J_DUL|U
+KARTU: 2|SAMP_L|U
+PENJELASAN: BACA, SAMPUL, RAK, JUDUL. Password: BUKU.
+
+===
+JUDUL: 03. Pesanan Kantin Hilang
+KATEGORI: MUDAH
+CERITA: Robot kantin lupa kode pesanan. Semua kata berasal dari kantin sekolah.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 5|SE_DOK|N
+KARTU: 3|_UE|K
+KARTU: 4|S_YUR|A
+KARTU: 2|N_SI|A
+KARTU: 1|_ENU|M
+PENJELASAN: MENU, NASI, KUE, SAYUR, SENDOK. Password: MAKAN.
+
+===
+JUDUL: 04. Koki Kehilangan Resep
+KATEGORI: MUDAH
+CERITA: Kompor terkunci. Lengkapi kata yang biasa ditemukan ketika memasak di dapur.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 1|_ANGKUK|M
+KARTU: 3|_AUS|S
+KARTU: 4|_IR|A
+KARTU: 5|_OMPOR|K
+KARTU: 2|W_JAN|A
+PENJELASAN: MANGKUK, WAJAN, SAUS, AIR, KOMPOR. Password: MASAK.
+
+===
+JUDUL: 05. Papan Skor Sepak Bola
+KATEGORI: MUDAH
+CERITA: Papan skor mati sebelum pertandingan dimulai. Semua kartu berasal dari lapangan sepak bola.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 4|L_PANGAN|A
+KARTU: 3|PE_UIT|L
+KARTU: 2|G_L|O
+KARTU: 1|_OLA|B
+PENJELASAN: BOLA, GOL, PELUIT, LAPANGAN. Password: BOLA.
+
+===
+JUDUL: 06. Bibit Kebun Sekolah
+KATEGORI: MUDAH
+CERITA: Mesin penyiram kebun lupa kodenya. Semua kata berkaitan dengan menanam.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 3|BE_IH|N
+KARTU: 4|D_UN|A
+KARTU: 2|_IR|A
+KARTU: 1|_ANAH|T
+KARTU: 5|E_BER|M
+PENJELASAN: TANAH, AIR, BENIH, DAUN, EMBER. Password: TANAM.
+
+===
+JUDUL: 07. Misteri di Pantai
+KATEGORI: MENENGAH
+CERITA: Sebuah peti ditemukan di dekat ombak. Semua kartu berkaitan dengan pantai.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 4|P_SIR|A
+KARTU: 1|T_PI|O
+KARTU: 5|_ARANG|K
+KARTU: 2|O_BAK|M
+KARTU: 3|_UIH|B
+PENJELASAN: TOPI, OMBAK, BUIH, PASIR, KARANG. Password: OMBAK.
+
+===
+JUDUL: 08. Jelajah Hutan
+KATEGORI: MENENGAH
+CERITA: Peta jalan pulang terkunci. Cari huruf dari benda dan makhluk yang ada di hutan.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 2|B_RUNG|U
+KARTU: 5|POHO_|N
+KARTU: 3|RAN_ING|T
+KARTU: 4|D_UN|A
+KARTU: 1|_UTAN|H
+PENJELASAN: HUTAN, BURUNG, RANTING, DAUN, POHON. Password: HUTAN.
+
+===
+JUDUL: 09. Gerbang Kebun Binatang
+KATEGORI: MENENGAH
+CERITA: Gerbang kandang terkunci. Setiap kartu berisi nama hewan kebun binatang.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 1|RU_A|S
+KARTU: 5|ZEBR_|A
+KARTU: 3|MO_YET|N
+KARTU: 2|HAR_MAU|I
+KARTU: 4|_AJAH|G
+PENJELASAN: RUSA, HARIMAU, MONYET, GAJAH, ZEBRA. Password: SINGA.
+
+===
+JUDUL: 10. Rumah Pintar
+KATEGORI: MENENGAH
+CERITA: Pintu rumah pintar lupa password. Semua kartu adalah benda yang dapat ditemukan di rumah.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 3|LA_PU|M
+KARTU: 1|KA_PET|R
+KARTU: 5|_ANDUK|H
+KARTU: 2|K_RSI|U
+KARTU: 4|K_SUR|A
+PENJELASAN: KARPET, KURSI, LAMPU, KASUR, HANDUK. Password: RUMAH.
+
+===
+JUDUL: 11. Alarm Kamar Tidur
+KATEGORI: MENENGAH
+CERITA: Alarm kamar terus berbunyi. Perbaiki kata dari benda-benda di kamar tidur.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 3|_IPAN|D
+KARTU: 2|SEL_MUT|I
+KARTU: 1|_IKAR|T
+KARTU: 5|LEMA_I|R
+KARTU: 4|KAS_R|U
+PENJELASAN: TIKAR, SELIMUT, DIPAN, KASUR, LEMARI. Password: TIDUR.
+
+===
+JUDUL: 12. Kereta Terlambat
+KATEGORI: MENENGAH
+CERITA: Papan jadwal stasiun rusak. Semua kartu berkaitan dengan perjalanan naik kereta.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 6|M_SINIS|A
+KARTU: 2|R_L|E
+KARTU: 1|TI_ET|K
+KARTU: 4|K_RETA|E
+KARTU: 3|GE_BONG|R
+KARTU: 5|S_ASIUN|T
+PENJELASAN: TIKET, REL, GERBONG, KERETA, STASIUN, MASINIS. Password: KERETA.
+
+===
+JUDUL: 13. Belanja di Pasar
+KATEGORI: MENENGAH
+CERITA: Kasir pasar tidak bisa menghitung. Perbaiki kata yang sering dipakai saat berbelanja.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 3|_AYUR|S
+KARTU: 4|T_WAR|A
+KARTU: 5|HA_GA|R
+KARTU: 2|B_YAR|A
+KARTU: 1|_EDAGANG|P
+PENJELASAN: PEDAGANG, BAYAR, SAYUR, TAWAR, HARGA. Password: PASAR.
+
+===
+JUDUL: 14. Robot Dokter
+KATEGORI: MENENGAH
+CERITA: Kotak obat di klinik terkunci. Semua kartu adalah kata yang biasa didengar di klinik.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 5|OBA_|T
+KARTU: 3|_IDUNG|H
+KARTU: 4|P_SIEN|A
+KARTU: 2|P_RIKSA|E
+KARTU: 1|_USTER|S
+PENJELASAN: SUSTER, PERIKSA, HIDUNG, PASIEN, OBAT. Password: SEHAT.
+
+===
+JUDUL: 15. Kejutan Ulang Tahun
+KATEGORI: MENENGAH
+CERITA: Kotak pesta belum terbuka. Lengkapi benda dan suasana yang ada di acara ulang tahun.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 5|B_LON|A
+KARTU: 4|_OPI|T
+KARTU: 1|_ITA|P
+KARTU: 3|_ENANG|S
+KARTU: 2|KU_|E
+PENJELASAN: PITA, KUE, SENANG, TOPI, BALON. Password: PESTA.
+
+===
+JUDUL: 16. Toko Mainan Ajaib
+KATEGORI: MENENGAH
+CERITA: Toko mainan mengunci pintunya. Semua kata adalah mainan yang dikenal anak-anak.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_OBIL|M
+KARTU: 4|BO_EKA|N
+KARTU: 3|GAS_NG|I
+KARTU: 2|B_LOK|A
+PENJELASAN: MOBIL, BALOK, GASING, BONEKA. Password: MAIN.
+
+===
+JUDUL: 17. Balapan di Lapangan
+KATEGORI: SULIT
+CERITA: Gerbang garis akhir tertutup. Semua kartu berkaitan dengan lomba lari.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_INTASAN|L
+KARTU: 3|GA_IS|R
+KARTU: 2|SEP_TU|A
+KARTU: 4|F_NIS|I
+PENJELASAN: LINTASAN, SEPATU, GARIS, FINIS. Password: LARI.
+
+===
+JUDUL: 18. Bengkel Sepeda
+KATEGORI: SULIT
+CERITA: Sepeda robot belum bisa dikendarai. Semua kartu adalah bagian atau alat untuk sepeda.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 6|R_NTAI|A
+KARTU: 1|_ETANG|S
+KARTU: 4|P_DAL|E
+KARTU: 3|_OMPA|P
+KARTU: 2|R_M|E
+KARTU: 5|RO_A|D
+PENJELASAN: SETANG, REM, POMPA, PEDAL, RODA, RANTAI. Password: SEPEDA.
+
+===
+JUDUL: 19. Berkemah di Bukit
+KATEGORI: SULIT
+CERITA: Kalian harus menyiapkan tempat kemah sebelum malam. Perbaiki kartu perlengkapan alam.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 4|_AUN|D
+KARTU: 5|_PI|A
+KARTU: 1|_ALI|T
+KARTU: 2|S_NTER|E
+KARTU: 3|RA_TING|N
+PENJELASAN: TALI, SENTER, RANTING, DAUN, API. Password: TENDA.
+
+===
+JUDUL: 20. Langit Mendung
+KATEGORI: SULIT
+CERITA: Alarm cuaca sekolah berbunyi. Semua kartu berkaitan dengan cuaca hujan.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 2|PAY_NG|U
+KARTU: 5|ME_DUNG|N
+KARTU: 4|_WAN|A
+KARTU: 3|_AS|J
+KARTU: 1|BASA_|H
+PENJELASAN: BASAH, PAYUNG, JAS, AWAN, MENDUNG. Password: HUJAN.
+
+===
+JUDUL: 21. Petualangan Bawah Laut
+KATEGORI: SULIT
+CERITA: Pintu kapal selam hanya terbuka dengan kode dari dunia laut.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 5|_ELAYAN|N
+KARTU: 6|_URITA|G
+KARTU: 1|I_AN|K
+KARTU: 3|KE_ANG|R
+KARTU: 2|P_SIR|A
+KARTU: 4|L_UT|A
+PENJELASAN: IKAN, PASIR, KERANG, LAUT, NELAYAN, GURITA. Password: KARANG.
+
+===
+JUDUL: 22. Sarapan Sebelum Sekolah
+KATEGORI: SULIT
+CERITA: Meja makan pagi menyimpan tujuh kartu. Semua kata ada saat sarapan.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 3|BUBU_|R
+KARTU: 7|SE_DOK|N
+KARTU: 4|PIS_NG|A
+KARTU: 5|_IRING|P
+KARTU: 2|N_SI|A
+KARTU: 1|_USU|S
+KARTU: 6|M_NGKUK|A
+PENJELASAN: SUSU, NASI, BUBUR, PISANG, PIRING, MANGKUK, SENDOK. Password: SARAPAN.
+
+===
+JUDUL: 23. Konser Mini Sekolah
+KATEGORI: SULIT
+CERITA: Mikrofon panggung mati. Pulihkan password dari kata-kata yang berkaitan dengan musik.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 4|PIA_O|N
+KARTU: 6|M_KROFON|I
+KARTU: 5|PEN_ANYI|Y
+KARTU: 3|GIT_R|A
+KARTU: 1|_ADA|N
+KARTU: 2|S_AIR|Y
+PENJELASAN: NADA, SYAIR, GITAR, PIANO, PENYANYI, MIKROFON. Password: NYANYI.
+
+===
+JUDUL: 24. Surat dari Sahabat
+KATEGORI: SULIT
+CERITA: Pak pos membawa pesan rahasia. Semua kartu berkaitan dengan mengirim surat.
+PETUNJUK: Lengkapi kata, lalu susun huruf menurut nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 5|S_EMPEL|T
+KARTU: 3|KU_IR|R
+KARTU: 2|S_RAT|U
+KARTU: 1|_AMPUL|S
+KARTU: 4|_LAMAT|A
+PENJELASAN: SAMPUL, SURAT, KURIR, ALAMAT, STEMPEL. Password: SURAT.
+
+===
+JUDUL: 25. Pesta Kemenangan
+KATEGORI: BOSS LEVEL
+CERITA: Kalian berhasil menyelamatkan sekolah! Pintu hadiah terakhir terbuka jika semua kartu pesta diurutkan dengan benar.
+PETUNJUK: Baca kartu dengan urutan 4, 1, 7, 3, 6, 5, 2. Jangan gunakan urutan biasa!
+WAKTU: 50
+URUTAN: 4,1,7,3,6,5,2
+KARTU: 3|K_DO|A
+KARTU: 7|BA_ON|L
+KARTU: 5|PI_LA|A
+KARTU: 6|TRO_PET|M
+KARTU: 4|_ORAK|S
+KARTU: 2|PI_A|T
+KARTU: 1|M_RIAH|E
+PENJELASAN: SORAK, MERIAH, BALON, KADO, TROMPET, PIALA, PITA. Password: SELAMAT.
+</script>
+  <script>
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  const storageKey = 'kodeDihapusTimV1';
+  const colors = ['#ff7d92','#80dafa','#89e5aa','#d7a8ff','#ffcf70'];
+  const teamDefaults = ['Tim Merah','Tim Biru','Tim Hijau','Tim Ungu','Tim Kuning'];
+  let rounds = [], currentIndex = 0, sourceName = '', timerMax = 60, timeLeft = 60;
+  let timerRunning = false, timerHandle = null, timerDeadline = 0, timerSounded = false;
+  let revealed = new Set(), revealAll = false, success = false, toastTimeout;
+  let teams = loadTeams();
+  function loadTeams(){
+    try {
+      const loaded = JSON.parse(localStorage.getItem(storageKey));
+      // Kompatibel dengan skor yang tersimpan dari versi 4 tim.
+      // Empat tim lama tetap memiliki nama dan skor yang sama.
+      if (Array.isArray(loaded) && [4,5].includes(loaded.length) &&
+          loaded.every(x => x && typeof x.name === 'string' && Number.isFinite(x.score))) {
+        return teamDefaults.map((defaultName, index) => ({
+          name: loaded[index]?.name || defaultName,
+          score: loaded[index]?.score ?? 0
+        }));
+      }
+    } catch (_) {}
+    return teamDefaults.map(name => ({name, score:0}));
+  }
+  function saveTeams(){try{localStorage.setItem(storageKey, JSON.stringify(teams))}catch(_){}}
+  function safeText(el, text){el.textContent=String(text)}
+  function cleanCode(text){return String(text).normalize('NFC').toLocaleUpperCase('id').replace(/\s+/g,'').trim()}
+  function parseQuestions(input){
+    const entries = []; const errors = [];
+    let item = null;
+    const lines = String(input).replace(/^\uFEFF/, '').replace(/\r\n?/g,'\n').split('\n');
+    for(let i=0;i<lines.length;i++){
+      const line = lines[i].trim();
+      if(!line || line.startsWith('#') || line.startsWith('//'))continue;
+      if(/^={3,}$/.test(line)) {item={start:i+1,cards:[]};entries.push(item);continue}
+      if(!item){errors.push('Baris '+(i+1)+': Harus dimulai dengan === sebelum isi soal.');continue}
+      const m = line.match(/^([A-Za-z_]+)\s*:\s*(.*)$/);
+      if(!m){errors.push('Baris '+(i+1)+': Format tidak dikenal: '+line.slice(0,75));continue}
+      const key=m[1].toUpperCase(), value=m[2].trim();
+      if(key==='KARTU'){
+        const parts=value.split('|').map(x=>x.trim());
+        if(parts.length!==3){errors.push('Baris '+(i+1)+': KARTU harus nomor|kata_berlubang|huruf.');continue}
+        const num=Number(parts[0]), mask=cleanCode(parts[1]), letter=cleanCode(parts[2]);
+        if(!Number.isInteger(num)||num<1||num>99){errors.push('Baris '+(i+1)+': Nomor kartu tidak valid.');continue}
+        if((mask.match(/_/g)||[]).length!==1){errors.push('Baris '+(i+1)+': Kata harus punya persis satu tanda _ .');continue}
+        if(!/^[A-Z]$/.test(letter)){errors.push('Baris '+(i+1)+': Huruf yang hilang harus tepat satu huruf A–Z.');continue}
+        item.cards.push({num,mask,letter,word:mask.replace('_',letter)});
+      } else if(['JUDUL','KATEGORI','CERITA','PETUNJUK','WAKTU','PENJELASAN','URUTAN','JAWABAN'].includes(key)){
+        item[key]=value;
+      } else errors.push('Baris '+(i+1)+': Kolom '+key+' tidak dikenal.');
+    }
+    if(entries.length===0)errors.push('Tidak ditemukan soal. Awali tiap soal dengan ===.');
+    entries.forEach((q,idx)=>{
+      const info='Soal '+(idx+1)+' (mulai baris '+q.start+'): ';
+      if(!q.cards.length){errors.push(info+'Tidak ada KARTU.');return}
+      if(q.cards.length>14)errors.push(info+'Maksimal 14 kartu per soal.');
+      const nums=q.cards.map(c=>c.num), uniq=new Set(nums);
+      if(uniq.size!==nums.length)errors.push(info+'Ada nomor kartu yang sama.');
+      if(q.URUTAN){
+        q.order=q.URUTAN.split(',').map(x=>Number(x.trim()));
+        if(q.order.some(n=>!Number.isInteger(n)) || q.order.length!==q.cards.length || new Set(q.order).size!==nums.length || !q.order.every(n=>uniq.has(n))){
+          errors.push(info+'URUTAN harus memuat setiap nomor kartu tepat sekali (misalnya 4,1,3,2).');
+        }
+      }else{
+        q.order=[...nums].sort((a,b)=>a-b);
+        if(q.order.some((n,i)=>n!==i+1))errors.push(info+'Jika tanpa URUTAN, nomor kartu harus mulai 1 dan berurutan.');
+      }
+      const byNum=new Map(q.cards.map(c=>[c.num,c]));
+      q.code=q.order.map(n=>byNum.get(n)?.letter||'').join('');
+      if(q.JAWABAN && cleanCode(q.JAWABAN)!==q.code)errors.push(info+'JAWABAN tidak cocok dengan huruf KARTU sesuai URUTAN.');
+      if(!q.JUDUL)q.JUDUL='Misi '+(idx+1);
+      if(!q.CERITA)q.CERITA='Satu huruf terhapus dari setiap kata. Cari dan susun kode rahasianya.';
+      if(!q.PETUNJUK)q.PETUNJUK=q.URUTAN?'Urutan khusus: '+q.order.join(' → '):'Urutkan huruf mengikuti nomor kartu.';
+      if(!q.KATEGORI)q.KATEGORI='TANTANGAN';
+      q.seconds = q.WAKTU === undefined ? 60 : Number(q.WAKTU);
+      if(!Number.isInteger(q.seconds)||q.seconds<10||q.seconds>600)errors.push(info+'WAKTU harus bilangan 10 sampai 600 detik.');
+      if(!q.PENJELASAN)q.PENJELASAN='Password yang benar: '+q.code+'.';
+    });
+    if(errors.length)throw new Error(errors.join('\n'));
+    return entries;
+  }
+  function renderScoreboard(){
+    const root=$('teams');root.replaceChildren();
+    teams.forEach((team,i)=>{
+      const el=document.createElement('div');el.className='team';
+      const top=document.createElement('div');top.className='team-top';
+      const swatch=document.createElement('span');swatch.className='team-swatch';swatch.style.background=colors[i];
+      const name=document.createElement('input');name.className='team-name';name.value=team.name;name.maxLength=24;name.setAttribute('aria-label','Nama tim '+(i+1));
+      name.addEventListener('change',()=>{teams[i].name=name.value.trim()||teamDefaults[i];saveTeams();name.value=teams[i].name});
+      const score=document.createElement('span');score.className='score';score.textContent=team.score;
+      top.append(swatch,name,score);
+      const controls=document.createElement('div');controls.className='team-buttons';
+      [[10,'+10'],[5,'+5'],[-5,'−5']].forEach(([points,label])=>{
+        const button=document.createElement('button');button.className='score-btn';button.textContent=label;
+        button.setAttribute('aria-label',label+' poin untuk '+team.name);
+        button.addEventListener('click',()=>{teams[i].score=Math.max(0,teams[i].score+points);saveTeams();score.textContent=teams[i].score});
+        controls.append(button);
+      });
+      el.append(top,controls);root.append(el);
+    });
+  }
+  function pauseTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null}timerRunning=false;updateTimer()}
+  function resetTimer(){pauseTimer();timeLeft=timerMax;timerSounded=false;updateTimer()}
+  function tick(){
+    timeLeft=Math.max(0,Math.ceil((timerDeadline-Date.now())/1000));updateTimer();
+    if(timeLeft<=0){pauseTimer();if(!timerSounded){timerSounded=true;setFeedback('⏰ Waktu habis! Saatnya semua tim menunjukkan jawabannya.','wrong');playBeep()}}
+  }
+  function toggleTimer(){
+    if(timerRunning){timeLeft=Math.max(0,Math.ceil((timerDeadline-Date.now())/1000));pauseTimer();return}
+    if(timeLeft<=0){timeLeft=timerMax;timerSounded=false}
+    timerDeadline=Date.now()+timeLeft*1000;timerRunning=true;
+    timerHandle=setInterval(tick,100);updateTimer();
+  }
+  function updateTimer(){
+    safeText($('timerNumber'), timeLeft);
+    $('timerCircle').style.setProperty('--progress', Math.max(0,100*timeLeft/Math.max(1,timerMax))+'%');
+    $('timerCircle').classList.toggle('urgent',timeLeft<=10 && timeLeft>0);
+    safeText($('timerToggle'),timerRunning?'⏸ Jeda timer':'▶ '+(timeLeft===timerMax?'Mulai timer':'Lanjut timer'));
+  }
+  function playBeep(){
+    try{const AudioCtx=window.AudioContext||window.webkitAudioContext;if(!AudioCtx)return;const ctx=new AudioCtx();const osc=ctx.createOscillator(),vol=ctx.createGain();osc.type='sine';osc.frequency.value=475;vol.gain.setValueAtTime(.07,ctx.currentTime);vol.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.35);osc.connect(vol);vol.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.36);setTimeout(()=>ctx.close(),600)}catch(_){}}
+  function setFeedback(msg,kind='info'){safeText($('feedback'),msg);$('feedback').className='feedback '+kind}
+  function buildCards(){
+    const current=rounds[currentIndex], root=$('cardGrid');root.replaceChildren();
+    current.cards.forEach(c=>{
+      const open = revealAll || revealed.has(c.num);
+      const b=document.createElement('button');b.type='button';b.className='word-card'+(open?' revealed':'');
+      b.setAttribute('aria-label','Kartu nomor '+c.num+', kata '+(open?c.word:c.mask)+'. Klik untuk '+(open?'menyembunyikan':'membuka')+' huruf.');
+      const no=document.createElement('div');no.className='card-no';no.textContent='#'+String(c.num).padStart(2,'0');
+      const puzzle=document.createElement('div');puzzle.className='puzzle';
+      const idx=c.mask.indexOf('_'), before=document.createTextNode(c.mask.slice(0,idx)), after=document.createTextNode(c.mask.slice(idx+1));
+      const hole=document.createElement('span');hole.className='missing';hole.textContent=open?c.letter:'_';
+      puzzle.append(before,hole,after);
+      const footer=document.createElement('div');footer.className='card-bottom';footer.textContent=open?'✓ HURUF DITEMUKAN':'? KLIK UNTUK UNGKAP';
+      b.append(no,puzzle,footer);
+      b.addEventListener('click',()=>{
+        if(revealAll)revealAll=false;
+        if(revealed.has(c.num))revealed.delete(c.num);else revealed.add(c.num);
+        renderRevealState();
+      });
+      root.append(b);
+    });
+  }
+  function renderRevealState(){
+    const q=rounds[currentIndex];
+    const root=$('answerLetters');root.replaceChildren();
+    q.order.forEach((num)=>{
+      const c=q.cards.find(c=>c.num===num), open=revealAll||revealed.has(num);
+      const span=document.createElement('div');span.className='letter'+(open?' open':'');span.textContent=open?c.letter:'?';root.append(span);
+    });
+    const all = revealAll || q.order.every(n=>revealed.has(n));
+    safeText($('answerNote'),all?'🎉 Semua huruf terungkap! Password: '+q.code:(revealed.size?revealed.size+' dari '+q.cards.length+' kartu sudah diungkap.':'Klik kartu untuk mengungkap satu huruf, atau tebak kode langsung.'));
+    $('explanation').hidden=!all;
+    if(all)safeText($('explanation'),'💡 PENJELASAN: '+q.PENJELASAN);
+    safeText($('revealBtn'),revealAll?'👁 Semua huruf terbuka':'👁 Ungkap semua huruf');
+    buildCards();
+  }
+  function changeRound(index){
+    if(index<0||index>=rounds.length)return;
+    pauseTimer();currentIndex=index;revealed=new Set();revealAll=false;success=false;
+    $('guessInput').value='';setFeedback('');
+    const q=rounds[index];
+    timerMax=q.seconds;timeLeft=timerMax;timerSounded=false;updateTimer();
+    safeText($('missionNumber'),'MISI '+String(index+1).padStart(2,'0')+' / '+String(rounds.length).padStart(2,'0'));
+    safeText($('missionTitle'),q.JUDUL);safeText($('category'),q.KATEGORI);
+    safeText($('story'),q.CERITA);safeText($('hint'),q.PETUNJUK);
+    safeText($('roundLabel'),'SOAL '+(index+1)+' DARI '+rounds.length);
+    $('prevBtn').disabled=index===0;$('nextBtn').disabled=index===rounds.length-1;
+    $('roundSelect').value=String(index);
+    renderRevealState();
+  }
+  function setRounds(next,name,automatic=false){
+    rounds=next;sourceName=name;
+    safeText($('fileName'),name+' · '+rounds.length+' soal');
+    $('fileStatus').title='Sumber soal: '+name;
+    $('roundSelect').replaceChildren();
+    rounds.forEach((r,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=(i+1)+'. '+r.JUDUL;$('roundSelect').append(opt)});
+    const banner=$('sourceBanner');
+    if(location.protocol==='file:'){
+      banner.hidden=false;
+      banner.textContent='📌 Mode file offline: agar perubahan soal.txt muncul, klik “MUAT SOAL .TXT” dan pilih file tersebut. Browser tidak mengizinkan pembacaan otomatis dari folder tanpa server lokal.';
+    }else if(automatic){
+      banner.hidden=true;
+    }else{
+      banner.hidden=true;
+    }
+    changeRound(0);
+  }
+  function showError(message){safeText($('errorDetails'),message);$('errorOverlay').hidden=false;pauseTimer()}
+  function showToast(message){safeText($('toast'),message);$('toast').hidden=false;clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').hidden=true,4300)}
+  async function loadFromFile(file){
+    if(!file)return;
+    if(!/\.txt$/i.test(file.name) && file.type && file.type!=='text/plain'){showError('Pilih file dengan ekstensi .txt.');return}
+    try{const contents=await file.text();const parsed=parseQuestions(contents);setRounds(parsed,file.name);showToast('✓ Berhasil memuat '+parsed.length+' soal dari '+file.name)}
+    catch(e){showError(e.message||String(e))}
+  }
+  function confetti(){
+    const root=$('confetti');root.replaceChildren();
+    const palette=['#ffce74','#66dfe7','#ed8ba9','#a7a3ff','#74f2b7'];
+    for(let i=0;i<90;i++){
+      const p=document.createElement('i');p.className='confetti-piece';p.style.left=Math.random()*100+'%';
+      p.style.background=palette[i%palette.length];p.style.borderRadius=i%3?'2px':'50%';
+      p.style.animationDuration=(2.2+Math.random()*2)+'s';p.style.animationDelay=Math.random()*.35+'s';
+      p.style.setProperty('--drift',((Math.random()-.5)*280)+'px');root.append(p);
+    }
+    setTimeout(()=>root.replaceChildren(),5100);
+  }
+  function checkGuess(ev){
+    ev.preventDefault();const guess=cleanCode($('guessInput').value), expected=rounds[currentIndex].code;
+    if(!guess){setFeedback('⌨️ Ketik tebakan terlebih dahulu.','info');return}
+    if(guess===expected){
+      if(!success){confetti();playBeep()} success=true;pauseTimer();revealAll=true;revealed=new Set(rounds[currentIndex].order);
+      renderRevealState();setFeedback('🎉 BENAR! Misi berhasil — password '+expected+' terbuka!','success');
+    }else{setFeedback('❌ Belum tepat! Diskusikan lagi dengan timmu.','wrong');$('guessInput').select()}
+  }
+  function revealToggle(){
+    if(revealAll){revealAll=false;revealed=new Set();setFeedback('Jawaban disembunyikan kembali.','info')}
+    else {revealAll=true;revealed=new Set(rounds[currentIndex].order);pauseTimer();setFeedback('🔓 Password terungkap: '+rounds[currentIndex].code,'success')}
+    renderRevealState();
+  }
+  async function toggleFullscreen(){
+    try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen()}else await document.exitFullscreen()}
+    catch(e){showToast('Mode layar penuh tidak tersedia pada browser ini.')}
+  }
+  function initEvents(){
+    $('loadFileBtn').addEventListener('click',()=>$('filePicker').click());
+    $('filePicker').addEventListener('change',async(e)=>{await loadFromFile(e.target.files[0]);e.target.value=''});
+    $('guessForm').addEventListener('submit',checkGuess);
+    $('timerToggle').addEventListener('click',toggleTimer);$('timerReset').addEventListener('click',resetTimer);
+    $('revealBtn').addEventListener('click',revealToggle);
+    $('hideBtn').addEventListener('click',()=>{revealAll=false;revealed.clear();renderRevealState();setFeedback('Semua kartu ditutup.','info')});
+    $('prevBtn').addEventListener('click',()=>changeRound(currentIndex-1));
+    $('nextBtn').addEventListener('click',()=>changeRound(currentIndex+1));
+    $('roundSelect').addEventListener('change',(ev)=>changeRound(Number(ev.target.value)));
+    $('resetScores').addEventListener('click',()=>{if(confirm('Yakin mau menghapus semua skor tim?')){teams.forEach(t=>t.score=0);saveTeams();renderScoreboard()}});
+    $('focusBtn').addEventListener('click',()=>{document.body.classList.toggle('focus-mode');safeText($('focusBtn'),document.body.classList.contains('focus-mode')?'◨ Tampilkan skor':'◧ Fokus')});
+    $('fullBtn').addEventListener('click',toggleFullscreen);
+    $('helpBtn').addEventListener('click',()=>{$('helpOverlay').hidden=false;pauseTimer()});
+    $('closeHelp').addEventListener('click',()=>$('helpOverlay').hidden=true);
+    $('closeError').addEventListener('click',()=>$('errorOverlay').hidden=true);
+    for(const id of ['helpOverlay','errorOverlay'])$(id).addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.hidden=true});
+    document.addEventListener('keydown',(ev)=>{
+      if(ev.key==='Escape'){$('helpOverlay').hidden=true;$('errorOverlay').hidden=true;return}
+      if(!$('helpOverlay').hidden || !$('errorOverlay').hidden)return;
+      const active=ev.target;
+      if(active && (['INPUT','SELECT','TEXTAREA'].includes(active.tagName)||active.isContentEditable))return;
+      if(ev.code==='Space'){ev.preventDefault();toggleTimer()}
+      else if(ev.key==='ArrowRight'){ev.preventDefault();changeRound(currentIndex+1)}
+      else if(ev.key==='ArrowLeft'){ev.preventDefault();changeRound(currentIndex-1)}
+      else if(ev.key.toLowerCase()==='r'){ev.preventDefault();revealToggle()}
+      else if(ev.key.toLowerCase()==='f'){ev.preventDefault();toggleFullscreen()}
+    });
+    window.addEventListener('beforeunload',pauseTimer);
+  }
+  async function start(){
+    initEvents();renderScoreboard();
+    const builtIn=$('embeddedQuestions').textContent;
+    try {setRounds(parseQuestions(builtIn),'Soal contoh bawaan');}
+    catch(e){showError('Kesalahan soal bawaan: '+e.message);return}
+    if(location.protocol==='http:'||location.protocol==='https:'){
+      try{
+        const res=await fetch('./soal.txt?noCache='+Date.now(),{cache:'no-store'});
+        if(!res.ok)throw new Error('HTTP '+res.status);
+        const parsed=parseQuestions(await res.text());setRounds(parsed,'soal.txt',true);
+      }catch(e){showToast('Tidak bisa memuat soal.txt otomatis. Memakai soal contoh. '+e.message)}
+    }
+  }
+  start();
+  </script>
+</body>
+</html>

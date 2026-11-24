@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Simon Says Warna • WAn Ko-Ki</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--card:#151e32;--panel:#1a2640;--line:#334360;--white:#f8fafc;--muted:#b7c5db;--sky:#72ddff;--mint:#62e3b5;--gold:#ffd36e}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 18% 4%,#1a3051 0,transparent 45%),radial-gradient(ellipse at 90% 80%,#201b3f 0,transparent 45%),var(--bg);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--white)}
+    button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    .shell{max-width:1210px;margin:0 auto;padding:25px clamp(12px,3vw,36px) 44px}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:19px}
+    .brand{display:flex;align-items:center;gap:13px}.logo{width:46px;height:46px;display:grid;grid-template-columns:1fr 1fr;gap:4px;transform:rotate(-12deg)}.logo i{border-radius:6px}.logo i:nth-child(1){background:#ff6269}.logo i:nth-child(2){background:#6ed76d}.logo i:nth-child(3){background:#ffd057}.logo i:nth-child(4){background:#5ba9ff}
+    .eyebrow{font-size:11px;letter-spacing:.21em;color:var(--sky);font-weight:900}.title{margin:2px 0 0;font-size:clamp(23px,3.2vw,36px);letter-spacing:-.04em;line-height:1.1}.topright{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .pill{border:1px solid var(--line);border-radius:99px;padding:9px 12px;color:var(--muted);font-size:12px;font-weight:700;background:#131c30}.outline{background:transparent;color:#e0e9f7;border:1px solid var(--line);border-radius:11px;padding:10px 14px;font-weight:750}.outline:not(:disabled):hover{border-color:var(--sky);background:#253653}
+    .layout{display:grid;grid-template-columns:minmax(0,1.52fr) minmax(280px,.88fr);gap:18px;align-items:start}.board,.sidebar{background:rgba(21,30,50,.97);border:1px solid var(--line);border-radius:22px;box-shadow:0 18px 65px #050b18aa}.board{padding:18px clamp(12px,2.4vw,27px) 22px}.sidebar{padding:19px}
+    .bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.tag{display:inline-block;background:#263857;color:#9ce9ff;font-size:12px;letter-spacing:.05em;border-radius:99px;padding:8px 13px;font-weight:900}.level{font-weight:850;color:#e6edf9}.status{text-align:center;margin:13px 0 7px;font-size:clamp(20px,2.4vw,28px);font-weight:950;min-height:40px}.sub{text-align:center;color:var(--muted);font-size:14px;min-height:38px;line-height:1.45;margin:0 0 8px}
+    .gamearea{position:relative;display:grid;place-items:center;margin:10px auto 0;max-width:510px}.pads{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:13px;aspect-ratio:1/1;padding:8px}.pad{appearance:none;border:3px solid #ffffff30;position:relative;min-width:0;min-height:0;transition:transform .12s,filter .12s,box-shadow .12s;background-color:var(--base);box-shadow:inset 0 -13px 22px #0004,0 8px 18px #0004;filter:brightness(.69) saturate(.90);user-select:none;touch-action:manipulation}.pad:not(:disabled):hover{filter:brightness(.89);transform:translateY(-2px)}.pad.red{--base:#ff4656;border-radius:100% 20px 20px 20px}.pad.green{--base:#36d97c;border-radius:20px 100% 20px 20px}.pad.yellow{--base:#ffce3c;border-radius:20px 20px 20px 100%}.pad.blue{--base:#459bff;border-radius:20px 20px 100% 20px}.pad.lit{filter:brightness(1.55) saturate(1.45);transform:scale(1.027);border-color:#fff;box-shadow:0 0 34px var(--base),inset 0 0 19px #fff9;z-index:1}.pad.wrong{filter:grayscale(.8) brightness(1.5);border-color:white}
+    .padlabel{position:absolute;color:#05101d;font-size:clamp(14px,2vw,20px);font-weight:1000;letter-spacing:.03em;text-shadow:0 1px 0 #ffffff55}.red .padlabel{right:19%;bottom:23%}.green .padlabel{left:19%;bottom:23%}.yellow .padlabel{right:19%;top:22%}.blue .padlabel{left:19%;top:22%}.num{display:block;font-size:12px;font-weight:900;opacity:.8;margin-top:3px}
+    .center{position:absolute;pointer-events:none;width:clamp(85px,19%,120px);height:clamp(85px,19%,120px);border-radius:50%;background:#111a30;border:7px solid #202c46;box-shadow:0 5px 24px #050a18aa,0 0 0 2px #9cb1ce30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:3}.center b{font-size:clamp(12px,1.8vw,17px);letter-spacing:.05em}.center span{font-size:11px;color:var(--sky);margin-top:2px;font-weight:900}
+    .progress{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;min-height:20px;margin:9px 0 3px}.stepdot{height:11px;width:11px;border-radius:100%;background:#394968}.stepdot.done{background:#6ee7b7}.stepdot.next{background:#f9d16a;box-shadow:0 0 9px #ffcd42}
+    .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}.primary{background:#65e3bd;border:0;border-radius:12px;color:#04271c;font-weight:950;min-height:51px;padding:12px 15px}.primary:not(:disabled):hover{background:#b0f9e1}.secondary{background:#283955;color:#f3f7ff;border:1px solid #536987;border-radius:12px;min-height:51px;font-weight:850;padding:12px}.secondary:not(:disabled):hover{background:#3b4e71}.controls .wide{grid-column:1/-1}.shortkeys{text-align:center;font-size:12px;color:#95a8c5;margin-top:15px}.message{min-height:35px;margin:9px auto 0;color:#dbe8f8;font-size:13px;text-align:center;line-height:1.45;max-width:510px}.message strong{color:#fff}
+    .sidebar h2{margin:0 0 6px;font-size:20px;letter-spacing:-.02em}.sidebar .intro{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 14px}.teams{display:flex;flex-direction:column;gap:8px}.team{display:grid;grid-template-columns:25px minmax(0,1fr) auto;align-items:center;gap:9px;background:#19263f;padding:10px;border-radius:12px;border:1px solid #344563;cursor:pointer}.team:hover{border-color:#789bc5}.team.selected{border:2px solid #6de1fc;background:#223656;padding:9px}.team.played:not(.selected){opacity:.75}.team input{background:transparent;color:#e8f0ff;border:0;outline:0;width:100%;font-size:13px;font-weight:900;min-width:0}.team input:focus{background:#334867;border-radius:4px}.team .detail{font-size:11px;color:#abbdd8;line-height:1.4}.team .score{text-align:right}.team .score b{font-size:20px}.team .score span{display:block;font-size:10px;color:#b8c7dc}.avatar{height:25px;width:25px;border-radius:8px;display:grid;place-items:center;color:#102138;font-weight:1000;font-size:13px}
+    .settings{margin-top:14px;border-top:1px solid var(--line);padding-top:15px}.settings label{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#cedbef;font-weight:850;font-size:13px}.settings select{border-radius:9px;background:#253652;border:1px solid #526786;color:white;padding:8px 10px;font-size:12px;max-width:120px}.settings .soundrow{margin-top:12px}.settings button{background:transparent;color:#dbeafe;border:1px solid #526786;padding:8px 12px;border-radius:9px;font-size:12px;font-weight:800}.rules{background:#101b2f;border-radius:14px;padding:14px;margin-top:16px;font-size:13px;color:#dbe7f9;line-height:1.65}.rules b{color:#fff}.rules p{margin:5px 0 0}.teacher{margin-top:13px;font-size:12px;line-height:1.5;color:var(--muted)}
+    .summary{display:none;padding:16px;background:#213252;border:1px solid #507198;border-radius:15px;margin-top:12px;text-align:center}.summary.show{display:block}.summary strong{font-size:24px;color:#ffe08c}.summary p{margin:4px 0;font-size:13px;color:#dce8fa}.sequence{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin:9px 0}.mini{border-radius:6px;padding:5px 7px;font-size:11px;color:#071429;font-weight:1000}.mini.red{background:#ff6672}.mini.green{background:#66ee9c}.mini.yellow{background:#ffdf6b}.mini.blue{background:#77b8ff}.footer{margin-top:18px;text-align:center;color:#91a3bf;font-size:12px}
+    @media(max-width:840px){.layout{grid-template-columns:1fr}.gamearea{max-width:490px}.sidebar{margin-top:0}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr))}}@media(max-width:450px){.shell{padding:14px 9px 30px}.board,.sidebar{border-radius:16px}.board{padding:13px 8px 16px}.pads{gap:8px;padding:5px}.padlabel{font-size:13px}.center{width:79px;height:79px;border-width:5px}.center b{font-size:12px}.topright{width:100%}.status{font-size:20px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div class="brand"><div class="logo" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div><div class="eyebrow">WAN KO-KI • KODING FOR KIDS</div><h1 class="title">SIMON SAYS <span style="color:#72ddff">WARNA</span></h1></div></div>
+      <div class="topright"><span class="pill">🎯 8 level / kelompok</span><button id="resetAll" class="outline" type="button">↻ Reset Semua</button></div>
+    </header>
+    <div class="layout">
+      <section class="board" aria-label="Arena permainan">
+        <div class="bar"><span id="turnBadge" class="tag">GILIRAN: ALPHA</span><span id="levelBadge" class="level">LEVEL 1 / 8</span></div>
+        <div id="status" class="status" aria-live="polite">Siap menguji ingatanmu?</div>
+        <p id="substatus" class="sub">Pilih kelompok, lalu tekan <strong>Mulai Giliran</strong>.</p>
+        <div class="gamearea"><div class="pads" id="pads">
+          <button type="button" class="pad red" data-color="red" aria-label="Merah, tombol 1" disabled><span class="padlabel">MERAH<span class="num">1</span></span></button>
+          <button type="button" class="pad green" data-color="green" aria-label="Hijau, tombol 2" disabled><span class="padlabel">HIJAU<span class="num">2</span></span></button>
+          <button type="button" class="pad yellow" data-color="yellow" aria-label="Kuning, tombol 3" disabled><span class="padlabel">KUNING<span class="num">3</span></span></button>
+          <button type="button" class="pad blue" data-color="blue" aria-label="Biru, tombol 4" disabled><span class="padlabel">BIRU<span class="num">4</span></span></button>
+        </div><div class="center"><b>SIMON</b><span id="coreText">SIAP</span></div></div>
+        <div id="progress" class="progress" aria-label="Kemajuan mengulang urutan"></div>
+        <div class="controls"><button id="startBtn" class="primary wide" type="button">▶ MULAI GILIRAN</button><button id="repeatBtn" class="secondary" type="button" disabled>↻ Putar Ulang (−5)</button><button id="nextBtn" class="secondary" type="button" disabled>Kelompok Berikutnya →</button></div>
+        <div id="message" class="message" aria-live="polite">Pola dimulai dari 2 warna, lalu bertambah 1 setiap level.</div>
+        <div id="summary" class="summary" aria-live="polite"></div>
+        <div class="shortkeys">⌨️ Guru bisa menekan <b>1, 2, 3, 4</b> saat memasukkan jawaban.</div>
+      </section>
+      <aside class="sidebar"><h2>🏆 Papan Skor</h2><p class="intro">Pilih kelompok yang maju. Klik nama untuk mengubahnya. Setiap level berhasil = <b>+10 poin</b>.</p><div class="teams" id="teams"></div>
+        <div class="settings"><label>Kecepatan pola<select id="speed"><option value="slow">Pelan</option><option value="normal" selected>Normal</option><option value="fast">Cepat</option></select></label><label class="soundrow">Efek suara<button type="button" id="soundBtn" aria-pressed="true">🔊 Aktif</button></label></div>
+        <div class="rules"><b>🎮 Cara bermain</b><p>1. Satu kelompok maju melihat LCD.</p><p>2. Perhatikan urutan warna yang berkedip.</p><p>3. Setelah selesai, anak menyebut urutannya. Guru mengklik warna sesuai jawaban.</p><p>4. Benar → level naik. Salah → giliran berakhir.</p><p>5. Kelompok dengan poin terbanyak menang!</p></div>
+        <p class="teacher">💡 <b>Unplugged:</b> anak-anak tak perlu memegang laptop. Bisa juga menulis urutan warna di kertas sebelum guru memasukkannya. Melatih pola, urutan instruksi, dan debugging.</p>
+      </aside>
+    </div><div class="footer">100% offline • Tidak perlu instalasi atau internet • Skor tersimpan otomatis di browser</div>
+  </main>
+  <script>
+  (()=>{
+    'use strict';
+    const KEY='wankoki_simon_2026_v1';
+    const COLOR={red:{label:'MERAH',freq:329.63},green:{label:'HIJAU',freq:392},yellow:{label:'KUNING',freq:493.88},blue:{label:'BIRU',freq:587.33}};
+    const COLORS=Object.keys(COLOR), MAX_LEVEL=8, POINTS=10;
+    const $=id=>document.getElementById(id);
+    const padButtons=[...document.querySelectorAll('.pad')];
+    const defaultTeams=()=>['Alpha','Beta','Gamma','Delta','Omega'].map(name=>({name,score:0,best:0,played:false}));
+    const defaultData=()=>({teams:defaultTeams(),selected:0,sound:true,speed:'normal'});
+    function load(){try{
+      const parsed=JSON.parse(localStorage.getItem(KEY)||'null'); if(!parsed||!Array.isArray(parsed.teams)||parsed.teams.length!==5)return defaultData();
+      const d=defaultData();d.teams=parsed.teams.map((t,i)=>({name:String(t.name||d.teams[i].name).slice(0,24),score:Math.max(0,Math.min(100,Number(t.score)||0)),best:Math.max(0,Math.min(8,Number(t.best)||0)),played:Boolean(t.played)}));d.selected=Number.isInteger(parsed.selected)&&parsed.selected>=0&&parsed.selected<5?parsed.selected:0;d.sound=parsed.sound!==false;d.speed=['slow','normal','fast'].includes(parsed.speed)?parsed.speed:'normal';return d;
+    }catch{return defaultData();}}
+    let data=load(), state='idle', level=1, seq=[], inputAt=0, hintUsed=false, session=0, audio=null;
+    const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(data));}catch{}};
+    function tone(freq,seconds=.19,type='sine',volume=.12){if(!data.sound)return;try{let AudioContext=window.AudioContext||window.webkitAudioContext;if(!AudioContext)return;if(!audio)audio=new AudioContext();if(audio.state==='suspended')audio.resume().catch(()=>{});let now=audio.currentTime,osc=audio.createOscillator(),gain=audio.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,now);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(volume,now+.013);gain.gain.exponentialRampToValueAtTime(.0001,now+seconds);osc.connect(gain);gain.connect(audio.destination);osc.start(now);osc.stop(now+seconds+.03);}catch{}}
+    const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const team=()=>data.teams[data.selected];
+    const everyonePlayed=()=>data.teams.every(t=>t.played);
+    function status(t,sub){$('status').textContent=t;$('substatus').textContent=sub;}
+    function setPads(on){for(const p of padButtons)p.disabled=!on;}
+    function light(c,duration=260){const p=padButtons.find(x=>x.dataset.color===c);if(!p)return;p.classList.add('lit');tone(COLOR[c].freq,Math.max(.12,duration/1000*.84));setTimeout(()=>p.classList.remove('lit'),duration);}
+    function renderTeams(){const root=$('teams');root.replaceChildren();const shades=['#82d4ff','#7cf0b3','#ffd66c','#d0a9ff','#ff9db1'];data.teams.forEach((t,i)=>{
+      const el=document.createElement('div');el.className='team'+(i===data.selected?' selected':'')+(t.played?' played':'');el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-label',`Pilih kelompok ${t.name}, skor ${t.score}`);
+      const av=document.createElement('div');av.className='avatar';av.style.background=shades[i];av.textContent=String(i+1);
+      const details=document.createElement('div'),input=document.createElement('input');input.type='text';input.value=t.name;input.maxLength=24;input.setAttribute('aria-label',`Nama kelompok ${i+1}`);input.title='Ubah nama kelompok';input.addEventListener('click',e=>e.stopPropagation());input.addEventListener('keydown',e=>e.stopPropagation());input.addEventListener('change',()=>{t.name=input.value.trim()||['Alpha','Beta','Gamma','Delta','Omega'][i];input.value=t.name;save();renderGame()});
+      const meta=document.createElement('div');meta.className='detail';meta.textContent=t.played?`✓ Selesai • Lolos ${t.best} level`:`Belum main • Rekor ${t.best} level`;details.append(input,meta);
+      const right=document.createElement('div');right.className='score';const bold=document.createElement('b');bold.textContent=t.score;const span=document.createElement('span');span.textContent='POIN';right.append(bold,span);el.append(av,details,right);
+      const choose=()=>{if(['show','input','success'].includes(state))return;if(t.played)return;data.selected=i;save();state='idle';hideSummary();renderGame();};el.addEventListener('click',choose);el.addEventListener('keydown',e=>{if(e.target===el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();choose()}});root.append(el);
+    });}
+    function renderProgress(){const root=$('progress');root.replaceChildren();if(!['show','input','success','lost','won'].includes(state))return;seq.forEach((_,i)=>{const x=document.createElement('div');x.className='stepdot'+(i<inputAt?' done':i===inputAt&&state==='input'?' next':'');root.append(x);});}
+    function renderGame(){if(data.teams[data.selected].played && state==='idle'&&!everyonePlayed()){const next=data.teams.findIndex(t=>!t.played);if(next!==-1){data.selected=next;save();}}
+      $('turnBadge').textContent='GILIRAN: '+team().name.toUpperCase();$('levelBadge').textContent=`LEVEL ${level} / ${MAX_LEVEL}`;$('speed').value=data.speed;$('speed').disabled=['show','input','success'].includes(state);$('soundBtn').textContent=data.sound?'🔊 Aktif':'🔇 Mati';$('soundBtn').setAttribute('aria-pressed',String(data.sound));
+      const active=['show','input','success'].includes(state);$('startBtn').disabled=active||team().played||everyonePlayed();$('startBtn').textContent=state==='idle'?'▶ MULAI GILIRAN':'▶ MULAI GILIRAN';$('repeatBtn').disabled=state!=='input'||hintUsed;$('nextBtn').disabled=active||(!team().played&&!everyonePlayed());$('nextBtn').textContent=everyonePlayed()?'🏆 Lihat Pemenang':'Kelompok Berikutnya →';setPads(state==='input');
+      if(state==='idle'){status(everyonePlayed()?'Semua kelompok sudah bermain!':'Siap menguji ingatanmu?',everyonePlayed()?'Lihat pemenang di bawah.':'Pilih kelompok, lalu tekan Mulai Giliran.');$('coreText').textContent='SIAP';$('message').textContent='Pola dimulai dengan 2 warna dan bertambah 1 warna setiap level.';}
+      if(state==='show'){$('coreText').textContent='LIHAT';}
+      if(state==='input'){$('coreText').textContent=`${inputAt}/${seq.length}`;}
+      if(state==='lost'){$('coreText').textContent='SELESAI';}
+      if(state==='won'){$('coreText').textContent='HEBAT!';}
+      renderProgress();renderTeams();
+    }
+    async function playback(){const own=++session;state='show';inputAt=0;status('👀 PERHATIKAN POLANYA!','Jangan menjawab dulu. Amati warna yang menyala secara berurutan.');$('message').textContent=`Ingat urutan ${seq.length} warna. Setelah selesai, barulah jawab.`;renderGame();
+      const gap={slow:470,normal:330,fast:180}[data.speed],on={slow:830,normal:610,fast:410}[data.speed];await sleep(700);if(own!==session)return;
+      for(const c of seq){light(c,on);await sleep(on+gap);if(own!==session)return;}
+      await sleep(200);if(own!==session)return;state='input';status('🎯 SEKARANG ULANGI!','Anak menyebutkan warna sesuai urutan. Guru mengklik tombol warna.');$('message').textContent='Klik kotak warna atau gunakan tombol 1–4. Jangan lupa urutannya!';renderGame();
+    }
+    function beginLevel(){if(level===1)seq=[randomColor(),randomColor()];else seq.push(randomColor());hintUsed=false;inputAt=0;hideSummary();playback();}
+    function randomColor(){return COLORS[Math.floor(Math.random()*COLORS.length)];}
+    function start(){if(state!=='idle'||team().played||everyonePlayed())return;session++;level=1;seq=[];inputAt=0;beginLevel();}
+    function flashMistake(c){const p=padButtons.find(x=>x.dataset.color===c);if(p){p.classList.add('wrong');setTimeout(()=>p.classList.remove('wrong'),430);}}
+    function finish(result){session++;state=result;team().played=true;save();setPads(false);renderGame();$('startBtn').disabled=true;$('repeatBtn').disabled=true;$('nextBtn').disabled=false;
+      const s=$('summary');s.replaceChildren();s.classList.add('show');const big=document.createElement('strong');big.textContent=result==='won'?'🌟 LUAR BIASA!':'🔒 GILIRAN SELESAI';const inf=document.createElement('p');inf.textContent=`${team().name} berhasil melewati ${team().best} level dan mendapat ${team().score} poin.`;s.append(big,inf);
+      if(result==='lost'){const label=document.createElement('p');label.textContent='Urutan yang benar pada level terakhir:';s.append(label);const list=document.createElement('div');list.className='sequence';seq.forEach(c=>{const b=document.createElement('span');b.className='mini '+c;b.textContent=COLOR[c].label;list.append(b)});s.append(list);}status(result==='won'?'🏅 SEMUA LEVEL SELESAI!':'❌ URUTANNYA BELUM TEPAT',result==='won'?'Kamu menuntaskan tantangan Simon Says.':'Tidak apa-apa, giliran kelompok berikutnya!');
+      $('message').textContent=everyonePlayed()?'Semua sudah bermain. Tekan Lihat Pemenang!':'Tekan Kelompok Berikutnya untuk melanjutkan.';
+    }
+    function answer(c){if(state!=='input')return;const expected=seq[inputAt];if(c!==expected){flashMistake(c);tone(160,.42,'sawtooth',.08);finish('lost');return;}
+      light(c,195);inputAt++;if(inputAt===seq.length){team().score=Math.min(100,team().score+POINTS);team().best=level;save();state='success';setPads(false);status('✅ BENAR! +10 POIN',`Level ${level} selesai. Bersiap untuk pola berikutnya!`);$('message').textContent=`Bagus, ${team().name}! Kamu berhasil mengingat ${seq.length} warna.`;renderGame();tone(784,.25,'sine');if(level>=MAX_LEVEL){const own=session;setTimeout(()=>{if(own===session)finish('won')},950);}else{const own=session;setTimeout(()=>{if(own!==session)return;level++;beginLevel();},1150);}}
+      else renderGame();
+    }
+    function repeat(){if(state!=='input'||hintUsed)return;hintUsed=true;team().score=Math.max(0,team().score-5);save();$('message').textContent='Bantuan digunakan: -5 poin.';playback();}
+    function hideSummary(){$('summary').classList.remove('show');$('summary').replaceChildren();}
+    function next(){if(['show','input','success'].includes(state))return;if(everyonePlayed()){showWinner();return;}let idx=data.selected;for(let i=1;i<=5;i++){const j=(idx+i)%5;if(!data.teams[j].played){data.selected=j;break;}}save();state='idle';level=1;seq=[];inputAt=0;hideSummary();renderGame();}
+    function showWinner(){session++;state='idle';const sorted=[...data.teams].sort((a,b)=>b.score-a.score||b.best-a.best);const top=sorted[0];status('🏆 PERMAINAN SELESAI!',`Juara: ${top.name} dengan ${top.score} poin!`);$('coreText').textContent='JUARA';const s=$('summary');s.replaceChildren();s.classList.add('show');const big=document.createElement('strong');big.textContent='🏆 '+top.name.toUpperCase();s.append(big);const score=document.createElement('p');score.textContent=`Skor tertinggi: ${top.score} poin`;s.append(score);sorted.forEach((t,i)=>{const line=document.createElement('p');line.textContent=`${i+1}. ${t.name} — ${t.score} poin (${t.best} level)`;s.append(line)});$('message').textContent='Selamat! Untuk bermain lagi, tekan Reset Semua.';renderTeams();$('startBtn').disabled=true;$('nextBtn').disabled=true;$('repeatBtn').disabled=true;}
+    function reset(){if(!window.confirm('Hapus semua skor dan mulai permainan dari awal?'))return;session++;data=defaultData();state='idle';level=1;seq=[];inputAt=0;hintUsed=false;save();hideSummary();renderGame();}
+    $('startBtn').addEventListener('click',start);$('repeatBtn').addEventListener('click',repeat);$('nextBtn').addEventListener('click',next);$('resetAll').addEventListener('click',reset);$('speed').addEventListener('change',e=>{if(['show','input','success'].includes(state))return;data.speed=e.target.value;save();});$('soundBtn').addEventListener('click',()=>{data.sound=!data.sound;save();renderGame();});
+    padButtons.forEach(p=>p.addEventListener('click',()=>answer(p.dataset.color)));document.addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,select,textarea'))return;const c={'1':'red','2':'green','3':'yellow','4':'blue'}[e.key];if(c){e.preventDefault();answer(c);}});
+    if(everyonePlayed()){level=8;renderGame();showWinner();}else{renderGame();}
+  })();
+  </script>
+</body>
+</html>

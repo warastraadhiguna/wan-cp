@@ -1,0 +1,17 @@
+# SOAL TXT SIAP DIUJI (gambar PNG sudah disertakan dalam ZIP)
+# Letakkan index.html, kedua gambar PNG, dan soal TXT di satu folder.
+# FORMAT TITIK: x%,y%|radius%|jenis perbedaan|penjelasan
+
+===
+JUDUL: Contoh Upload - Kelas 5A
+TEMA: SEKOLAH
+CERITA: Cari enam perbedaan dari dua gambar kelas!
+WAKTU: 100
+GAMBAR_A: contoh-kelas-asli.png
+GAMBAR_B: contoh-kelas-beda.png
+TITIK: 82.71,19.83|6.8|Warna berubah|Warna poster berbeda
+TITIK: 92.19,15.33|6.8|Detail berbeda|Jarum jam berubah
+TITIK: 11.04,61.50|6.8|Benda hilang|Bunga pada tanaman hilang
+TITIK: 37.08,43.17|6.8|Jumlah berbeda|Jumlah buku berbeda
+TITIK: 57.81,49.17|6.8|Jumlah berbeda|Jumlah pensil berbeda
+TITIK: 85.00,71.83|6.8|Warna berubah|Warna tas berubah

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Tebak Password Mesin • Koding Kids</title>
+  <style>
+    :root{--bg:#091528;--panel:#12243e;--panel2:#152b49;--panel3:#1b3354;--white:#f7fbff;--muted:#a9bbd3;--border:#284361;--yellow:#ffd361;--mint:#7de4c0;--blue:#84caff;--pink:#ff91bc;--purple:#c4a7ff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 60% 44% at 4% 0%,#173c62 0%,transparent 70%),radial-gradient(ellipse 60% 56% at 100% 100%,#25265d 0%,transparent 75%),var(--bg);font:16px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--white)}
+    button,select,input{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}button:disabled{cursor:not-allowed;opacity:.44}
+    .wrap{max-width:1560px;margin:auto;padding:18px 22px 36px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:15px}
+    .brand{display:flex;align-items:center;gap:12px}.logo{background:linear-gradient(145deg,#ffde75,#ff9d55);width:54px;height:54px;border-radius:17px;display:grid;place-items:center;font-size:28px;box-shadow:0 8px 25px #fca85b24;transform:rotate(-6deg)}
+    .eyebrow{color:var(--mint);font-size:11px;letter-spacing:.18em;font-weight:800;text-transform:uppercase}.brand h1{font-size:clamp(21px,2.2vw,33px);line-height:1.1;letter-spacing:-.04em;margin:3px 0 0}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .chip{font-size:13px;color:#e0eafa;background:#203850;border:1px solid #34516e;border-radius:99px;padding:8px 12px;font-weight:750}.btn{border:1px solid #3a5375;color:var(--white);border-radius:12px;background:#213b5b;font-weight:800;padding:11px 14px;transition:transform .1s,filter .1s,background .1s;white-space:nowrap}.btn:hover:not(:disabled){filter:brightness(1.13)}.btn:active:not(:disabled){transform:translateY(2px)}.btn-primary{color:#10233c;background:linear-gradient(115deg,#ffe083,#ffc25e);border-color:#ffe083;box-shadow:0 6px 20px #edac4526}.btn-mint{background:linear-gradient(115deg,#84efc6,#66d6be);border-color:#88f3c8;color:#0f3332}.btn-ghost{background:transparent}.btn-sm{padding:7px 10px;border-radius:10px;font-size:12px}.btn-wide{width:100%}.notice{margin:0 0 14px;padding:9px 14px;background:#162f4a;border:1px solid #355070;border-radius:12px;color:#cbdcf0;font-size:13px;display:flex;justify-content:space-between;gap:12px;align-items:center}.notice b{color:#fff}
+    .section-label{font-size:11px;font-weight:850;letter-spacing:.14em;color:#b2c7df;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:10px}.link-button{border:0;background:none;color:#90d7ff;font-size:12px;text-decoration:underline;text-underline-offset:2px;padding:2px}
+    .teams{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:17px}.team{position:relative;background:linear-gradient(140deg,#1a304b,#13263e);border:1px solid #355171;border-top:4px solid var(--team-color);border-radius:17px;padding:10px 10px 10px;min-width:0;box-shadow:0 7px 16px #0000001a}.team-head{display:flex;align-items:center;gap:7px;margin-bottom:7px}.team-dot{height:10px;width:10px;flex:none;background:var(--team-color);border-radius:50%;box-shadow:0 0 13px var(--team-color)}.team-name{display:block;width:100%;border:0;border-radius:5px;background:transparent;color:#f2f8ff;font-size:13px;font-weight:850;min-width:0;padding:3px 1px;outline:none}.team-name:focus{background:#263f5a;outline:1px solid #6aa5d6}.score-controls{display:flex;align-items:center;justify-content:space-between;gap:3px}.score{font-weight:950;color:#fff;font-size:clamp(25px,2.65vw,40px);line-height:1;letter-spacing:-.055em;font-variant-numeric:tabular-nums}.score-right{display:flex;gap:4px}.score-btn{font-size:12px;min-width:30px;border-radius:8px;padding:6px 5px;border:1px solid #4b6682;background:#28425f;color:#edfbff;font-weight:900}.score-btn.more{background:#304e58;color:#bdfae0}.score-btn:hover{filter:brightness(1.25)}
+    .main{display:grid;grid-template-columns:minmax(0,1fr) 298px;gap:14px}.game{background:linear-gradient(145deg,#182f50,#10233e);border:1px solid #365577;border-radius:23px;overflow:hidden;min-width:0;box-shadow:0 14px 45px #0002}.game-inner{padding:22px 26px 18px}.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.meta-left{display:flex;align-items:center;gap:8px}.mission-badge{background:#2d5277;border:1px solid #476d8d;border-radius:9px;padding:5px 9px;color:#d9ecff;font-size:11px;font-weight:850;letter-spacing:.065em}.theme-badge{color:#233b35;background:#9ff1d1;padding:5px 10px;font-weight:850;border-radius:10px;font-size:11px}.quest-count{font-size:12px;font-weight:800;color:var(--muted)}.qtitle{font-size:clamp(24px,2.45vw,36px);line-height:1.14;letter-spacing:-.045em;margin:11px 0 4px}.story{color:#c6d6e8;font-size:14px;margin:0;max-width:790px;min-height:40px}.progress-track{height:6px;border-radius:99px;background:#23405f;margin:13px 0 22px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#7edec6,#f8cd6d);border-radius:99px;transition:width .3s}
+    .pattern-label{text-align:center;font-size:12px;color:#c7d8ee;letter-spacing:.12em;text-transform:uppercase;font-weight:850;margin-bottom:12px}.pattern{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:clamp(7px,1.1vw,13px);margin-bottom:24px}.number{min-width:clamp(64px,7vw,105px);height:clamp(72px,8.3vw,109px);border:1.5px solid #507096;border-bottom:5px solid #3b557a;border-radius:19px;background:linear-gradient(150deg,#233e63,#1b3252);display:grid;place-items:center;font-weight:950;font-size:clamp(30px,4.1vw,56px);font-variant-numeric:tabular-nums;letter-spacing:-.06em;box-shadow:0 10px 0 #071b322e}.number.missing{background:linear-gradient(148deg,#ffd777,#ffae5e);color:#3c2845;border-color:#ffe89b;border-bottom-color:#d18644;box-shadow:0 0 0 5px #ffcb6230,0 10px 0 #071b322e;animation:pulse 1.8s ease-in-out infinite}.number.missing.solved{animation:none;background:linear-gradient(145deg,#a1f9d2,#65dec5);border-color:#b1ffe0;border-bottom-color:#3aab95;color:#143b37}@keyframes pulse{0%,100%{box-shadow:0 0 0 5px #ffcb6230,0 10px 0 #071b322e}50%{box-shadow:0 0 0 10px #ffcb6211,0 10px 0 #071b322e}}
+    .answers-label{text-align:center;margin-bottom:10px;font-size:12px;font-weight:850;letter-spacing:.12em;color:#bdcfe4;text-transform:uppercase}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.answer{display:flex;align-items:center;gap:12px;border:2px solid #436588;border-radius:15px;background:#203d60;min-height:68px;color:#f2f8ff;font-size:29px;font-weight:950;padding:10px 16px;text-align:left;transition:background .14s,border-color .14s,transform .14s;letter-spacing:-.025em}.answer:hover:not(:disabled){background:#2a4b71;transform:translateY(-2px)}.answer-key{border-radius:9px;min-width:34px;height:34px;display:grid;place-items:center;background:#3b5c7d;font-size:14px;font-weight:950;color:#eaf5ff}.answer.selected{border-color:#ffd57b;background:#544d4d}.answer.selected .answer-key{background:#ffd57b;color:#2b314c}.answer.good{background:#174a46;border-color:#88edc5;color:#c8ffe7}.answer.good .answer-key{background:#8cecc6;color:#12413e}.answer.wrong{background:#66344b;border-color:#ff9aa9}.answer.wrong .answer-key{background:#ff9aaf;color:#512138}.answer:disabled{opacity:1;cursor:default}.reveal{display:none;margin-top:12px;background:#1a4850;border:1px solid #4faca6;border-radius:13px;padding:12px 14px;line-height:1.45;color:#d4fff3}.reveal.visible{display:block}.reveal strong{color:#9dffdc}.reveal.wrongreveal{background:#492d45;border-color:#bb768d;color:#ffe6ee}.reveal.wrongreveal strong{color:#ffe0aa}.game-footer{display:flex;gap:9px;align-items:center;justify-content:space-between;border-top:1px solid #314e6f;margin-top:16px;padding-top:15px;flex-wrap:wrap}.game-footer .left{display:flex;gap:8px}.game-footer .btn{font-size:14px}
+    .side{display:flex;flex-direction:column;gap:12px}.side-panel{background:#142943;border:1px solid #35516c;border-radius:20px;padding:16px;min-width:0}.side-title{font-size:12px;font-weight:850;color:#b9cde2;text-transform:uppercase;letter-spacing:.13em;margin:0 0 13px}.timer-display{display:flex;align-items:center;justify-content:center}.timer-ring{height:138px;width:138px;border-radius:50%;padding:10px;background:conic-gradient(var(--mint) 100%,#344b65 0);display:grid;place-items:center}.timer-mid{height:100%;width:100%;background:#152b48;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}.timer-time{font-size:47px;letter-spacing:-.07em;line-height:1;font-weight:950;font-variant-numeric:tabular-nums}.timer-sub{font-size:10px;color:#acc0d7;text-transform:uppercase;letter-spacing:.12em;font-weight:850;margin-top:7px}.timer-panel .timer-buttons{display:flex;gap:7px;margin-top:13px}.timer-buttons .btn{flex:1;font-size:13px;padding:10px 5px}.timer-hint{text-align:center;color:var(--muted);font-size:11px;margin:9px 0 0}.select{background:#233b57;border:1px solid #48617d;color:#f5faff;width:100%;border-radius:11px;padding:11px 10px;font-size:13px;max-width:100%;font-weight:750}.small-desc{color:#b5c9dc;font-size:12px;line-height:1.5;margin:9px 0 0}.file-zone{border:1px dashed #668cb3;background:#203a58;color:#eaf3ff;border-radius:13px;padding:14px 9px;text-align:center;cursor:pointer;font-size:13px;font-weight:850;display:block;transition:background .1s,border .1s}.file-zone:hover,.file-zone.drop{background:#2e5070;border-color:#a2d6ff}.filename{font-size:11px;color:#aac1d9;margin-top:7px;word-break:break-word;text-align:center}.tip{background:#28364a;color:#e7e2b8;border:1px solid #736d54;border-radius:12px;font-size:12px;line-height:1.48;padding:12px}.side-bottom{display:flex;gap:8px}.side-bottom .btn{flex:1;font-size:12px}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(25px);opacity:0;pointer-events:none;transition:.2s ease;background:#fff9df;color:#27334d;border-radius:11px;padding:12px 18px;box-shadow:0 15px 35px #0007;font-weight:850;z-index:25;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast.error{background:#ffdde0;color:#612b36}
+    .modal{position:fixed;inset:0;display:none;z-index:20;align-items:center;justify-content:center;background:#050d1ee0;backdrop-filter:blur(5px);padding:16px}.modal.open{display:flex}.modal-box{max-width:460px;width:100%;background:#192e4a;border:1px solid #55789e;border-radius:24px;text-align:center;padding:32px 22px;box-shadow:0 20px 90px #0009}.modal-trophy{font-size:73px}.modal-box h2{font-size:30px;margin:8px 0 6px;letter-spacing:-.04em}.modal-box p{color:#d7e5f2;font-size:16px}.winner{font-size:26px;color:var(--yellow);font-weight:950;margin:15px 0}.footer-caption{font-size:11px;color:#809cba;margin-top:13px;text-align:center}
+    @media(max-width:1080px){.main{grid-template-columns:minmax(0,1fr) 260px}.game-inner{padding:17px}.wrap{padding:14px}.answer{min-height:62px}.teams{gap:7px}.team{padding:9px 6px}.score-btn{padding:6px 3px}}
+    @media(max-width:820px){.main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.timer-panel{grid-row:span 2}.teams{grid-template-columns:repeat(3,minmax(0,1fr))}.brand h1{font-size:25px}.topbar{align-items:flex-start}.top-actions{max-width:45%}}
+    @media(max-width:560px){.wrap{padding:11px}.topbar{flex-direction:column}.top-actions{max-width:none;justify-content:flex-start}.teams{grid-template-columns:repeat(2,minmax(0,1fr))}.team-name{font-size:12px}.game-inner{padding:14px}.game-footer{flex-direction:column;align-items:stretch}.game-footer .left{width:100%}.game-footer .btn{flex:1}.side{grid-template-columns:1fr}.timer-panel{grid-row:auto}.answer{padding:9px;font-size:25px;min-height:62px}.answer-key{min-width:28px;height:28px}.number{min-width:52px;height:65px;border-radius:12px;font-size:29px}.story{font-size:13px}.qtitle{font-size:23px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="dropTarget">
+    <header class="topbar">
+      <div class="brand"><div class="logo" aria-hidden="true">🔐</div><div><div class="eyebrow">Coding for Kids • Game Show</div><h1>Tebak Password Mesin</h1></div></div>
+      <div class="top-actions"><span class="chip" id="bankLabel">📚 25 soal siap main</span><button class="btn btn-ghost" id="fullscreenBtn" type="button">⛶ Layar Penuh</button><button class="btn btn-ghost" id="winnerBtn" type="button">🏆 Juara</button></div>
+    </header>
+    <div class="notice"><span>🧠 <b>Aturan:</b> Amati urutan angka, pilih jawaban, lalu temukan password-nya!</span><span>👥 <b>5 kelompok</b> · Jawab bersama</span></div>
+    <div class="section-label">🏅 Papan skor lima kelompok <button class="link-button" id="resetScoresBtn" type="button">Reset semua skor</button></div>
+    <section class="teams" id="teamBoard" aria-label="Skor kelompok"></section>
+    <main class="main">
+      <section class="game" aria-label="Soal pola angka">
+        <div class="game-inner">
+          <div class="meta"><div class="meta-left"><span class="mission-badge" id="levelLabel">MISI 01</span><span class="theme-badge" id="themeLabel">Kantin Sekolah</span></div><span class="quest-count" id="counterLabel">Soal 1 dari 25</span></div>
+          <h2 class="qtitle" id="questionTitle">Antrean Nasi Goreng</h2>
+          <p class="story" id="questionStory">Cari angka yang hilang.</p>
+          <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="pattern-label">🔎 Temukan angka yang hilang</div>
+          <div class="pattern" id="pattern" aria-label="Urutan angka"></div>
+          <div class="answers-label">Pilih password yang benar</div>
+          <div class="answers" id="answerGrid" aria-label="Pilihan jawaban"></div>
+          <div class="reveal" id="reveal" role="status" aria-live="polite"></div>
+          <div class="game-footer">
+            <div class="left"><button class="btn btn-ghost" id="previousBtn" type="button">← Sebelumnya</button><button class="btn btn-ghost" id="nextBtn" type="button">Berikutnya →</button></div>
+            <button class="btn btn-primary" id="revealBtn" type="button">🔓 Buka Jawaban</button>
+          </div>
+        </div>
+      </section>
+      <aside class="side" aria-label="Pengaturan guru">
+        <section class="side-panel timer-panel">
+          <div class="side-title">⏱️ Waktu Menjawab</div>
+          <div class="timer-display"><div class="timer-ring" id="timerRing"><div class="timer-mid"><span class="timer-time" id="timerNum">40</span><span class="timer-sub" id="timerState">detik tersisa</span></div></div></div>
+          <div class="timer-buttons"><button class="btn btn-mint" id="timerToggle" type="button">▶ Mulai</button><button class="btn" id="timerReset" type="button">↺ Ulang</button></div>
+          <p class="timer-hint">Timer tidak berjalan sampai guru menekan Mulai.</p>
+        </section>
+        <section class="side-panel">
+          <div class="side-title">🎯 Pilih Misi</div>
+          <select class="select" id="questionSelect" aria-label="Pilih soal"></select>
+          <p class="small-desc">Ganti soal kapan saja. Timer dan jawaban akan direset.</p>
+        </section>
+        <section class="side-panel">
+          <div class="side-title">📁 Soal dari TXT</div>
+          <label class="file-zone" id="fileZone" for="fileInput">📤 Unggah soal.txt<br><span style="font-weight:500;font-size:11px">Klik untuk memilih file dari komputer</span></label>
+          <input id="fileInput" type="file" accept=".txt,text/plain" hidden>
+          <div class="filename" id="fileName">Soal bawaan: 25 misi</div>
+          <p class="small-desc">Ubah file <b>soal.txt</b> menggunakan Notepad, lalu unggah ulang di sini.</p>
+        </section>
+        <div class="tip">💡 <b>Tips guru:</b> Setiap tim berdiskusi, lalu angkat jari 1–4 untuk menjawab A–D. Berikan poin menggunakan tombol di atas.</div>
+        <div class="side-bottom"><button class="btn" type="button" id="shortcutBtn">⌨️ Tombol Cepat</button><button class="btn" type="button" id="restartBtn">↻ Mulai Lagi</button></div>
+      </aside>
+    </main>
+    <div class="footer-caption">Tebak Password Mesin · Offline · Bukan ujian, tapi petualangan berpikir seperti programmer ✨</div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal" id="winnerModal" role="dialog" aria-modal="true" aria-labelledby="winnerTitle"><div class="modal-box"><div class="modal-trophy">🏆</div><h2 id="winnerTitle">Pemenang Hari Ini!</h2><div class="winner" id="winnerText"></div><p id="winnerInfo"></p><button class="btn btn-primary" id="closeWinnerBtn" type="button">Tutup</button></div></div>
+  <script>
+  'use strict';
+  // BANK SOAL BAWAAN DIGENERASI DARI soal.txt, AGAR GAME LANGSUNG BISA DIMAINKAN OFFLINE.
+  const EMBEDDED_BANK = "# TEBAK PASSWORD MESIN - 25 SOAL UNTUK SD KELAS 4-5\n# Bisa diedit dengan Notepad. Simpan sebagai UTF-8.\n# Gunakan === untuk memisahkan satu soal dengan soal berikutnya.\n# POLA: angka dipisah koma, satu angka kosong ditulis ?.\n# PILIHAN: empat angka dipisah tanda |, JAWABAN: salah satu angka di PILIHAN.\n\n===\nJUDUL: 01. Antrean Nasi Goreng\nTEMA: Kantin Sekolah\nCERITA: Petugas kantin memanggil nomor antrean satu-satu. Nomor berapa yang hilang?\nPOLA: 1, 2, 3, ?, 5\nPILIHAN: 3|4|6|7\nJAWABAN: 4\nWAKTU: 40\nPENJELASAN: Angkanya naik 1 setiap langkah: 1, 2, 3, 4, 5.\n\n===\nJUDUL: 02. Parkir Sepeda\nTEMA: Halaman Sekolah\nCERITA: Sepeda diberi nomor parkir dengan loncatan 2. Temukan nomor kosongnya.\nPOLA: 2, 4, 6, ?, 10\nPILIHAN: 6|7|8|9\nJAWABAN: 8\nWAKTU: 40\nPENJELASAN: Setiap angka bertambah 2: 2, 4, 6, 8, 10.\n\n===\nJUDUL: 03. Bibit di Kebun\nTEMA: Kebun Sekolah\nCERITA: Anak-anak menanam bibit dan menghitungnya satu per satu. Nomor mana yang terlewat?\nPOLA: 5, 6, 7, ?, 9\nPILIHAN: 7|8|9|10\nJAWABAN: 8\nWAKTU: 40\nPENJELASAN: Mulai dari 5, lalu tambah 1 setiap langkah.\n\n===\nJUDUL: 04. Balon Ulang Tahun\nTEMA: Pesta Ulang Tahun\nCERITA: Balon diberi nomor ganjil agar mudah dihitung. Berapa nomor berikutnya?\nPOLA: 1, 3, 5, ?, 9\nPILIHAN: 6|7|8|10\nJAWABAN: 7\nWAKTU: 45\nPENJELASAN: Lompat 2 angka: 1, 3, 5, 7, 9.\n\n===\nJUDUL: 05. Toko Kue Manis\nTEMA: Toko Roti\nCERITA: Kotak kue disusun dalam kelompok 10. Berapa isi kotak keempat?\nPOLA: 10, 20, 30, ?, 50\nPILIHAN: 35|40|45|60\nJAWABAN: 40\nWAKTU: 45\nPENJELASAN: Angka bertambah 10: 10, 20, 30, 40, 50.\n\n===\nJUDUL: 06. Rak Buku Pintar\nTEMA: Perpustakaan\nCERITA: Petugas menempel nomor pada rak buku setiap kelipatan 3. Isi yang kosong!\nPOLA: 3, 6, 9, ?, 15\nPILIHAN: 10|11|12|13\nJAWABAN: 12\nWAKTU: 45\nPENJELASAN: Selalu tambah 3: 3, 6, 9, 12, 15.\n\n===\nJUDUL: 07. Pensil Warna\nTEMA: Kelas Seni\nCERITA: Pensil dibagi per bungkus, masing-masing berisi 5. Berapa jumlah di bungkus keempat?\nPOLA: 5, 10, 15, ?, 25\nPILIHAN: 18|20|22|30\nJAWABAN: 20\nWAKTU: 45\nPENJELASAN: Setiap bungkus menambah 5 pensil: 5, 10, 15, 20, 25.\n\n===\nJUDUL: 08. Kereta Wisata\nTEMA: Stasiun Kereta\nCERITA: Gerbong diberi nomor berurutan. Satu nomor terhapus oleh hujan.\nPOLA: 11, 12, 13, ?, 15\nPILIHAN: 13|14|16|17\nJAWABAN: 14\nWAKTU: 40\nPENJELASAN: Nomornya naik satu-satu: 11, 12, 13, 14, 15.\n\n===\nJUDUL: 09. Boneka di Etalase\nTEMA: Toko Mainan\nCERITA: Boneka diletakkan berpasangan. Berapa jumlah boneka pada susunan terakhir?\nPOLA: 2, 4, 6, 8, ?\nPILIHAN: 9|10|11|12\nJAWABAN: 10\nWAKTU: 45\nPENJELASAN: Lanjutkan dengan tambah 2 setelah angka 8, jadi 10.\n\n===\nJUDUL: 10. Roket Hitung Mundur\nTEMA: Luar Angkasa\nCERITA: Roket mulai menghitung mundur. Satu angka hilang dari layar!\nPOLA: 15, 14, 13, ?, 11\nPILIHAN: 10|11|12|14\nJAWABAN: 12\nWAKTU: 45\nPENJELASAN: Hitung mundur berarti kurang 1: 15, 14, 13, 12, 11.\n\n===\nJUDUL: 11. Tetes Hujan\nTEMA: Cuaca Hujan\nCERITA: Mesin cuaca menghitung sisa tetesan dua-dua. Angka yang hilang berapa?\nPOLA: 20, 18, 16, ?, 12\nPILIHAN: 13|14|15|18\nJAWABAN: 14\nWAKTU: 45\nPENJELASAN: Setiap langkah berkurang 2: 20, 18, 16, 14, 12.\n\n===\nJUDUL: 12. Tangga Pelangi\nTEMA: Taman Bermain\nCERITA: Anak-anak melompat tiga anak tangga setiap kali. Tentukan angka selanjutnya.\nPOLA: 2, 5, 8, ?, 14\nPILIHAN: 9|10|11|12\nJAWABAN: 11\nWAKTU: 50\nPENJELASAN: Tambah 3 terus-menerus: 2, 5, 8, 11, 14.\n\n===\nJUDUL: 13. Kelereng di Kantong\nTEMA: Permainan Kelereng\nCERITA: Setiap kantong baru berisi tambahan 4 kelereng. Berapa angka pada kantong keempat?\nPOLA: 4, 8, 12, ?, 20\nPILIHAN: 14|15|16|18\nJAWABAN: 16\nWAKTU: 45\nPENJELASAN: Angkanya bertambah 4: 4, 8, 12, 16, 20.\n\n===\nJUDUL: 14. Buku yang Dipinjam\nTEMA: Perpustakaan\nCERITA: Persediaan buku berkurang lima setiap hari. Berapa buku yang tersisa pada hari keempat?\nPOLA: 30, 25, 20, ?, 10\nPILIHAN: 10|15|20|25\nJAWABAN: 15\nWAKTU: 50\nPENJELASAN: Setiap hari berkurang 5 buku: 30, 25, 20, 15, 10.\n\n===\nJUDUL: 15. Topi Pesta\nTEMA: Pesta Teman\nCERITA: Topi diberi nomor berurutan. Siapa yang memakai topi nomor hilang?\nPOLA: 6, 7, 8, ?, 10\nPILIHAN: 7|8|9|11\nJAWABAN: 9\nWAKTU: 40\nPENJELASAN: Nomornya naik 1: 6, 7, 8, 9, 10.\n\n===\nJUDUL: 16. Tiket Pertunjukan\nTEMA: Bioskop Mini\nCERITA: Nomor paket tiket naik sepuluh-sepuluh. Temukan paket yang hilang.\nPOLA: 5, 15, 25, ?, 45\nPILIHAN: 30|35|40|50\nJAWABAN: 35\nWAKTU: 50\nPENJELASAN: Tambahkan 10: 5, 15, 25, 35, 45.\n\n===\nJUDUL: 17. Latihan Menendang\nTEMA: Lapangan Bola\nCERITA: Pelatih mencatat target gol dengan menaikkan 3 setiap putaran.\nPOLA: 1, 4, 7, ?, 13\nPILIHAN: 8|9|10|11\nJAWABAN: 10\nWAKTU: 45\nPENJELASAN: Tambah 3 setiap kali: 1, 4, 7, 10, 13.\n\n===\nJUDUL: 18. Lari Pagi\nTEMA: Olahraga\nCERITA: Pelari menghitung putaran dengan loncatan 2. Angka berapa yang kosong?\nPOLA: 10, 12, 14, ?, 18\nPILIHAN: 15|16|17|20\nJAWABAN: 16\nWAKTU: 45\nPENJELASAN: Naik 2 dari 14 adalah 16.\n\n===\nJUDUL: 19. Robot Penyiram\nTEMA: Kebun Robot\nCERITA: Robot menggandakan jumlah tanaman yang disiram pada tiap putaran.\nPOLA: 2, 4, 8, ?, 32\nPILIHAN: 12|14|16|18\nJAWABAN: 16\nWAKTU: 60\nPENJELASAN: Jumlahnya selalu dikali 2: 2, 4, 8, 16, 32.\n\n===\nJUDUL: 20. Gua Harta Karun\nTEMA: Petualangan\nCERITA: Jumlah koin ajaib selalu menjadi dua kali lipat. Berapa jumlah berikutnya?\nPOLA: 1, 2, 4, 8, ?\nPILIHAN: 10|12|14|16\nJAWABAN: 16\nWAKTU: 60\nPENJELASAN: 1, 2, 4, 8, 16: setiap angka adalah dua kali angka sebelumnya.\n\n===\nJUDUL: 21. Stiker Hadiah\nTEMA: Toko Hadiah\nCERITA: Persediaan stiker berkurang 10 setiap pembeli datang. Berapa sisanya?\nPOLA: 50, 40, 30, ?, 10\nPILIHAN: 15|20|25|30\nJAWABAN: 20\nWAKTU: 50\nPENJELASAN: Kurangi 10 setiap langkah: 50, 40, 30, 20, 10.\n\n===\nJUDUL: 22. Lukisan Kelas\nTEMA: Kelas Seni\nCERITA: Nomor lukisan yang dipajang meloncat 3. Isi nomor yang hilang.\nPOLA: 12, 15, 18, ?, 24\nPILIHAN: 19|20|21|22\nJAWABAN: 21\nWAKTU: 50\nPENJELASAN: Nomornya naik 3: 12, 15, 18, 21, 24.\n\n===\nJUDUL: 23. Rak Sepatu\nTEMA: Depan Kelas\nCERITA: Rak khusus sepatu diberi nomor ganjil. Nomor terakhir berapa?\nPOLA: 1, 3, 5, 7, ?\nPILIHAN: 8|9|10|11\nJAWABAN: 9\nWAKTU: 45\nPENJELASAN: Semua angka ganjil dan selalu bertambah 2: 1, 3, 5, 7, 9.\n\n===\nJUDUL: 24. Buah di Pasar\nTEMA: Pasar Buah\nCERITA: Penjual buah mengurangi persediaan 5 buah setiap pembelian.\nPOLA: 40, 35, 30, ?, 20\nPILIHAN: 20|25|30|35\nJAWABAN: 25\nWAKTU: 50\nPENJELASAN: Setiap langkah berkurang 5: 40, 35, 30, 25, 20.\n\n===\nJUDUL: 25. Password Mesin Utama\nTEMA: Final: Ruang Rahasia\nCERITA: Ini pintu terakhir! Mesin meminta angka rahasia dari pola yang sangat teratur.\nPOLA: 2, 5, 8, 11, ?\nPILIHAN: 12|13|14|15\nJAWABAN: 14\nWAKTU: 60\nPENJELASAN: Selalu tambah 3: 2, 5, 8, 11, 14. SELAMAT, MISI SELESAI!\n";
+  const $ = id => document.getElementById(id);
+  const COLORS = ['#ff8f9a','#85c5ff','#86e7ad','#c5a9ff','#ffe38b'];
+  const LABELS = ['A','B','C','D'];
+  const DEFAULT_TEAMS = ['Tim Merah','Tim Biru','Tim Hijau','Tim Ungu','Tim Kuning'];
+  const STORAGE_KEY = 'tebak-password-mesin-groups-v1';
+  let questions = [], index = 0, selected = null, revealed = false;
+  let running = false, remaining = 40, deadline = 0, ticker = null, toastHandle = null;
+  let teams = loadTeams();
+
+  function loadTeams(){
+    try { const v=JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if(Array.isArray(v) && v.length===5) return v.map((t,i)=>({name: String(t.name||DEFAULT_TEAMS[i]).slice(0,24),score:Number.isFinite(Number(t.score)) ? Math.max(0,Math.round(Number(t.score))) : 0}));
+    } catch(e) {} return DEFAULT_TEAMS.map(name=>({name,score:0}));
+  }
+  function saveTeams(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(teams));}catch(e){}}
+  function parseBank(text){
+    const parts = text.replace(/^\uFEFF/,'').split(/^\s*===\s*$/m).map(p=>p.trim()).filter(Boolean);
+    const parsed=[];
+    for(const part of parts){
+      const f={};
+      for(const row of part.split(/\r?\n/)){
+        const l=row.trim(); if(!l || l.startsWith('#'))continue;
+        const m=/^([A-Za-z_]+)\s*:\s*(.*)$/.exec(l);
+        if(m)f[m[1].toUpperCase()]=m[2].trim();
+      }
+      if(Object.keys(f).length===0)continue;
+      const nr=parsed.length+1;
+      for(const key of ['JUDUL','POLA','PILIHAN','JAWABAN'])if(!f[key])throw Error('Soal '+nr+': kolom '+key+' wajib diisi.');
+      const pattern=f.POLA.split(',').map(s=>s.trim());
+      if(pattern.length<4||pattern.length>8||pattern.filter(s=>s==='?').length!==1||pattern.some(s=>s!=='?'&&!/^-?\d+$/.test(s)))throw Error('Soal '+nr+': POLA perlu 4–8 angka, dipisah koma, dengan tepat satu tanda ?.');
+      const options=f.PILIHAN.split('|').map(s=>s.trim());
+      if(options.length!==4||options.some(s=>!/^\d+$/.test(s))||new Set(options).size!==4)throw Error('Soal '+nr+': PILIHAN harus berisi 4 angka berbeda dipisah tanda |.');
+      if(!options.includes(f.JAWABAN))throw Error('Soal '+nr+': JAWABAN harus cocok dengan satu angka pada PILIHAN.');
+      let duration=Number.parseInt(f.WAKTU||'45',10);if(!Number.isFinite(duration)||duration<10||duration>300)duration=45;
+      parsed.push({title:f.JUDUL,theme:f.TEMA||'Misi Angka',story:f.CERITA||'Carilah angka yang hilang!',pattern,options,answer:f.JAWABAN,duration,explain:f.PENJELASAN||'Jawaban yang benar adalah '+f.JAWABAN+'.'});
+    }
+    if(!parsed.length)throw Error('Tidak ada soal terbaca. Pastikan tiap soal dimulai dengan ===.');
+    if(parsed.length>200)throw Error('Maksimal 200 soal per berkas.');
+    return parsed;
+  }
+  function toast(text,bad=false){const n=$('toast');n.textContent=text;n.className='toast show'+(bad?' error':'');clearTimeout(toastHandle);toastHandle=setTimeout(()=>{n.className='toast'},3700)}
+  function renderTeams(){
+    const board=$('teamBoard');board.replaceChildren();
+    teams.forEach((t,i)=>{
+      const el=document.createElement('div');el.className='team';el.style.setProperty('--team-color',COLORS[i]);
+      const head=document.createElement('div');head.className='team-head';
+      const dot=document.createElement('span');dot.className='team-dot';
+      const inp=document.createElement('input');inp.className='team-name';inp.value=t.name;inp.maxLength=24;inp.setAttribute('aria-label','Nama kelompok '+(i+1));inp.title='Klik untuk mengganti nama kelompok';inp.addEventListener('change',()=>{teams[i].name=inp.value.trim().slice(0,24)||DEFAULT_TEAMS[i];inp.value=teams[i].name;saveTeams();});
+      head.append(dot,inp);
+      const ctrl=document.createElement('div');ctrl.className='score-controls';
+      const score=document.createElement('div');score.className='score';score.textContent=String(t.score);score.title='Skor '+t.name;
+      const btns=document.createElement('div');btns.className='score-right';
+      for(const [label,delta,extra] of [['+10',10,'more'],['+5',5,''],['−5',-5,'']]){const b=document.createElement('button');b.type='button';b.className='score-btn '+extra;b.textContent=label;b.setAttribute('aria-label',label+' poin '+t.name);b.addEventListener('click',()=>{teams[i].score=Math.max(0,teams[i].score+delta);saveTeams();score.textContent=String(teams[i].score);});btns.append(b)}
+      ctrl.append(score,btns);el.append(head,ctrl);board.append(el);
+    });
+  }
+  function makeSelect(){const s=$('questionSelect');s.replaceChildren();questions.forEach((q,i)=>{let o=document.createElement('option');o.value=String(i);o.textContent=String(i+1).padStart(2,'0')+' · '+q.title.replace(/^\d+\.\s*/,'');s.append(o);});}
+  function clearTimer(){running=false;if(ticker!==null){clearInterval(ticker);ticker=null;}}
+  function updateTimer(){const q=questions[index];const max=q.duration;const per=Math.max(0,remaining/max)*100;$('timerNum').textContent=String(remaining);$('timerRing').style.background='conic-gradient('+(remaining<=10?'#ff9aad':'#83e9c4')+' '+per+'%, #344b65 '+per+'%)';$('timerState').textContent=remaining<=0?'WAKTU HABIS':(running?'SEDANG JALAN':'DETIK TERSISA');$('timerToggle').textContent=running?'⏸ Jeda':'▶ Mulai';$('timerToggle').disabled=remaining<=0;}
+  function resetTimer(){clearTimer();remaining=questions[index].duration;updateTimer();}
+  function tick(){remaining=Math.max(0,Math.ceil((deadline-Date.now())/1000));if(remaining<=0){clearTimer();toast('⏰ Waktu habis! Minta semua kelompok menunjukkan jawaban.');}updateTimer();}
+  function toggleTimer(){if(running){tick();clearTimer();updateTimer();return;}if(remaining<=0){remaining=questions[index].duration;}deadline=Date.now()+remaining*1000;running=true;ticker=setInterval(tick,130);updateTimer();}
+  function renderQuestion(){
+    const q=questions[index];selected=null;revealed=false;resetTimer();
+    $('levelLabel').textContent='MISI '+String(index+1).padStart(2,'0');
+    $('themeLabel').textContent=q.theme;
+    $('counterLabel').textContent='Soal '+(index+1)+' dari '+questions.length;
+    $('questionTitle').textContent=q.title.replace(/^\d+\.\s*/,'');
+    $('questionStory').textContent=q.story;
+    $('progressFill').style.width=((index+1)/questions.length*100)+'%';
+    $('pattern').replaceChildren();q.pattern.forEach(n=>{const el=document.createElement('div');el.className='number'+(n==='?'?' missing':'');el.textContent=n;el.setAttribute('aria-label',n==='?'?'Angka yang hilang':n);$('pattern').append(el);});
+    $('answerGrid').replaceChildren();q.options.forEach((num,i)=>{
+      const b=document.createElement('button');b.type='button';b.className='answer';b.dataset.option=num;b.setAttribute('aria-label','Pilihan '+LABELS[i]+': '+num);
+      const key=document.createElement('span');key.className='answer-key';key.textContent=LABELS[i];const value=document.createElement('span');value.textContent=num;b.append(key,value);
+      b.addEventListener('click',()=>chooseOption(num));$('answerGrid').append(b);
+    });
+    $('reveal').className='reveal';$('reveal').replaceChildren();$('revealBtn').textContent='🔓 Buka Jawaban';$('revealBtn').disabled=false;
+    $('previousBtn').disabled=index===0;
+    $('nextBtn').disabled=index===questions.length-1;
+    $('questionSelect').value=String(index);
+  }
+  function chooseOption(value){if(revealed)return;selected=value;Array.from($('answerGrid').children).forEach(b=>b.classList.toggle('selected',b.dataset.option===value));$('revealBtn').textContent='✅ Periksa Jawaban';}
+  function revealAnswer(){
+    if(revealed)return;
+    clearTimer();updateTimer();revealed=true;const q=questions[index];
+    Array.from($('answerGrid').children).forEach(b=>{b.disabled=true;if(b.dataset.option===q.answer)b.classList.add('good');else if(b.dataset.option===selected)b.classList.add('wrong');});
+    const missing=$('pattern').querySelector('.missing');if(missing){missing.textContent=q.answer;missing.classList.add('solved');}
+    const good=selected===q.answer,hasSelected=selected!==null;
+    const panel=$('reveal');panel.className='reveal visible'+(hasSelected&&!good?' wrongreveal':'');
+    const big=document.createElement('strong');big.textContent=(hasSelected?(good?'🎉 BENAR! ':'💡 BELUM TEPAT. '):'🔐 PASSWORD TERBUKA! ')+'Angkanya '+q.answer+'.';
+    const explanation=document.createElement('span');explanation.textContent=' '+q.explain;panel.append(big,explanation);
+    $('revealBtn').textContent='🔓 Jawaban Terbuka';$('revealBtn').disabled=true;
+  }
+  function jump(i){if(i<0||i>=questions.length)return;index=i;renderQuestion();}
+  function loadNewBank(content,filename){
+    let loaded;try{loaded=parseBank(content)}catch(e){toast('⚠️ '+e.message,true);return false;}
+    questions=loaded;index=0;makeSelect();renderQuestion();$('bankLabel').textContent='📚 '+loaded.length+' soal siap main';$('fileName').textContent='Aktif: '+filename+' ('+loaded.length+' soal)';toast('✅ '+loaded.length+' soal berhasil dimuat dari '+filename);return true;
+  }
+  function modalClose(){$('winnerModal').classList.remove('open')}
+  function showWinner(){const max=Math.max(...teams.map(t=>t.score));const wins=teams.filter(t=>t.score===max);$('winnerText').textContent=max===0?'Belum ada pemenang':wins.map(w=>w.name).join(' & ');$('winnerInfo').textContent=max===0?'Ayo mulai permainan dan kumpulkan poin!':wins.length>1?'Seri! '+wins.length+' kelompok sama-sama mendapat '+max+' poin.':'Hebat! Berhasil meraih '+max+' poin.';$('winnerModal').classList.add('open');}
+  $('revealBtn').addEventListener('click',revealAnswer);
+  $('previousBtn').addEventListener('click',()=>jump(index-1));$('nextBtn').addEventListener('click',()=>jump(index+1));$('questionSelect').addEventListener('change',e=>jump(Number(e.target.value)));
+  $('timerToggle').addEventListener('click',toggleTimer);$('timerReset').addEventListener('click',resetTimer);
+  $('fileInput').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{loadNewBank(await file.text(),file.name)}catch(err){toast('Gagal membaca TXT: '+err.message,true);}e.target.value='';});
+  const dz=$('fileZone');dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drop')});dz.addEventListener('dragleave',()=>dz.classList.remove('drop'));dz.addEventListener('drop',async e=>{e.preventDefault();dz.classList.remove('drop');const file=e.dataTransfer.files?.[0];if(!file)return;try{loadNewBank(await file.text(),file.name)}catch(err){toast('File tidak dapat dibaca.',true)}});
+  $('fullscreenBtn').addEventListener('click',async()=>{try{if(!document.fullscreenElement){await document.documentElement.requestFullscreen();$('fullscreenBtn').textContent='⛶ Keluar Fullscreen';}else{await document.exitFullscreen();$('fullscreenBtn').textContent='⛶ Layar Penuh';}}catch(e){toast('Gunakan tombol F11 pada keyboard untuk layar penuh.',true)}});
+  document.addEventListener('fullscreenchange',()=>{$('fullscreenBtn').textContent=document.fullscreenElement?'⛶ Keluar Fullscreen':'⛶ Layar Penuh';});
+  $('resetScoresBtn').addEventListener('click',()=>{if(!window.confirm('Reset semua skor 5 kelompok menjadi 0?'))return;teams.forEach(t=>t.score=0);saveTeams();renderTeams();toast('Skor semua kelompok direset.');});
+  $('restartBtn').addEventListener('click',()=>{jump(0);toast('Permainan dimulai lagi dari soal pertama. Skor tidak dihapus.');});
+  $('winnerBtn').addEventListener('click',showWinner);$('closeWinnerBtn').addEventListener('click',modalClose);$('winnerModal').addEventListener('click',e=>{if(e.target===$('winnerModal'))modalClose()});
+  $('shortcutBtn').addEventListener('click',()=>{window.alert('TOMBOL CEPAT UNTUK GURU\n\n1, 2, 3, 4 = Pilih jawaban A, B, C, D\nSpasi = Mulai / jeda timer\nEnter = Buka / periksa jawaban\n← / → = Soal sebelumnya / berikutnya\nEsc = Tutup layar pemenang\n\nBisa dimainkan dengan mouse saja.');});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')modalClose();if(e.target instanceof HTMLInputElement||e.target instanceof HTMLSelectElement||e.target instanceof HTMLTextAreaElement||$('winnerModal').classList.contains('open'))return;if(e.altKey||e.ctrlKey||e.metaKey)return;
+    if(['1','2','3','4'].includes(e.key)){chooseOption(questions[index].options[Number(e.key)-1]);e.preventDefault();}
+    else if(e.key===' '){e.preventDefault();toggleTimer();}
+    else if(e.key==='Enter'){e.preventDefault();revealAnswer();}
+    else if(e.key==='ArrowRight'){e.preventDefault();jump(index+1);}
+    else if(e.key==='ArrowLeft'){e.preventDefault();jump(index-1);}
+  });
+  function init(){questions=parseBank(EMBEDDED_BANK);renderTeams();makeSelect();renderQuestion();if(/^https?:/.test(location.protocol)){fetch('./soal.txt',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('not found');return r.text()}).then(t=>loadNewBank(t,'soal.txt (otomatis)')).catch(()=>{});}}
+  init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Contoh satu soal baru. Ubah kata-katanya atau tambah blok ===.
+# Ketika huruf digeser maju 1: BUKU menjadi CVLV.
+===
+JUDUL: Teka-teki Sepeda
+TEMA: Perjalanan
+CERITA: Agen ingin pergi ke taman dan membutuhkan sebuah kendaraan.
+GESER: 1
+PESAN: TFQFEB
+JAWABAN: SEPEDA
+PETUNJUK: Kendaraan beroda dua yang dikayuh.
+TEMUAN: Sepeda agen berhasil ditemukan!
+WAKTU: 80

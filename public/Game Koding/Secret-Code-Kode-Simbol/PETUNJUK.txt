@@ -1,0 +1,42 @@
+SECRET CODE — LEVEL 2: KODE SIMBOL (5 KELOMPOK)
+===========================================
+
+MENJALANKAN
+1. Ekstrak ZIP.
+2. Klik dua kali index.html (Chrome/Edge). Internet tidak diperlukan.
+3. Pilih sebuah pesan, lalu klik 'Mulai' untuk memulai timer.
+4. Kelima kelompok mengartikan simbol menggunakan Kamus Simbol di layar.
+5. Guru mengisi jawaban tim, kemudian klik 'Periksa 5 Jawaban'.
+6. Jawaban benar mendapat +10 poin (hanya sekali per tim per pesan).
+7. Bonus +5 atau pengurangan -5 dapat diberikan guru lewat papan skor.
+8. Lanjutkan ke pesan berikutnya sampai misi selesai.
+
+SOAL TXT
+- Klik 'Unggah TXT' dan pilih soal.txt.
+- Setiap soal dimulai dengan baris ===
+- Format minimal:
+===
+JUDUL: Rahasia di Sekolah
+CERITA: Temukan benda yang disembunyikan Agen X.
+JAWABAN: BUKU
+PETUNJUK: Memiliki banyak halaman.
+TEMUAN: Pesan ditemukan.
+WAKTU: 90
+- JAWABAN memakai huruf A-Z dan spasi; simbol disusun otomatis.
+- Tidak perlu menghitung atau mengetik simbol di TXT.
+- Bisa menyusun cerita berurutan. Simbol untuk satu huruf selalu sama.
+- Upload TXT baru akan mengganti soal dan mengulang nilai dari nol (dengan konfirmasi).
+
+TIPS MENGAJAR
+- Untuk anak usia 10-11 tahun, gunakan sekitar 10 soal dalam 60 menit.
+- Beri waktu 60-100 detik tiap soal dan 1 menit untuk pembahasan.
+- Minta siswa menjelaskan cara mencari simbol, bukan hanya menyebut jawaban.
+- Latih strategi: cari satu simbol, cocokkan di kamus, tulis huruf,
+  ulangi sampai selesai, lalu periksa apakah membentuk kata yang benar.
+
+CATATAN
+Browser tidak otomatis membaca soal.txt di folder yang sama saat HTML
+langsung dibuka via file:// karena aturan keamanan browser.
+Gunakan tombol Unggah TXT (soal bawaan sudah tertanam dalam HTML).
+
+Dibuat untuk kelas Coding Kids usia 10-11 tahun.

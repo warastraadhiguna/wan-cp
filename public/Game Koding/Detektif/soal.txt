@@ -1,0 +1,375 @@
+# DETEKTIF DATA - 25 MISI ROBOT PENYUSUP
+# Untuk anak SD usia 10-11 tahun; 5 kelompok.
+# CARA EDIT: ubah nilai setelah tanda titik dua.
+# ROBOT: HURUF|NAMA|BARANG|JAM|SEPATU
+# JAM bisa: TEPAT 09:00, SEBELUM 10:00, SETELAH 09:00.
+# Kalau JAM tidak dipakai, tulis - pada data jam robot.
+# Setiap misi berisi tepat 4 robot dan 1 jawaban A/B/C/D.
+# Jangan hapus tanda === untuk memisahkan misi.
+
+===
+JUDUL: 01. Rahasia Rak Perpustakaan
+KATEGORI: PEMANASAN
+CERITA: Sebuah robot membawa buku yang hilang dari rak perpustakaan. Siapa yang terekam kamera?
+WAKTU: 55
+BARANG: Buku
+SEPATU: Biru
+ROBOT: A|Bibo|Buku|-|Biru
+ROBOT: B|Kiko|Pensil|-|Merah
+ROBOT: C|Mimi|Pensil|-|Biru
+ROBOT: D|Zuzu|Buku|-|Merah
+JAWABAN: A
+PENJELASAN: Robot A membawa buku dan memakai sepatu biru. Semua petunjuk cocok!
+
+===
+JUDUL: 02. Bola di Lapangan
+KATEGORI: PEMANASAN
+CERITA: Bola kelas hilang tepat sebelum pertandingan. Cari robot pembawanya!
+WAKTU: 55
+BARANG: Bola
+SEPATU: Merah
+ROBOT: A|Kiko|Raket|-|Merah
+ROBOT: B|Mimi|Raket|-|Hijau
+ROBOT: C|Zuzu|Bola|-|Hijau
+ROBOT: D|Bibo|Bola|-|Merah
+JAWABAN: D
+PENJELASAN: Robot D membawa bola dan memakai sepatu merah. Semua petunjuk cocok!
+
+===
+JUDUL: 03. Pesanan Kantin
+KATEGORI: PEMANASAN
+CERITA: Sepotong roti terselip dalam pesanan kantin. Temukan robot yang membawanya.
+WAKTU: 55
+BARANG: Roti
+SEPATU: Kuning
+ROBOT: A|Mimi|Roti|-|Biru
+ROBOT: B|Zuzu|Nasi|-|Biru
+ROBOT: C|Bibo|Roti|-|Kuning
+ROBOT: D|Kiko|Nasi|-|Kuning
+JAWABAN: C
+PENJELASAN: Robot C membawa roti dan memakai sepatu kuning. Semua petunjuk cocok!
+
+===
+JUDUL: 04. Alat Kebun Sekolah
+KATEGORI: PEMANASAN
+CERITA: Sekop kecil di kebun berpindah tempat. Robot manakah yang mengambilnya?
+WAKTU: 55
+BARANG: Sekop
+SEPATU: Hijau
+ROBOT: A|Zuzu|Ember|-|Hijau
+ROBOT: B|Bibo|Sekop|-|Hijau
+ROBOT: C|Kiko|Ember|-|Merah
+ROBOT: D|Mimi|Sekop|-|Merah
+JAWABAN: B
+PENJELASAN: Robot B membawa sekop dan memakai sepatu hijau. Semua petunjuk cocok!
+
+===
+JUDUL: 05. Kado Ulang Tahun
+KATEGORI: PEMANASAN
+CERITA: Kado kejutan ada di tangan salah satu robot. Temukan sebelum pesta dimulai!
+WAKTU: 55
+BARANG: Kado
+SEPATU: Ungu
+ROBOT: A|Bibo|Kado|-|Ungu
+ROBOT: B|Kiko|Balon|-|Ungu
+ROBOT: C|Mimi|Kado|-|Kuning
+ROBOT: D|Zuzu|Balon|-|Kuning
+JAWABAN: A
+PENJELASAN: Robot A membawa kado dan memakai sepatu ungu. Semua petunjuk cocok!
+
+===
+JUDUL: 06. Hujan Sepulang Sekolah
+KATEGORI: PEMANASAN
+CERITA: Ada robot yang membawa payung untuk membantu teman kehujanan. Siapa?
+WAKTU: 55
+BARANG: Payung
+SEPATU: Biru
+ROBOT: A|Kiko|Jas Hujan|-|Merah
+ROBOT: B|Mimi|Payung|-|Merah
+ROBOT: C|Zuzu|Jas Hujan|-|Biru
+ROBOT: D|Bibo|Payung|-|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa payung dan memakai sepatu biru. Semua petunjuk cocok!
+
+===
+JUDUL: 07. Kuas Ruang Seni
+KATEGORI: PEMANASAN
+CERITA: Kuas untuk menggambar hilang dari kelas seni. Temukan robot pembawanya.
+WAKTU: 55
+BARANG: Kuas
+SEPATU: Merah
+ROBOT: A|Mimi|Krayon|-|Hijau
+ROBOT: B|Zuzu|Krayon|-|Merah
+ROBOT: C|Bibo|Kuas|-|Merah
+ROBOT: D|Kiko|Kuas|-|Hijau
+JAWABAN: C
+PENJELASAN: Robot C membawa kuas dan memakai sepatu merah. Semua petunjuk cocok!
+
+===
+JUDUL: 08. Misi Bersih Kelas
+KATEGORI: PEMANASAN
+CERITA: Sapu untuk piket kelas ada pada salah satu robot. Cari robot yang tepat.
+WAKTU: 55
+BARANG: Sapu
+SEPATU: Kuning
+ROBOT: A|Zuzu|Sapu|-|Biru
+ROBOT: B|Bibo|Sapu|-|Kuning
+ROBOT: C|Kiko|Lap|-|Biru
+ROBOT: D|Mimi|Lap|-|Kuning
+JAWABAN: B
+PENJELASAN: Robot B membawa sapu dan memakai sepatu kuning. Semua petunjuk cocok!
+
+===
+JUDUL: 09. Apel di Toko Buah
+KATEGORI: DETEKTIF
+CERITA: Pedagang buah melihat robot mengambil apel. Cocokkan barang, jam, dan sepatunya.
+WAKTU: 65
+BARANG: Apel
+SEPATU: Hijau
+JAM: TEPAT 09:00
+ROBOT: A|Bibo|Apel|09:00|Hijau
+ROBOT: B|Kiko|Apel|09:00|Merah
+ROBOT: C|Mimi|Jeruk|09:00|Hijau
+ROBOT: D|Zuzu|Apel|10:00|Hijau
+JAWABAN: A
+PENJELASAN: Robot A membawa apel dan memakai sepatu hijau, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 10. Tiket Stasiun
+KATEGORI: DETEKTIF
+CERITA: Petugas stasiun mencari robot pembawa tiket pada pagi hari.
+WAKTU: 65
+BARANG: Tiket
+SEPATU: Biru
+JAM: TEPAT 08:00
+ROBOT: A|Kiko|Koper|08:00|Biru
+ROBOT: B|Mimi|Tiket|10:00|Biru
+ROBOT: C|Zuzu|Tiket|08:00|Merah
+ROBOT: D|Bibo|Tiket|08:00|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa tiket dan memakai sepatu biru, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 11. Panci di Dapur
+KATEGORI: DETEKTIF
+CERITA: Seorang koki lupa robot mana yang membawa panci dari dapur.
+WAKTU: 65
+BARANG: Panci
+SEPATU: Merah
+JAM: TEPAT 10:00
+ROBOT: A|Mimi|Panci|09:00|Merah
+ROBOT: B|Zuzu|Panci|10:00|Biru
+ROBOT: C|Bibo|Panci|10:00|Merah
+ROBOT: D|Kiko|Sendok|10:00|Merah
+JAWABAN: C
+PENJELASAN: Robot C membawa panci dan memakai sepatu merah, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 12. Bunga Taman Kota
+KATEGORI: DETEKTIF
+CERITA: Penjaga taman ingin mencari robot yang membawa bunga.
+WAKTU: 65
+BARANG: Bunga
+SEPATU: Ungu
+JAM: TEPAT 09:00
+ROBOT: A|Zuzu|Daun|09:00|Ungu
+ROBOT: B|Bibo|Bunga|09:00|Ungu
+ROBOT: C|Kiko|Bunga|09:00|Kuning
+ROBOT: D|Mimi|Bunga|10:00|Ungu
+JAWABAN: B
+PENJELASAN: Robot B membawa bunga dan memakai sepatu ungu, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 13. Latihan Basket
+KATEGORI: DETEKTIF
+CERITA: Salah satu robot membawa bola untuk latihan basket. Temukan robotnya!
+WAKTU: 65
+BARANG: Bola
+SEPATU: Kuning
+JAM: TEPAT 11:00
+ROBOT: A|Bibo|Bola|11:00|Kuning
+ROBOT: B|Kiko|Bola|10:00|Kuning
+ROBOT: C|Mimi|Sepatu|11:00|Kuning
+ROBOT: D|Zuzu|Bola|11:00|Merah
+JAWABAN: A
+PENJELASAN: Robot A membawa bola dan memakai sepatu kuning, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 14. Musik Pagi
+KATEGORI: DETEKTIF
+CERITA: Gitar kelompok musik dibawa seorang robot. Cari dari ciri-cirinya!
+WAKTU: 65
+BARANG: Gitar
+SEPATU: Hijau
+JAM: TEPAT 08:00
+ROBOT: A|Kiko|Gitar|09:00|Hijau
+ROBOT: B|Mimi|Gitar|08:00|Biru
+ROBOT: C|Zuzu|Drum|08:00|Hijau
+ROBOT: D|Bibo|Gitar|08:00|Hijau
+JAWABAN: D
+PENJELASAN: Robot D membawa gitar dan memakai sepatu hijau, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 15. Rumah Kucing
+KATEGORI: DETEKTIF
+CERITA: Petugas penitipan kucing melihat robot membawa makanan kucing.
+WAKTU: 65
+BARANG: Makanan Kucing
+SEPATU: Ungu
+JAM: TEPAT 07:00
+ROBOT: A|Mimi|Makanan Kucing|07:00|Merah
+ROBOT: B|Zuzu|Mainan|07:00|Ungu
+ROBOT: C|Bibo|Makanan Kucing|07:00|Ungu
+ROBOT: D|Kiko|Makanan Kucing|09:00|Ungu
+JAWABAN: C
+PENJELASAN: Robot C membawa makanan kucing dan memakai sepatu ungu, serta lewat pada pukul 07:00. Semua petunjuk cocok!
+
+===
+JUDUL: 16. Wortel di Pasar
+KATEGORI: DETEKTIF
+CERITA: Penjual sayur ingin menemukan robot pembawa wortel di pagi hari.
+WAKTU: 65
+BARANG: Wortel
+SEPATU: Oranye
+JAM: TEPAT 09:00
+ROBOT: A|Zuzu|Wortel|09:00|Hijau
+ROBOT: B|Bibo|Wortel|09:00|Oranye
+ROBOT: C|Kiko|Tomat|09:00|Oranye
+ROBOT: D|Mimi|Wortel|10:00|Oranye
+JAWABAN: B
+PENJELASAN: Robot B membawa wortel dan memakai sepatu oranye, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 17. Dokter Kecil
+KATEGORI: DETEKTIF
+CERITA: Kotak pertolongan pertama kehilangan satu plester. Robot mana pembawanya?
+WAKTU: 65
+BARANG: Plester
+SEPATU: Biru
+JAM: TEPAT 10:00
+ROBOT: A|Bibo|Plester|10:00|Biru
+ROBOT: B|Kiko|Plester|10:00|Merah
+ROBOT: C|Mimi|Termometer|10:00|Biru
+ROBOT: D|Zuzu|Plester|11:00|Biru
+JAWABAN: A
+PENJELASAN: Robot A membawa plester dan memakai sepatu biru, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 18. Peta Terminal
+KATEGORI: DETEKTIF
+CERITA: Peta perjalanan di terminal dibawa oleh salah satu robot.
+WAKTU: 65
+BARANG: Peta
+SEPATU: Hijau
+JAM: TEPAT 11:00
+ROBOT: A|Kiko|Peta|10:00|Hijau
+ROBOT: B|Mimi|Kompas|11:00|Hijau
+ROBOT: C|Zuzu|Peta|11:00|Kuning
+ROBOT: D|Bibo|Peta|11:00|Hijau
+JAWABAN: D
+PENJELASAN: Robot D membawa peta dan memakai sepatu hijau, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 19. Museum Dinosaurus
+KATEGORI: MISI FINAL
+CERITA: Penjaga museum melihat robot membawa fosil sebelum jam 10 pagi.
+WAKTU: 75
+BARANG: Fosil
+SEPATU: Merah
+JAM: SEBELUM 10:00
+ROBOT: A|Mimi|Fosil|11:00|Merah
+ROBOT: B|Zuzu|Fosil|09:00|Biru
+ROBOT: C|Bibo|Fosil|09:00|Merah
+ROBOT: D|Kiko|Buku|09:00|Merah
+JAWABAN: C
+PENJELASAN: Robot C membawa fosil dan memakai sepatu merah, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 20. Kue Baru Matang
+KATEGORI: MISI FINAL
+CERITA: Toko kue mencari robot pembawa kue setelah jam 9 pagi.
+WAKTU: 75
+BARANG: Kue
+SEPATU: Pink
+JAM: SETELAH 09:00
+ROBOT: A|Zuzu|Kue|10:00|Ungu
+ROBOT: B|Bibo|Kue|10:00|Pink
+ROBOT: C|Kiko|Roti|10:00|Pink
+ROBOT: D|Mimi|Kue|08:00|Pink
+JAWABAN: B
+PENJELASAN: Robot B membawa kue dan memakai sepatu pink, serta lewat pada pukul 10:00. Semua petunjuk cocok!
+
+===
+JUDUL: 21. Kompas Petualang
+KATEGORI: MISI FINAL
+CERITA: Tim petualang kehilangan kompas sebelum jam 9 pagi. Temukan pembawanya.
+WAKTU: 75
+BARANG: Kompas
+SEPATU: Hijau
+JAM: SEBELUM 09:00
+ROBOT: A|Bibo|Kompas|08:00|Hijau
+ROBOT: B|Kiko|Kompas|10:00|Hijau
+ROBOT: C|Mimi|Kompas|08:00|Merah
+ROBOT: D|Zuzu|Senter|08:00|Hijau
+JAWABAN: A
+PENJELASAN: Robot A membawa kompas dan memakai sepatu hijau, serta lewat pada pukul 08:00. Semua petunjuk cocok!
+
+===
+JUDUL: 22. Kerang Tepi Laut
+KATEGORI: MISI FINAL
+CERITA: Penjaga pantai mencari robot pembawa kerang setelah jam 10 pagi.
+WAKTU: 75
+BARANG: Kerang
+SEPATU: Biru
+JAM: SETELAH 10:00
+ROBOT: A|Kiko|Ikan|11:00|Biru
+ROBOT: B|Mimi|Kerang|11:00|Hijau
+ROBOT: C|Zuzu|Kerang|09:00|Biru
+ROBOT: D|Bibo|Kerang|11:00|Biru
+JAWABAN: D
+PENJELASAN: Robot D membawa kerang dan memakai sepatu biru, serta lewat pada pukul 11:00. Semua petunjuk cocok!
+
+===
+JUDUL: 23. Tiket Pasar Malam
+KATEGORI: MISI FINAL
+CERITA: Tiket wahana dibawa robot setelah jam 8 malam. Cari robotnya!
+WAKTU: 75
+BARANG: Tiket
+SEPATU: Kuning
+JAM: SETELAH 20:00
+ROBOT: A|Mimi|Tiket|19:00|Kuning
+ROBOT: B|Zuzu|Tiket|21:00|Merah
+ROBOT: C|Bibo|Tiket|21:00|Kuning
+ROBOT: D|Kiko|Balon|21:00|Kuning
+JAWABAN: C
+PENJELASAN: Robot C membawa tiket dan memakai sepatu kuning, serta lewat pada pukul 21:00. Semua petunjuk cocok!
+
+===
+JUDUL: 24. Baterai Sekolah Robot
+KATEGORI: MISI FINAL
+CERITA: Satu baterai penting hilang sebelum jam 10 pagi. Siapa robot pembawanya?
+WAKTU: 75
+BARANG: Baterai
+SEPATU: Ungu
+JAM: SEBELUM 10:00
+ROBOT: A|Zuzu|Baterai|09:00|Biru
+ROBOT: B|Bibo|Baterai|09:00|Ungu
+ROBOT: C|Kiko|Kabel|09:00|Ungu
+ROBOT: D|Mimi|Baterai|11:00|Ungu
+JAWABAN: B
+PENJELASAN: Robot B membawa baterai dan memakai sepatu ungu, serta lewat pada pukul 09:00. Semua petunjuk cocok!
+
+===
+JUDUL: 25. FINAL: Kunci Kotak Hadiah
+KATEGORI: MISI FINAL
+CERITA: Kunci kotak hadiah dibawa robot setelah jam 9 pagi. Pecahkan semua petunjuk untuk menang!
+WAKTU: 75
+BARANG: Kunci
+SEPATU: Biru
+JAM: SETELAH 09:00
+ROBOT: A|Bibo|Kunci|10:00|Biru
+ROBOT: B|Kiko|Kunci|10:00|Merah
+ROBOT: C|Mimi|Peta|10:00|Biru
+ROBOT: D|Zuzu|Kunci|08:00|Biru
+JAWABAN: A
+PENJELASAN: Robot A membawa kunci dan memakai sepatu biru, serta lewat pada pukul 10:00. Semua petunjuk cocok!

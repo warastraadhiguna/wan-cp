@@ -18,6 +18,7 @@ Route::post('/contact-messages', [ContactMessageController::class, 'store'])
     ->name('contact-messages.store');
 
 Route::view('/tools/image-editor', 'tools.image-editor')->name('tools.image-editor');
+Route::view('/tools/game', 'tools.game')->name('tools.game');
 
 Route::prefix('/tools/wan-ko-ki')->name('tools.ko-ki.')->controller(KoKiController::class)->group(function (): void {
     Route::get('/', 'index')->name('index');

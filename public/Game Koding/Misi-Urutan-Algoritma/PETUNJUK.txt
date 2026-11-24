@@ -1,0 +1,72 @@
+MISI URUTAN! - GAME ALGORITMA UNTUK CODING KIDS
+================================================
+
+USIA: 10-11 TAHUN
+PEMAIN: 5 kelompok, satu laptop + proyektor
+INTERNET: tidak diperlukan
+
+CARA MEMULAI
+1. Ekstrak ZIP ini ke satu folder.
+2. Buka index.html menggunakan Google Chrome / Microsoft Edge.
+3. Pilih salah satu dari 25 misi bawaan. Soal sudah tersedia di HTML,
+   jadi Anda bisa langsung bermain meskipun belum mengunggah TXT.
+4. Bila ingin menggunakan soal.txt yang diubah, klik 'Unggah Soal TXT'
+   lalu pilih file soal.txt tersebut (pemilihan manual karena aturan browser).
+5. Pilih tim yang akan bermain dari 5 tim di papan skor.
+6. Berikan waktu kepada anak-anak untuk berdiskusi. Guru menggeser
+   kartu dengan mouse atau menggunakan tombol naik/turun pada kartu.
+7. Klik 'Periksa Urutan'. Jika benar, poin tim bertambah otomatis.
+8. Klik 'Buka Kunci' untuk menampilkan kunci dan membahas alasannya.
+
+ATURAN SKOR
+- Jawaban langsung benar tanpa petunjuk: +10 poin.
+- Benar setelah salah atau setelah melihat petunjuk: +5 poin.
+- Tiap tim hanya bisa mendapat poin otomatis satu kali per misi.
+- Setelah kunci jawaban dibuka, poin otomatis untuk misi itu dinonaktifkan
+  sampai bank soal dimuat ulang (gunakan skor manual bila diperlukan).
+- Tombol +10, +5, -5 pada papan skor bisa dipakai guru sebagai penilaian manual.
+- Nama dan skor disimpan di browser yang sama.
+- Reset Skor menghapus semua poin dan riwayat poin otomatis pada bank saat itu.
+
+FORMAT SOAL.TXT
+- Setiap soal dimulai tanda === pada baris sendiri.
+- JUDUL dan LANGKAH wajib diisi.
+- Urutan LANGKAH yang ditulis pada TXT adalah KUNCI JAWABAN dari awal sampai akhir.
+- Aplikasi mengacak langkah ketika soal ditampilkan.
+- 3 sampai 8 langkah per soal; gunakan kalimat singkat sehari-hari.
+- TEMA, LEVEL, CERITA, PETUNJUK, WAKTU, PENJELASAN boleh diubah.
+- Gunakan Notepad dan simpan dalam encoding UTF-8.
+
+CONTOH:
+===
+JUDUL: Menyiapkan Sereal
+TEMA: Sarapan
+LEVEL: Mudah
+CERITA: Robot lapar dan ingin sarapan.
+WAKTU: 75
+PETUNJUK: Siapkan mangkuk terlebih dahulu.
+LANGKAH:
+- Siapkan mangkuk bersih
+- Masukkan sereal ke mangkuk
+- Tuang susu ke mangkuk
+- Ambil sendok
+- Nikmati sarapan
+PENJELASAN: Persiapan dilakukan sebelum sarapan dimulai.
+
+CATATAN MENGAJAR
+- Permainan juga melatih dekomposisi (membagi aktivitas ke dalam langkah),
+  algoritma (menyusun urutan), dan debugging (mendeteksi langkah keliru).
+- Tidak semua kegiatan nyata mempunyai satu urutan yang mutlak;
+  jika jawaban siswa masuk akal tetapi berbeda dari kunci, diskusikan
+  alasannya lalu beri poin manual.
+- Contoh yang memakai air panas, pisau, dan benda tajam selalu membutuhkan
+  bantuan orang dewasa. Ini soal urutan, bukan instruksi praktik mandiri.
+
+RENCANA KELAS (60 MENIT)
+05 menit - Perkenalan algoritma dengan aktivitas berurutan
+10 menit - 2 soal pemanasan, tiap tim menyampaikan alasan
+30 menit - 6-8 tantangan berkelompok, gunakan timer
+10 menit - Misi terakhir: Membuat Game Sederhana
+05 menit - Refleksi dan pengumuman kelompok juara
+
+Semoga pembelajaran menyenangkan!

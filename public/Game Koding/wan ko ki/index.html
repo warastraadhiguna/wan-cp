@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1225">
+  <title>Robot Terjebak! — Koding for Kids</title>
+  <style>
+    :root{--bg:#0b1225;--panel:#141f38;--panel2:#1c2a47;--border:#354464;--text:#eff5ff;--muted:#a8bad6;--aqua:#58e5df;--yellow:#ffe38f;--good:#51e4a9;--bad:#ff838e;--white:#fff;--shadow:0 16px 48px #0004}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(ellipse 980px 550px at 18% -18%,#25447d75,transparent 65%),radial-gradient(ellipse 850px 620px at 100% 15%,#352b6973,transparent 66%),var(--bg);color:var(--text);font-family:ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:3px solid #8ef7f3;outline-offset:3px}
+    .wrap{max-width:1590px;margin:0 auto;padding:23px clamp(14px,2vw,30px) 32px}
+    .top{display:flex;align-items:center;gap:15px;justify-content:space-between;flex-wrap:wrap;margin-bottom:17px}
+    .brand{display:flex;align-items:center;gap:13px}.logo{height:56px;width:56px;display:grid;place-items:center;border:1px solid #6883ad70;border-radius:18px;background:linear-gradient(145deg,#3e78af,#27345f);font-size:30px;box-shadow:0 8px 20px #0004}
+    h1{font-size:clamp(25px,2.5vw,38px);line-height:1.02;letter-spacing:-.045em;margin:0}.brand p{font-size:12px;color:var(--muted);margin:6px 0 0;letter-spacing:.09em;font-weight:750;text-transform:uppercase}
+    .toolgroup{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn{border:1px solid #52698d;color:var(--text);background:#263756;border-radius:13px;padding:12px 15px;font-weight:750;white-space:nowrap;min-height:43px;transition:background .15s,transform .15s}.btn:hover:not(:disabled){background:#344969;transform:translateY(-1px)}.btn.primary{color:#092336;background:var(--aqua);border-color:var(--aqua);font-weight:850}.btn.primary:hover{background:#a2faf5}.btn.gold{background:#ffdb7c;color:#453017;border-color:#ffdb7c}.btn.silent{border-color:#3d4d6a;background:transparent}.btn.danger{border-color:#ab5361;color:#ffabb5}.btn.small{min-height:35px;padding:7px 11px;border-radius:9px;font-size:13px}
+    .main{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}
+    .panel{background:linear-gradient(150deg,#172442f5,#111b34ed);border:1px solid #435374bd;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+    .missionHead{padding:22px 23px 17px}.overline{color:#7debe2;font-size:12px;letter-spacing:.12em;font-weight:850;text-transform:uppercase}.missionTitle{font-size:clamp(24px,3vw,34px);font-weight:900;line-height:1.15;margin:8px 0}.story{color:#c8d5ed;font-size:16px;line-height:1.52;margin:0;max-width:900px}.tagrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px}.chip{background:#27395b;color:#dce8ff;border:1px solid #3b577b;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:750}.progress{height:6px;background:#263655}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#5cedda,#e4de95);transition:width .25s}
+    .playZone{display:grid;grid-template-columns:minmax(275px,.93fr) minmax(335px,1.07fr);gap:20px;padding:20px 23px}
+    .sectionTitle{font-size:14px;font-weight:850;letter-spacing:.05em;text-transform:uppercase;color:#c8dcf7;margin:0 0 11px}.subtext{color:var(--muted);font-size:12px;line-height:1.5;margin:10px 0 0}
+    .boardCard{background:linear-gradient(145deg,#243d5f,#182a4a);border:1px solid #4b6488;border-radius:18px;padding:15px;position:relative}
+    .legend{display:flex;flex-wrap:wrap;gap:7px 11px;font-size:11px;color:#d6e4fc;margin-bottom:13px}.legend span{white-space:nowrap}
+    .board{display:grid;gap:6px;max-width:420px;margin:auto;--columns:4;grid-template-columns:repeat(var(--columns), minmax(0,1fr))}.tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;border:1px solid #8ca3c850;border-radius:12px;background:linear-gradient(145deg,#eaf4ff,#b5cde9);font-size:clamp(21px,2.6vw,34px);color:#1d3e60;transition:background .15s,transform .14s}.tile:nth-child(even){background:linear-gradient(145deg,#daeafd,#a6c0e1)}.tile.wall{background:linear-gradient(155deg,#6d7892,#485876);border-color:#aebbd870;font-size:clamp(19px,2.4vw,32px)}.tile.robot{background:linear-gradient(145deg,#b9fff4,#6ad0c8);border-color:#aaffed;box-shadow:inset 0 0 0 2px #41baae85}.tile.finish{background:linear-gradient(145deg,#ffe8a5,#e8aa67);border-color:#ffefa3}.tile.visited:not(.wall):not(.robot){box-shadow:inset 0 0 0 3px #27bfa29a}.tile.crash{box-shadow:0 0 0 4px #ff7272,inset 0 0 0 2px #ff6f6f;animation:shiver .24s 2}.tile .loclabel{position:absolute;font-size:9px;bottom:4px;right:6px;font-weight:900;color:#35617f}.tile .emoji{filter:drop-shadow(0 2px 2px #0002)}
+    .riddle{background:#0d1a31;border:1px solid #39506c;border-radius:15px;padding:14px;margin-bottom:12px}.riddle strong{font-size:17px;line-height:1.35}.riddle p{color:var(--muted);font-size:12px;line-height:1.5;margin:8px 0 0}
+    .options{display:grid;grid-template-columns:1fr 1fr;gap:9px}.option{min-width:0;min-height:98px;border-radius:14px;border:2px solid #405a7d;background:linear-gradient(150deg,#25395b,#1a2b49);color:var(--text);text-align:left;padding:12px;transition:border .2s,background .2s,transform .15s;position:relative}.option:hover{transform:translateY(-2px);border-color:#78c9e4}.option.active{border-color:var(--aqua);background:#1d465d}.option.correct{border-color:#52e3a6;background:#17493f}.option.wrong{opacity:.7}.option .letter{display:inline-grid;place-items:center;background:#d9e7fa;color:#152c4b;width:25px;height:25px;border-radius:8px;font-weight:900;font-size:14px;margin-bottom:8px}.option .moves{display:flex;gap:5px;flex-wrap:wrap;align-items:center}.step{background:#14243b;border:1px solid #536b8d;border-radius:7px;padding:3px 5px;color:#f4f9ff;min-width:25px;text-align:center;font-size:20px;font-weight:900;line-height:1.1}.option .flag{position:absolute;right:10px;top:10px;color:#a7ffcb;font-size:13px;font-weight:800}
+    .status{border-top:1px solid #3c506e;padding:15px 23px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;background:#0e1930a8}.statusText{display:flex;align-items:center;gap:10px;color:#e6efff;font-weight:700;font-size:14px}.statusText strong{color:#72ecdd}.status .actions{display:flex;flex-wrap:wrap;gap:7px;justify-content:flex-end}.feedback{margin:0 23px 17px;padding:13px 15px;border-radius:14px;background:#124137;border:1px solid #40b894;color:#d8fff0;line-height:1.5;font-size:14px}.feedback[hidden]{display:none}.feedback strong{color:#a6ffcf}
+    .sidebar{padding:17px}.sideHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.sideHead h2{font-size:19px;letter-spacing:-.035em;margin:0}.sideNote{font-size:12px;color:var(--muted);line-height:1.55;margin:0 0 12px}.timerPanel{border:1px solid #466186;border-radius:15px;background:#1f3250;padding:13px 13px 12px;margin-bottom:16px}.timerLabel{font-size:12px;color:#bdcde5;font-weight:800;letter-spacing:.08em}.timerText{font-size:45px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.02em;margin:2px 0 7px;line-height:1.2}.timerText.danger{color:#ff8d94}.timerBar{height:7px;border-radius:10px;background:#334868;overflow:hidden;margin-bottom:11px}.timerBar>div{height:100%;width:100%;background:#61e2d9;transition:width .2s}.timerBtns{display:flex;gap:6px}.timerBtns .btn{flex:1;padding:8px 6px;min-height:35px;font-size:12px}
+    .team{--team:#73d4eb;padding:12px;background:#1d2d4a;border:1px solid #3f5474;border-radius:14px;margin-bottom:9px;border-left:5px solid var(--team)}.teamTop{display:flex;align-items:center;gap:8px;justify-content:space-between}.teamName{min-width:0;width:100%;background:none;border:none;color:var(--text);font-weight:850;font-size:14px;padding:3px 0;outline:none;text-overflow:ellipsis}.teamScore{font-size:23px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--team)}.teamAnswers{display:flex;gap:4px;margin-top:9px}.choice{flex:1;border-radius:7px;min-height:29px;border:1px solid #536587;background:#111f38;color:#b9cbe7;font-size:13px;font-weight:900}.choice:hover:not(:disabled){border-color:var(--aqua)}.choice.selected{background:var(--team);border-color:var(--team);color:#122037}.choice.correctPick{box-shadow:0 0 0 2px #72fbb4}.choice.wrongPick{opacity:.58}.adjust{display:flex;gap:5px;margin-top:9px}.adjust button{flex:1;background:#263956;color:#dbe8fb;border:1px solid #435776;border-radius:7px;min-height:28px;font-weight:800;font-size:12px}.adjust button:hover{background:#334b6e}
+    .summary{border:1px dashed #51678c;background:#1c2b48;border-radius:13px;padding:11px;color:var(--muted);font-size:12px;line-height:1.6;margin-top:9px}.summary strong{color:var(--text)}
+    .footer{color:#90a5c3;font-size:12px;text-align:center;margin-top:16px}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,25px);background:#defdf6;color:#113838;border-radius:12px;box-shadow:0 14px 35px #0008;padding:12px 19px;font-weight:850;opacity:0;pointer-events:none;transition:.25s;z-index:11;max-width:min(95vw,600px);text-align:center}.toast.visible{opacity:1;transform:translate(-50%,0)}
+    dialog{border:1px solid #6a80a6;border-radius:20px;background:#1c2d4a;color:var(--text);padding:24px;max-width:660px;width:calc(100% - 28px);box-shadow:0 20px 100px #000b}dialog::backdrop{background:#06101ce0}dialog h2{margin:0 0 12px}dialog li{margin:8px 0;line-height:1.5}dialog code{background:#101c32;padding:2px 4px;border-radius:4px}
+    @keyframes shiver{0%{transform:translateX(-3px)}50%{transform:translateX(3px)}100%{transform:translateX(0)}}
+    @media(max-width:1100px){.main{grid-template-columns:minmax(0,1fr) 285px}.playZone{gap:12px;padding:16px}.missionHead{padding:17px}.status{padding:15px}}
+    @media(max-width:920px){.main{grid-template-columns:1fr}.sidebar .teamGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.team{margin:0}.sidebar{order:2}.timerPanel{max-width:none}}
+    @media(max-width:650px){.wrap{padding:12px}.playZone{grid-template-columns:1fr}.board{max-width:390px}.missionHead{padding:16px}.playZone{padding:12px}.status{grid-template-columns:1fr;padding:13px}.status .actions{justify-content:stretch}.status .actions .btn{flex:1}.toolgroup .btn{padding:9px}.tile{border-radius:9px}.options{grid-template-columns:1fr 1fr}.option{min-height:90px;padding:9px}.step{font-size:17px}.sidebar .teamGrid{grid-template-columns:1fr 1fr}}
+    @media(max-width:450px){.sidebar .teamGrid{grid-template-columns:1fr}.logo{width:44px;height:44px}h1{font-size:24px}.btn{font-size:12px}.tile{font-size:23px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header class="top">
+    <div class="brand"><div class="logo" aria-hidden="true">🤖</div><div><h1>Robot Terjebak!</h1><p>Permainan algoritma • Koding for Kids</p></div></div>
+    <div class="toolgroup">
+      <label for="fileInput" class="btn primary" style="display:inline-flex;align-items:center;cursor:pointer">📂 Unggah soal.txt</label>
+      <input id="fileInput" type="file" accept=".txt,text/plain" hidden>
+      <button class="btn" id="helpBtn">❔ Panduan</button>
+      <button class="btn" id="fullBtn">⛶ Layar penuh</button>
+    </div>
+  </header>
+  <main class="main">
+    <section class="panel">
+      <div class="missionHead">
+        <div class="overline" id="missionLabel">LEVEL 01 / 25</div>
+        <h2 class="missionTitle" id="missionTitle">Menyiapkan permainan…</h2>
+        <p class="story" id="missionStory">Pilih urutan panah yang membawa robot menuju bendera tanpa menabrak tembok.</p>
+        <div class="tagrow"><span class="chip" id="themeChip">🎮 Algoritma</span><span class="chip">🎯 Satu jalur yang benar</span><span class="chip" id="sourceChip">📝 Soal contoh</span></div>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div class="playZone">
+        <section>
+          <h3 class="sectionTitle">🗺️ Peta labirin</h3>
+          <div class="boardCard"><div class="legend"><span>🤖 Mulai</span><span>🏁 Tujuan</span><span>🧱 Tembok</span><span>⬜ Jalan</span></div><div class="board" id="board" aria-label="Peta labirin robot"></div></div>
+          <p class="subtext">Mulai dari 🤖. Gerak satu kotak setiap panah. Jangan melewati 🧱 atau tepi peta.</p>
+        </section>
+        <section>
+          <h3 class="sectionTitle">🧩 Pilih program yang tepat</h3>
+          <div class="riddle"><strong>Perintah manakah yang membawa robot sampai 🏁?</strong><p>Pilih A, B, C, atau D. Catat jawaban dari 5 kelompok di papan skor, lalu buka kuncinya bersama-sama.</p></div>
+          <div class="options" id="options"></div>
+          <p class="subtext">↑ atas &nbsp; ↓ bawah &nbsp; ← kiri &nbsp; → kanan</p>
+          <button class="btn small" id="runBtn" style="margin-top:12px;width:100%" disabled>▶ Jalankan rute setelah jawaban dibuka</button>
+        </section>
+      </div>
+      <div class="feedback" id="feedback" hidden></div>
+      <div class="status">
+        <div class="statusText" id="statusText">🔒 <span>Jawaban masih <strong>dirahasiakan</strong>.</span></div>
+        <div class="actions"><button class="btn" id="prevBtn">← Sebelumnya</button><button class="btn gold" id="revealBtn">🔓 Buka jawaban</button><button class="btn primary" id="nextBtn">Berikutnya →</button></div>
+      </div>
+    </section>
+    <aside class="panel sidebar">
+      <div class="timerPanel">
+        <div class="timerLabel">⏱️ WAKTU DISKUSI</div>
+        <div class="timerText" id="timerText">00:55</div>
+        <div class="timerBar"><div id="timerBarFill"></div></div>
+        <div class="timerBtns"><button class="btn primary" id="timerToggle">▶ Mulai</button><button class="btn" id="timerReset">↻ Ulangi</button></div>
+      </div>
+      <div class="sideHead"><h2>🏆 5 Kelompok</h2><button class="btn small danger" id="resetScores">Reset skor</button></div>
+      <p class="sideNote">Isi jawaban A–D setiap tim. Saat <b>Buka jawaban</b> ditekan, tim yang benar otomatis mendapat <b>+10 poin</b>.</p>
+      <div class="teamGrid" id="teamGrid"></div>
+      <div class="summary" id="groupSummary"><strong>Aturan main:</strong> 10 poin untuk jawaban benar, bonus 5 poin jika bisa menjelaskan langkah robot.</div>
+    </aside>
+  </main>
+  <footer class="footer">Dibuat untuk belajar algoritma sambil bermain • Offline • Tidak butuh internet • Edit soal melalui TXT</footer>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="helpDialog"><h2>🤖 Cara bermain</h2><ol><li>Bagikan kelas menjadi <strong>5 kelompok</strong>. Masing-masing kelompok berdiskusi tentang rute yang benar.</li><li>Klik tombol <strong>Mulai</strong> untuk mengaktifkan waktu diskusi.</li><li>Catat jawaban A/B/C/D pada baris masing-masing kelompok.</li><li>Klik <strong>Buka jawaban</strong>: jawaban benar terlihat dan +10 poin diberikan otomatis kepada kelompok yang benar.</li><li>Klik salah satu pilihan A–D dan tekan <strong>Jalankan rute</strong> untuk memperlihatkan langkah robot satu per satu, termasuk jika menabrak tembok.</li><li>Klik <strong>Berikutnya</strong> untuk berpindah misi. Nama kelompok dan skor tersimpan otomatis di browser.</li></ol><p><strong>Format TXT:</strong> setiap soal dimulai <code>===</code>, punya <code>JUDUL:</code>, <code>CERITA:</code>, <code>WAKTU:</code>, <code>PETA:</code>, <code>PILIHAN:</code>, <code>A:</code> sampai <code>D:</code>, dan <code>JAWABAN:</code>. U atas, D bawah, L kiri, R kanan. S mulai, F tujuan, # tembok, . jalan.</p><p>Soal dapat diunggah langsung dari komputer dengan tombol <strong>Unggah soal.txt</strong>, tanpa internet.</p><div style="text-align:right"><button class="btn primary" id="closeHelp">Siap bermain!</button></div></dialog>
+<script>
+'use strict';
+const STORAGE_KEY='robot_terjebak_five_teams_v1';
+const BUILTIN_TEXT="# ROBOT TERJEBAK! - 25 LEVEL UNTUK 5 KELOMPOK\n# Cara mengubah soal: lihat PETUNJUK.txt di folder yang sama.\n# U=atas, D=bawah, L=kiri, R=kanan. PETA: S=robot, F=tujuan, #=tembok, .=jalan.\n\n\n===\n\nJUDUL: 01. Robot Terlambat ke Kelas\nTEMA: Sekolah\nCERITA: Bel sekolah sudah berbunyi! Bantu robot mencapai pintu kelas tanpa menabrak lemari.\nWAKTU: 55\nPETA:\nS...\n...#\n.##.\n...F\nPILIHAN:\nA: D D D R R R\nB: D D U R R R\nC: D D D R R R D\nD: D D D R R U\nJAWABAN: A\nPENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: bawah → bawah → bawah → kanan → kanan → kanan.\n\n\n===\n\nJUDUL: 02. Buku untuk Perpustakaan\nTEMA: Perpustakaan\nCERITA: Robot membawa buku cerita. Arahkan ke rak pengembalian buku.\nWAKTU: 55\nPETA:\nF...\n..#.\n.#..\n...S\nPILIHAN:\nA: L L U U U\nB: L L L U U U\nC: D L L U U U\nD: L D L U U U\nJAWABAN: B\nPENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kiri → kiri → kiri → atas → atas → atas.\n\n\n===\n\nJUDUL: 03. Botol Minum Tertinggal\nTEMA: Olahraga\nCERITA: Botol minum ada di ujung koridor. Pilih perintah yang tepat untuk mengambilnya.\nWAKTU: 55\nPETA:\n.#..\n...F\n....\nS.#.\nPILIHAN:\nA: R U R U R R\nB: R U R U R D\nC: R U R U R\nD: R U R U L\nJAWABAN: C\nPENJELASAN: Ikuti panah dari kotak robot sampai ke bendera. Urutannya: kanan → atas → kanan → atas → kanan.\n\n";
+const el=id=>document.getElementById(id);
+const letters=['A','B','C','D'];
+const directions={U:{dx:0,dy:-1,arrow:'↑',label:'atas'},D:{dx:0,dy:1,arrow:'↓',label:'bawah'},L:{dx:-1,dy:0,arrow:'←',label:'kiri'},R:{dx:1,dy:0,arrow:'→',label:'kanan'}};
+const teamColors=['#fd9299','#88caff','#70e5b2','#cea4ff','#ffe18a'];
+const defaultTeams=['Merah','Biru','Hijau','Ungu','Kuning'].map((name,i)=>({name:'Kelompok '+name,score:0,color:teamColors[i]}));
+function readStorage(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}catch{return {}}}
+function saveStorage(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify({teams:state.teams,answers:state.answers,revealed:state.revealed,awarded:state.awarded,uploadedText:state.uploadedText,current:state.current}))}catch{}}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function parseMoves(raw){
+  let cleaned=raw.toUpperCase().replace(/↑/g,' U ').replace(/↓/g,' D ').replace(/←/g,' L ').replace(/→/g,' R ');
+  let tokens=cleaned.split(/[\s,;|>\-]+/).filter(Boolean);
+  if(tokens.length===1 && /^[UDLR]{2,}$/.test(tokens[0]))tokens=tokens[0].split('');
+  const aliases={ATAS:'U',BAWAH:'D',KIRI:'L',KANAN:'R',UP:'U',DOWN:'D',LEFT:'L',RIGHT:'R'};
+  let moves=tokens.map(v=>aliases[v]||v);
+  if(!moves.length || moves.length>18 || moves.some(v=>!directions[v]))throw new Error('Arah harus U/D/L/R atau ATAS/BAWAH/KIRI/KANAN. Contoh: R R D D.');
+  return moves;
+}
+function simulate(question,moves){
+  let {x,y}=question.start;
+  const visited=[{x,y}];
+  for(let i=0;i<moves.length;i++){
+    let d=directions[moves[i]],nx=x+d.dx,ny=y+d.dy;
+    if(nx<0||ny<0||nx>=question.w||ny>=question.h)return {success:false,visited,crash:{x:nx,y:ny},reason:'Robot keluar dari peta!'};
+    if(question.grid[ny][nx]==='#')return {success:false,visited,crash:{x:nx,y:ny},reason:'Robot menabrak tembok!'};
+    x=nx;y=ny;visited.push({x,y});
+  }
+  return {success:x===question.finish.x&&y===question.finish.y,visited,reason:x===question.finish.x&&y===question.finish.y?'Robot sampai ke bendera!':'Robot berhenti sebelum mencapai bendera.'};
+}
+function parseQuestions(content){
+  const blocks=content.replace(/^\uFEFF/,'').split(/^\s*===\s*$/gm).map(b=>b.trim()).filter(b=>b && /^JUDUL\s*:/im.test(b));
+  if(!blocks.length)throw new Error('Tidak ada soal. Pisahkan setiap soal dengan === dan tulis JUDUL:.');
+  let result=[];
+  blocks.forEach((block,n)=>{
+    try{
+      const fields={},grid=[],rawOptions={};let section='';
+      block.split(/\r?\n/).forEach(original=>{
+        const line=original.trim();if(!line)return;
+        if(/^PETA\s*:/i.test(line)){section='map';return}
+        if(/^PILIHAN\s*:/i.test(line)){section='options';return}
+        if(section==='map'&&/^[.#SFsf]+$/.test(line)){grid.push(line.toUpperCase());return}
+        let match=line.match(/^([ABCD]):\s*(.+)$/i);
+        if(section==='options'&&match){rawOptions[match[1].toUpperCase()]=match[2];return}
+        match=line.match(/^([A-Z_]+):\s*(.*)$/i);
+        if(match){fields[match[1].toUpperCase()]=match[2];section='';return}
+        if(!line.startsWith('#'))throw new Error('Baris tidak dikenal: '+line);
+      });
+      if(!fields.JUDUL)throw new Error('JUDUL wajib ada.');
+      if(!grid.length)throw new Error('PETA belum diisi.');
+      const w=grid[0].length,h=grid.length;
+      if(w<3||w>8||h<3||h>8||grid.some(row=>row.length!==w))throw new Error('Ukuran peta harus 3–8 kotak dan semua baris sama panjang.');
+      let starts=[],goals=[];
+      grid.forEach((row,y)=>[...row].forEach((c,x)=>{if(c==='S')starts.push({x,y});if(c==='F')goals.push({x,y})}));
+      if(starts.length!==1||goals.length!==1)throw new Error('Peta harus punya tepat satu S (mulai) dan satu F (tujuan).');
+      if(letters.some(k=>!rawOptions[k]))throw new Error('Pilihan A, B, C, dan D harus lengkap.');
+      let options={};letters.forEach(k=>options[k]=parseMoves(rawOptions[k]));
+      let answer=(fields.JAWABAN||'').trim().toUpperCase();
+      if(!letters.includes(answer))throw new Error('JAWABAN harus A, B, C, atau D.');
+      let question={title:fields.JUDUL,theme:fields.TEMA||'Petualangan',story:fields.CERITA||'Bantu robot menuju tujuan!',seconds:Math.max(15,Math.min(240,Number(fields.WAKTU)||60)),grid,w,h,start:starts[0],finish:goals[0],options,answer,explanation:fields.PENJELASAN||'Ikuti arah panah dari robot sampai tujuan.'};
+      const successful=letters.filter(k=>simulate(question,options[k]).success);
+      if(successful.length!==1||successful[0]!==answer)throw new Error('Kombinasi peta dan pilihan harus menghasilkan tepat satu rute benar sesuai JAWABAN. Rute berhasil: '+(successful.join(', ')||'tidak ada'));
+      result.push(question);
+    }catch(e){throw new Error('Soal '+(n+1)+': '+e.message)}
+  });
+  return result;
+}
+const saved=readStorage();
+const state={teams:Array.from({length:5},(_,i)=>({...defaultTeams[i],...(saved.teams?.[i]||{}),color:teamColors[i]})),answers:saved.answers||{},revealed:saved.revealed||{},awarded:saved.awarded||{},uploadedText:saved.uploadedText||'',current:Math.max(0,Number(saved.current)||0),questions:[],previewChoice:null,animation:null,animSerial:0,secondsLeft:60,timerId:null,sourceLabel:'📝 Soal contoh'};
+try{state.questions=parseQuestions(state.uploadedText||BUILTIN_TEXT);state.sourceLabel=state.uploadedText?'📂 Soal TXT tersimpan':'📝 3 soal contoh'}catch(e){state.questions=parseQuestions(BUILTIN_TEXT);state.uploadedText='';state.sourceLabel='📝 3 soal contoh'}
+state.current=Math.min(state.current,state.questions.length-1);
+let toastTimeout;
+function toast(message){const node=el('toast');node.textContent=message;node.classList.add('visible');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>node.classList.remove('visible'),3500)}
+function isRevealed(){return Boolean(state.revealed[state.current])}
+function guesses(){return state.answers[state.current]||{}}
+function clearAnimation(){state.animSerial++;state.animation=null}
+function stopTimer(){if(state.timerId){clearInterval(state.timerId);state.timerId=null}updateTimer()}
+function resetTimer(){stopTimer();state.secondsLeft=state.questions[state.current].seconds;updateTimer()}
+function updateTimer(){const min=Math.floor(state.secondsLeft/60),sec=state.secondsLeft%60;let total=state.questions[state.current].seconds;
+  el('timerText').textContent=String(min).padStart(2,'0')+':'+String(sec).padStart(2,'0');el('timerText').classList.toggle('danger',state.secondsLeft<=10);
+  el('timerBarFill').style.width=(100*state.secondsLeft/total)+'%';el('timerBarFill').style.background=state.secondsLeft<=10?'#ff868e':'#61e2d9';el('timerToggle').textContent=state.timerId?'⏸ Jeda':'▶ Mulai';el('timerToggle').disabled=isRevealed()||state.secondsLeft===0;
+}
+function toggleTimer(){if(state.timerId){stopTimer();return}if(isRevealed())return;
+  state.timerId=setInterval(()=>{if(state.secondsLeft>0)state.secondsLeft--;if(state.secondsLeft<=0){stopTimer();toast('⏰ Waktu habis! Saatnya semua kelompok menjawab.')}updateTimer()},1000);updateTimer();
+}
+function renderBoard(){const q=state.questions[state.current],board=el('board');board.style.setProperty('--columns',q.w);board.innerHTML='';const visited=new Set((state.animation?.visited||[]).map(p=>p.x+','+p.y));const robot=state.animation?.pos||q.start;
+  q.grid.forEach((row,y)=>[...row].forEach((c,x)=>{
+    const div=document.createElement('div');let isRobot=x===robot.x&&y===robot.y;let isCrash=state.animation?.crash&&x===state.animation.crash.x&&y===state.animation.crash.y;
+    div.className='tile'+(c==='#'?' wall':'')+(c==='F'?' finish':'')+(isRobot?' robot':'')+(visited.has(x+','+y)?' visited':'')+(isCrash?' crash':'');
+    const graphic=isRobot?'🤖':c==='#'?'🧱':c==='F'?'🏁':c==='S'?'🟢':'';
+    div.innerHTML='<span class="emoji">'+graphic+'</span>'+(c==='S'&&!isRobot?'<span class="loclabel">MULAI</span>':'');
+    div.setAttribute('aria-label',isRobot?'Robot':c==='#'?'Tembok':c==='F'?'Tujuan':'Jalan');board.appendChild(div);
+  }));
+}
+function renderOptions(){const q=state.questions[state.current],revealed=isRevealed();el('options').innerHTML='';letters.forEach(key=>{
+  const b=document.createElement('button');b.type='button';b.className='option'+(state.previewChoice===key?' active':'')+(revealed?(key===q.answer?' correct':' wrong'):'');
+  b.innerHTML='<span class="letter">'+key+'</span>'+(revealed&&key===q.answer?'<span class="flag">✓ BENAR</span>':'')+'<div class="moves">'+q.options[key].map(step=>'<span class="step">'+directions[step].arrow+'</span>').join('')+'</div>';
+  b.setAttribute('aria-label','Rute '+key+', '+q.options[key].map(x=>directions[x].label).join(', '));b.addEventListener('click',()=>{state.previewChoice=key;clearAnimation();renderBoard();renderOptions();el('runBtn').textContent='▶ Jalankan rute '+key;});el('options').appendChild(b);
+});el('runBtn').disabled=!revealed;}
+function renderTeams(){const target=el('teamGrid');target.innerHTML='';const q=state.questions[state.current],found=guesses(),revealed=isRevealed();
+ state.teams.forEach((team,i)=>{
+  const box=document.createElement('div');box.className='team';box.style.setProperty('--team',team.color);
+  const top=document.createElement('div');top.className='teamTop';
+  const name=document.createElement('input');name.className='teamName';name.type='text';name.maxLength=26;name.value=team.name;name.title='Klik untuk mengubah nama kelompok';name.setAttribute('aria-label','Nama kelompok '+(i+1));name.addEventListener('change',()=>{team.name=name.value.trim()||defaultTeams[i].name;name.value=team.name;saveStorage()});
+  const score=document.createElement('span');score.className='teamScore';score.textContent=team.score;
+  top.append(name,score);box.append(top);
+  const buttons=document.createElement('div');buttons.className='teamAnswers';
+  letters.forEach(k=>{let b=document.createElement('button');b.type='button';b.className='choice'+(found[i]===k?' selected':'')+(revealed&&found[i]===k?(k===q.answer?' correctPick':' wrongPick'):'');b.textContent=k;b.disabled=revealed;b.title='Jawaban kelompok: '+k;b.addEventListener('click',()=>{if(isRevealed())return;if(!state.answers[state.current])state.answers[state.current]={};state.answers[state.current][i]=k;saveStorage();renderTeams();});buttons.appendChild(b)});
+  box.append(buttons);
+  let adj=document.createElement('div');adj.className='adjust';[['+10',10],['+5',5],['−5',-5]].forEach(([txt,delta])=>{let b=document.createElement('button');b.textContent=txt;b.addEventListener('click',()=>{team.score=Math.max(0,(Number(team.score)||0)+delta);saveStorage();renderTeams();});adj.appendChild(b)});box.append(adj);target.append(box);
+ });
+ const answered=Object.keys(found).length;el('groupSummary').innerHTML=revealed?'<strong>Jawaban: '+q.answer+'.</strong> '+state.teams.filter((_,i)=>found[i]===q.answer).length+' dari 5 kelompok benar. Klik +5 untuk bonus penjelasan.':'<strong>'+answered+'/5 kelompok</strong> sudah memilih. Jawaban dapat diubah sebelum dibuka.';
+}
+function renderStatus(){const revealed=isRevealed(),q=state.questions[state.current];el('revealBtn').disabled=revealed;el('revealBtn').textContent=revealed?'✅ Jawaban terbuka':'🔓 Buka jawaban';el('prevBtn').disabled=state.current===0;el('nextBtn').disabled=state.current===state.questions.length-1;
+  el('statusText').innerHTML=revealed?'✅ <span>Jawaban benar: <strong>'+q.answer+'</strong>. Pilih rute lalu jalankan robot!</span>':'🔒 <span>Jawaban masih <strong>dirahasiakan</strong>.</span>';
+  el('feedback').hidden=!revealed;if(revealed)el('feedback').innerHTML='<strong>✅ Pilihan '+q.answer+' adalah yang benar!</strong> '+escapeHtml(q.explanation);
+}
+function renderAll(){const q=state.questions[state.current];el('missionLabel').textContent='LEVEL '+String(state.current+1).padStart(2,'0')+' / '+String(state.questions.length).padStart(2,'0');el('missionTitle').textContent=q.title;el('missionStory').textContent=q.story;el('themeChip').textContent='🧭 '+q.theme;el('sourceChip').textContent=state.sourceLabel;el('progressBar').style.width=(100*(state.current+1)/state.questions.length)+'%';renderBoard();renderOptions();renderTeams();renderStatus();updateTimer();}
+function changeLevel(next){if(next<0||next>=state.questions.length)return;stopTimer();clearAnimation();state.current=next;state.previewChoice=null;state.secondsLeft=state.questions[state.current].seconds;saveStorage();renderAll();}
+function reveal(){if(isRevealed())return;stopTimer();state.revealed[state.current]=true;const q=state.questions[state.current];const found=guesses();const awarded=[];
+ if(!state.awarded[state.current]){
+  state.teams.forEach((t,i)=>{if(found[i]===q.answer){t.score+=10;awarded.push(t.name)}});state.awarded[state.current]=true;
+ }
+ saveStorage();renderAll();toast(awarded.length?'🏆 Benar! +10 poin: '+awarded.join(', '):'🔓 Jawaban sudah dibuka. Jalankan robot untuk melihat rutenya!');
+}
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function runRoute(){if(!isRevealed())return;let choice=state.previewChoice||state.questions[state.current].answer;state.previewChoice=choice;let q=state.questions[state.current],result=simulate(q,q.options[choice]);clearAnimation();let serial=state.animSerial;el('runBtn').disabled=true;
+  for(let j=0;j<result.visited.length;j++){
+    if(serial!==state.animSerial)return;
+    state.animation={pos:result.visited[j],visited:result.visited.slice(0,j+1),crash:null};renderBoard();await delay(420);
+  }
+  if(serial!==state.animSerial)return;
+  state.animation={pos:result.visited.at(-1),visited:result.visited,crash:result.crash||null};renderBoard();
+  toast((result.success?'🎉 ':'⚠️ ')+result.reason);el('runBtn').disabled=false;
+}
+async function loadText(content,name){try{
+  const questions=parseQuestions(content);
+  stopTimer();clearAnimation();state.questions=questions;state.uploadedText=content;state.current=0;state.answers={};state.revealed={};state.awarded={};state.previewChoice=null;state.secondsLeft=questions[0].seconds;state.sourceLabel='📂 '+questions.length+' soal dari TXT';saveStorage();renderAll();toast('✅ '+questions.length+' soal dari '+name+' berhasil dimuat!');
+ }catch(e){toast('❌ '+e.message);alert('TXT belum dapat dimuat.\n\n'+e.message+'\n\nPeriksa format file soal.txt.');}}
+el('fileInput').addEventListener('change',async event=>{const f=event.target.files?.[0];if(!f)return;await loadText(await f.text(),f.name);event.target.value='';});
+el('prevBtn').addEventListener('click',()=>changeLevel(state.current-1));el('nextBtn').addEventListener('click',()=>changeLevel(state.current+1));el('revealBtn').addEventListener('click',reveal);el('runBtn').addEventListener('click',runRoute);el('timerToggle').addEventListener('click',toggleTimer);el('timerReset').addEventListener('click',resetTimer);
+el('resetScores').addEventListener('click',()=>{if(!confirm('Reset seluruh skor 5 kelompok ke nol?'))return;state.teams.forEach(t=>t.score=0);saveStorage();renderTeams();toast('Skor 5 kelompok sudah direset.');});
+el('helpBtn').addEventListener('click',()=>el('helpDialog').showModal());el('closeHelp').addEventListener('click',()=>el('helpDialog').close());
+el('fullBtn').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{toast('Mode layar penuh tidak tersedia di browser ini.')}});
+document.addEventListener('keydown',e=>{if(e.target.closest('input,textarea,dialog'))return;if(e.key==='ArrowRight'&&e.altKey){changeLevel(state.current+1)}else if(e.key==='ArrowLeft'&&e.altKey){changeLevel(state.current-1)}});
+state.secondsLeft=state.questions[state.current].seconds;
+renderAll();
+</script>
+</body>
+</html>

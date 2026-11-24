@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#102044" />
+  <title>Memory Match Kids — 3 Level</title>
+  <style>
+    :root {
+      --ink:#183256; --muted:#647792; --blue:#3a79ff; --blue-dark:#2453cc;
+      --card-front:#ecf3ff; --card-edge:#c6dcff; --good:#138b69;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh;
+      background: radial-gradient(ellipse at 10% 0%, #e1edff 0%, transparent 45%),
+                  radial-gradient(ellipse at 100% 85%, #dcfff1 0%, transparent 48%), #f6f9ff;
+      color:var(--ink); font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+    }
+    .page { max-width:1080px; margin:0 auto; padding:18px 22px 26px; }
+    header { text-align:center; }
+    .eyebrow { font-size:12px; font-weight:900; color:var(--blue-dark); letter-spacing:.16em; text-transform:uppercase; }
+    h1 { font-size:clamp(27px,3.8vw,43px); line-height:1.08; margin:5px 0 7px; letter-spacing:-.055em; }
+    .subtitle { color:var(--muted); margin:0 auto 13px; font-size:clamp(13px,1.6vw,16px); }
+    .levels { display:flex; justify-content:center; flex-wrap:wrap; gap:9px; margin:13px 0 14px; }
+    .level {
+      border:2px solid #dce7f8; border-radius:13px; padding:10px 17px;
+      color:#516785; background:white; font:800 14px/1 system-ui,sans-serif;
+      cursor:pointer; box-shadow:0 3px 0 #e3ebfa; transition:transform .14s,border-color .14s,background .14s;
+    }
+    .level:hover { transform:translateY(-2px); }
+    .level.active { background:#2873f3; border-color:#2873f3; color:white; box-shadow:0 4px 0 #1e55b7; }
+    .level small { display:block; font-size:11px; font-weight:650; opacity:.85; margin-top:5px; }
+    .panel { background:rgba(255,255,255,.92); border:1px solid #e4edff; border-radius:22px; padding:16px 20px 19px; box-shadow:0 13px 42px #264f8a14; }
+    .topbar { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+    .status { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+    .metric { display:flex; gap:6px; align-items:baseline; font-size:13px; color:var(--muted); }
+    .metric strong { color:var(--ink); font-size:20px; font-variant-numeric:tabular-nums; }
+    .reset { border:0; background:#edf3ff; color:#2757a8; border-radius:11px; padding:10px 14px; cursor:pointer; font-size:13px; font-weight:800; }
+    .reset:hover { background:#dceaff; }
+    .progress-track { height:8px; width:100%; background:#eaf1fd; border-radius:20px; overflow:hidden; margin-bottom:12px; }
+    .progress-fill { width:0; height:100%; border-radius:20px; background:linear-gradient(90deg,#36a8ff,#42d4b6); transition:width .4s; }
+    .board { display:grid; justify-content:center; gap:clamp(7px,1vw,12px); margin:0 auto; }
+    .board.l1 { grid-template-columns:repeat(4,minmax(0,1fr)); max-width:530px; }
+    .board.l2 { grid-template-columns:repeat(4,minmax(0,1fr)); max-width:590px; }
+    .board.l3 { grid-template-columns:repeat(8,minmax(0,1fr)); max-width:910px; }
+    .tile {
+      aspect-ratio:1 / .94; position:relative; border:0; padding:0; border-radius:16px;
+      background:transparent; cursor:pointer; perspective:850px; user-select:none;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .tile:focus-visible { outline:4px solid #ffaf46; outline-offset:3px; }
+    .tile-inner { position:absolute; inset:0; transition:transform .42s cubic-bezier(.2,.75,.2,1); transform-style:preserve-3d; }
+    .tile.open .tile-inner, .tile.matched .tile-inner { transform:rotateY(180deg); }
+    .face {
+      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      border-radius:inherit; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    }
+    .back {
+      background:linear-gradient(145deg,#65a5ff 0%,#337af6 55%,#2459d7 100%);
+      border:3px solid #2673e6; box-shadow:0 5px 0 #1749a8, inset 0 2px 0 #ffffff80;
+      color:#fff; font-weight:900; font-size:clamp(30px,4vw,49px); text-shadow:0 2px 2px #17449f50;
+    }
+    .back:after { content:""; width:65%; height:65%; position:absolute; border-radius:13px; border:2px solid #ffffff36; }
+    .front {
+      transform:rotateY(180deg); background:linear-gradient(160deg,#fff,#e9f7ff);
+      border:3px solid #a9d1ff; box-shadow:0 4px 0 #b8d9f4;
+      font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;
+      font-size:clamp(32px,5vw,62px); line-height:1;
+    }
+    .board.l3 .back {font-size:clamp(22px,2.6vw,34px);border-width:2px;}
+    .board.l3 .front {font-size:clamp(25px,3.4vw,46px);border-width:2px;}
+    .tile.matched { animation:vanish .48s ease .16s forwards; pointer-events:none; }
+    @keyframes vanish { 0%{opacity:1;transform:scale(1)} 55%{opacity:.7;transform:scale(1.12)} 100%{opacity:0;transform:scale(.65);visibility:hidden;} }
+    .hint { text-align:center; font-size:13px; font-weight:650; color:#6b7fa1; margin:13px 0 0; min-height:22px; }
+    .message { color:#138b69; }
+    .overlay { position:fixed; inset:0; z-index:20; background:#0b1e47aa; backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; padding:24px; }
+    .overlay.show { display:flex; }
+    .win { width:min(100%,430px); text-align:center; background:#fff; border-radius:24px; padding:30px 25px; box-shadow:0 20px 70px #071b4766; animation:pop .35s ease; }
+    @keyframes pop { from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1} }
+    .win .emoji {font-size:66px;line-height:1.2;}
+    .win h2 {font-size:30px; margin:10px 0 5px; letter-spacing:-.04em;}
+    .win p {color:var(--muted);line-height:1.5;}
+    .primary {margin-top:9px; background:var(--blue);color:white;border:0;border-radius:13px;padding:14px 23px;cursor:pointer;font-size:16px;font-weight:850;box-shadow:0 4px 0 var(--blue-dark);}
+    .primary:hover {background:#2469e4;}
+    footer {text-align:center;font-size:12px;color:#8b9ab3;margin-top:13px;}
+    @media(max-width:640px){
+      .page {padding:14px 10px 20px;}
+      .panel {padding:12px 10px 16px;border-radius:16px;}
+      .board.l3 {grid-template-columns:repeat(4,minmax(0,1fr));max-width:470px;}
+      .tile {border-radius:11px;}
+      .back {border-width:2px;box-shadow:0 3px 0 #1749a8;}
+      .front {border-width:2px;box-shadow:0 3px 0 #b8d9f4;}
+      .board.l3 .front {font-size:clamp(28px,9vw,47px);}
+      .board.l3 .back {font-size:clamp(24px,8vw,37px);}
+      .metric strong {font-size:18px;}
+      .topbar {justify-content:center;}
+      .status {gap:10px;justify-content:center;}
+    }
+    @media(prefers-reduced-motion:reduce){.tile-inner,.progress-fill{transition:none}.tile.matched{animation:none;opacity:0;visibility:hidden}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="eyebrow">🎮 Koding for Kids · Unplugged</div>
+      <h1>🧠 Memory Match!</h1>
+      <p class="subtitle">Buka 2 kotak. Jika gambarnya sama, keduanya menghilang. Temukan semua pasangan!</p>
+    </header>
+    <nav class="levels" aria-label="Pilih level permainan">
+      <button type="button" class="level active" data-level="1">LEVEL 1<small>8 kotak · 4 pasang</small></button>
+      <button type="button" class="level" data-level="2">LEVEL 2<small>16 kotak · 8 pasang</small></button>
+      <button type="button" class="level" data-level="3">LEVEL 3<small>32 kotak · 16 pasang</small></button>
+    </nav>
+    <section class="panel" aria-label="Arena Memory Match">
+      <div class="topbar">
+        <div class="status" aria-live="polite">
+          <div class="metric">Pasangan <strong id="matched">0/4</strong></div>
+          <div class="metric">Percobaan <strong id="tries">0</strong></div>
+          <div class="metric">Waktu <strong id="clock">00:00</strong></div>
+        </div>
+        <button type="button" class="reset" id="restart">↻ Acak & ulang level</button>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progress"></div></div>
+      <div class="board l1" id="board" aria-label="Kotak memori"></div>
+      <p class="hint" id="hint" aria-live="polite">Klik kotak pertama untuk mulai!</p>
+    </section>
+    <footer>Bisa dimainkan langsung di browser, tanpa internet.</footer>
+  </main>
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+    <div class="win">
+      <div class="emoji">🏆✨</div>
+      <h2 id="winTitle">Hebat! Level selesai!</h2>
+      <p id="winText"></p>
+      <button type="button" class="primary" id="next">Lanjut ke Level 2 →</button>
+    </div>
+  </div>
+  <script>
+    (() => {
+      "use strict";
+      // Setiap simbol muncul dua kali. Tidak memerlukan koneksi internet.
+      const puzzles = {
+        1: ["🐱","🐶","🐸","🐼"],
+        2: ["🍎","🍉","🍓","🍌","🍇","🍍","🥕","🥑"],
+        3: ["🚀","🛸","🌈","⭐","☀️","🌙","🎈","🎁","🎮","🎸","⚽","🏀","🚲","🧩","🎨","🏆"]
+      };
+      const board = document.querySelector("#board");
+      const matchedEl = document.querySelector("#matched");
+      const triesEl = document.querySelector("#tries");
+      const clockEl = document.querySelector("#clock");
+      const progressEl = document.querySelector("#progress");
+      const hintEl = document.querySelector("#hint");
+      const overlay = document.querySelector("#overlay");
+      const next = document.querySelector("#next");
+      const winText = document.querySelector("#winText");
+      const levelButtons = [...document.querySelectorAll("[data-level]")];
+      let level = 1, selected = [], locked = false, found = 0, tries = 0;
+      let elapsed = 0, interval = null, mismatchTimeout = null, matchTimeout = null, winTimeout = null;
+
+      function shuffle(items) {
+        const a = [...items];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+      function formatTime(seconds) {
+        return String(Math.floor(seconds / 60)).padStart(2,"0") + ":" + String(seconds % 60).padStart(2,"0");
+      }
+      function stopTimers() {
+        clearInterval(interval); clearTimeout(mismatchTimeout); clearTimeout(matchTimeout); clearTimeout(winTimeout);
+        interval = null; mismatchTimeout = null; matchTimeout = null; winTimeout = null;
+      }
+      function startClock() {
+        if (interval) return;
+        interval = setInterval(() => { elapsed++; clockEl.textContent = formatTime(elapsed); }, 1000);
+      }
+      function updateStats() {
+        matchedEl.textContent = `${found}/${puzzles[level].length}`;
+        triesEl.textContent = String(tries);
+        progressEl.style.width = `${100 * found / puzzles[level].length}%`;
+      }
+      function setHint(message, success=false) {
+        hintEl.textContent = message;
+        hintEl.classList.toggle("message", success);
+      }
+      function makeTile(symbol, index) {
+        const tile = document.createElement("button");
+        tile.type = "button";
+        tile.className = "tile";
+        tile.dataset.symbol = symbol;
+        tile.setAttribute("aria-label", `Kotak tertutup nomor ${index + 1}`);
+        tile.innerHTML = '<span class="tile-inner"><span class="face back" aria-hidden="true">?</span><span class="face front" aria-hidden="true"></span></span>';
+        tile.querySelector(".front").textContent = symbol;
+        tile.addEventListener("click", () => flip(tile));
+        return tile;
+      }
+      function setup(newLevel = level) {
+        stopTimers(); level = newLevel; found = 0; tries = 0; elapsed = 0; selected = []; locked = false;
+        clockEl.textContent = "00:00";
+        overlay.classList.remove("show");
+        board.className = `board l${level}`;
+        board.replaceChildren();
+        const cards = shuffle([...puzzles[level], ...puzzles[level]]);
+        cards.forEach((symbol, i) => board.append(makeTile(symbol, i)));
+        levelButtons.forEach(btn => {
+          const active = Number(btn.dataset.level) === level;
+          btn.classList.toggle("active", active);
+          btn.setAttribute("aria-pressed", String(active));
+        });
+        updateStats();
+        setHint("Klik kotak pertama untuk mulai!");
+      }
+      function flip(tile) {
+        if (locked || tile.classList.contains("open") || tile.classList.contains("matched")) return;
+        startClock();
+        tile.classList.add("open");
+        tile.setAttribute("aria-label", `Gambar ${tile.dataset.symbol}`);
+        selected.push(tile);
+        if (selected.length === 1) { setHint("Sekarang pilih satu kotak lagi!"); return; }
+        locked = true;
+        tries++;
+        updateStats();
+        const [a,b] = selected;
+        if (a.dataset.symbol === b.dataset.symbol) {
+          found++;
+          updateStats();
+          setHint("🎉 Cocok! Kedua kotak menghilang.", true);
+          matchTimeout = setTimeout(() => {
+            a.classList.add("matched"); b.classList.add("matched");
+            a.disabled = true; b.disabled = true;
+            selected = []; locked = false;
+            if (found === puzzles[level].length) {
+              clearInterval(interval); interval = null;
+              winTimeout = setTimeout(showWin, 750);
+            }
+          }, 480);
+        } else {
+          setHint("Belum sama! Ingat posisinya, ya.");
+          mismatchTimeout = setTimeout(() => {
+            for (const card of selected) {
+              card.classList.remove("open");
+              card.setAttribute("aria-label", "Kotak tertutup");
+            }
+            selected = []; locked = false;
+            setHint("Coba cari pasangan lainnya!");
+          }, 1150);
+        }
+      }
+      function showWin() {
+        winText.textContent = `Kamu menemukan ${puzzles[level].length} pasangan dalam ${tries} percobaan dan ${formatTime(elapsed)}!`;
+        next.textContent = level < 3 ? `Lanjut ke Level ${level + 1} →` : "🎮 Main lagi dari Level 1";
+        overlay.classList.add("show");
+        next.focus();
+      }
+      levelButtons.forEach(btn => btn.addEventListener("click", () => setup(Number(btn.dataset.level))));
+      document.querySelector("#restart").addEventListener("click", () => setup(level));
+      next.addEventListener("click", () => setup(level < 3 ? level + 1 : 1));
+      setup(1);
+    })();
+  </script>
+</body>
+</html>

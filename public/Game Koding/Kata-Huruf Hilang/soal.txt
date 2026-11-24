@@ -1,0 +1,341 @@
+
+# 25 MISI KODE YANG DIHAPUS - Koding for Kids
+# Setiap soal dimulai dengan ===
+# Format kartu: nomor|kata_yang_hilang|huruf
+# Soal terakhir menggunakan urutan khusus.
+
+===
+JUDUL: 01. Kelas Terkunci
+KATEGORI: PEMANASAN
+CERITA: Pintu kelas tidak bisa dibuka. Temukan empat huruf yang hilang agar pelajaran bisa dimulai.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 2|G_RU|U
+KARTU: 1|_UKU|B
+KARTU: 3|SE_OLAH|K
+KARTU: 4|_PEL|A
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk BUKA.
+
+===
+JUDUL: 02. Kantin Super Sibuk
+KATEGORI: MUDAH
+CERITA: Pesanan murid tertukar! Perbaiki kartu kata agar robot kantin bisa bekerja lagi.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 65
+KARTU: 2|N_SI|A
+KARTU: 3|_UE|K
+KARTU: 5|SE_DOK|N
+KARTU: 4|S_YUR|A
+KARTU: 1|_EJA|M
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk MAKAN.
+
+===
+JUDUL: 03. Jus Buatan Robot
+KATEGORI: MUDAH
+CERITA: Robot pembuat jus lupa cara menghidupkan mesinnya. Kumpulkan lima huruf rahasia.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 3|_ANAS|N
+KARTU: 5|JA_BU|M
+KARTU: 4|G_LA|U
+KARTU: 1|_ANGKUK|M
+KARTU: 2|P_SANG|I
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk MINUM.
+
+===
+JUDUL: 04. Lemari Hadiah
+KATEGORI: MUDAH
+CERITA: Hadiah kelas disimpan di lemari misterius. Temukan kode untuk membukanya.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 4|_ABAI|C
+KARTU: 3|NA_AS|N
+KARTU: 1|_ELAS|K
+KARTU: 2|B_KU|U
+KARTU: 5|_KAN|I
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk KUNCI.
+
+===
+JUDUL: 05. Kucing Oyen Pulang
+KATEGORI: MUDAH
+CERITA: Oyen tersesat sepulang bermain. Lima kartu akan menunjukkan tempat tujuannya.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 3|KA_AR|M
+KARTU: 2|_ANG|U
+KARTU: 5|RUMA_|H
+KARTU: 4|J_LAN|A
+KARTU: 1|_ODA|R
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk RUMAH.
+
+===
+JUDUL: 06. Hari Ulang Tahun
+KATEGORI: MUDAH
+CERITA: Lilin sudah siap, tetapi kotak kejutan belum terbuka. Lengkapi kartu-kartunya!
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 4|_OPI|T
+KARTU: 5|B_JU|A
+KARTU: 2|M_JA|E
+KARTU: 1|_APAN|P
+KARTU: 3|_USU|S
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk PESTA.
+
+===
+JUDUL: 07. Perosotan Macet
+KATEGORI: MUDAH
+CERITA: Tiket permainan terkunci. Cari password agar semua teman boleh masuk.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 60
+KARTU: 5|A_GIN|N
+KARTU: 2|D_UN|A
+KARTU: 1|_ANAH|T
+KARTU: 3|_OBIL|M
+KARTU: 4|L_MPU|A
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk TAMAN.
+
+===
+JUDUL: 08. Pertandingan Dadakan
+KATEGORI: MUDAH
+CERITA: Wasit lupa kata sandi papan skor. Kalian harus memulihkannya sebelum peluit berbunyi.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_OLA|B
+KARTU: 2|T_PI|O
+KARTU: 4|S_PI|A
+KARTU: 3|GE_AS|L
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk BOLA.
+
+===
+JUDUL: 09. Payung Hilang
+KATEGORI: MENENGAH
+CERITA: Langit mendung dan alarm cuaca berbunyi. Temukan password untuk melihat prakiraan.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_UJAN|H
+KARTU: 2|PAY_NG|U
+KARTU: 3|_ALAN|J
+KARTU: 5|TA_AH|N
+KARTU: 4|N_SI|A
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk HUJAN.
+
+===
+JUDUL: 10. Kebun Nenek
+KATEGORI: MENENGAH
+CERITA: Nenek menyiapkan panen, tetapi pintu gudang terkunci. Pecahkan lima kartu kata.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_APU|S
+KARTU: 4|_LAR|U
+KARTU: 5|JE_UK|R
+KARTU: 2|K_PAL|A
+KARTU: 3|SA_UR|Y
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk SAYUR.
+
+===
+JUDUL: 11. Oven Ngebul
+KATEGORI: MENENGAH
+CERITA: Koki lupa sandi untuk mematikan oven. Empat huruf ini bisa menyelamatkan dapur.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 3|_ELUR|T
+KARTU: 1|_OTI|R
+KARTU: 4|_KAN|I
+KARTU: 2|B_LA|O
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk ROTI.
+
+===
+JUDUL: 12. Perpustakaan Terkunci
+KATEGORI: MENENGAH
+CERITA: Rak bacaan otomatis tidak mau bergerak. Temukan kode dari empat kartu.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 4|S_SU|U
+KARTU: 2|G_RU|U
+KARTU: 3|_URSI|K
+KARTU: 1|_UKU|B
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk BUKU.
+
+===
+JUDUL: 13. Roda yang Hilang
+KATEGORI: MENENGAH
+CERITA: Kendaraan milik Rara tidak bisa dipakai. Susun enam huruf untuk mengaktifkan bengkel.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 3|_ENA|P
+KARTU: 4|S_PEDA|E
+KARTU: 6|P_GI|A
+KARTU: 1|_EPATU|S
+KARTU: 5|_AUN|D
+KARTU: 2|M_JA|E
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk SEPEDA.
+
+===
+JUDUL: 14. Stasiun Sibuk
+KATEGORI: MENENGAH
+CERITA: Papan jadwal keberangkatan rusak. Perbaiki semua kartu agar penumpang tidak bingung.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 55
+KARTU: 1|_URSI|K
+KARTU: 2|K_LAS|E
+KARTU: 5|BA_U|T
+KARTU: 6|K_PAL|A
+KARTU: 3|JE_UK|R
+KARTU: 4|M_RAH|E
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk KERETA.
+
+===
+JUDUL: 15. Harta Karun di Tepi Laut
+KATEGORI: MENENGAH
+CERITA: Peti bajak laut terkunci. Cari enam huruf dari kartu yang tercecer di pasir.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 2|P_NTAI|A
+KARTU: 3|A_GIN|N
+KARTU: 5|B_JU|A
+KARTU: 1|_ASIR|P
+KARTU: 6|P_SANG|I
+KARTU: 4|_OPI|T
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk PANTAI.
+
+===
+JUDUL: 16. Piknik dan Jejak Kaki
+KATEGORI: MENENGAH
+CERITA: Tim penjelajah menemukan jejak misterius. Perbaiki lima kartu untuk membuka peta.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 4|D_UN|A
+KARTU: 1|_UTAN|H
+KARTU: 2|_LAR|U
+KARTU: 3|BA_U|T
+KARTU: 5|NA_AS|N
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk HUTAN.
+
+===
+JUDUL: 17. Malam Tanpa Lampu
+KATEGORI: SULIT
+CERITA: Listrik padam saat berkemah. Kalian harus menemukan kode untuk menyalakan teropong.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 1|_UNGA|B
+KARTU: 5|J_MBU|A
+KARTU: 7|_ULA|G
+KARTU: 4|_IKUS|T
+KARTU: 6|SE_DOK|N
+KARTU: 3|TA_AH|N
+KARTU: 2|P_SANG|I
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk BINTANG.
+
+===
+JUDUL: 18. Warna dari Langit
+KATEGORI: SULIT
+CERITA: Mesin pencampur warna menghilangkan satu huruf dari tiap kata. Ada tujuh kartu!
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 50
+KARTU: 1|_APAN|P
+KARTU: 6|PA_I|G
+KARTU: 5|A_GIN|N
+KARTU: 3|GE_AS|L
+KARTU: 7|_KAN|I
+KARTU: 2|S_PATU|E
+KARTU: 4|B_JU|A
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk PELANGI.
+
+===
+JUDUL: 19. Dokter Kecil
+KATEGORI: MENENGAH
+CERITA: Robot dokter lupa kode untuk membuka kotak obat. Temukan lima hurufnya.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 45
+KARTU: 2|M_RAH|E
+KARTU: 5|_AHU|T
+KARTU: 3|_ATI|H
+KARTU: 1|_APU|S
+KARTU: 4|P_GI|A
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk SEHAT.
+
+===
+JUDUL: 20. Festival Balon
+KATEGORI: MENENGAH
+CERITA: Panggung pertunjukan mati mendadak. Pecahkan kode untuk menyalakan lampu warna-warni.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 45
+KARTU: 3|_ODA|R
+KARTU: 2|_MBER|E
+KARTU: 1|_ABAI|C
+KARTU: 5|_PEL|A
+KARTU: 4|B_BIR|I
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk CERIA.
+
+===
+JUDUL: 21. Teman Baru
+KATEGORI: SULIT
+CERITA: Seorang murid baru mengirim pesan persahabatan. Ada tujuh kartu yang harus dibaca tepat.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 45
+KARTU: 6|K_PAL|A
+KARTU: 5|_OLA|B
+KARTU: 4|P_GI|A
+KARTU: 7|_AS|T
+KARTU: 1|_USU|S
+KARTU: 2|S_PI|A
+KARTU: 3|_ATI|H
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk SAHABAT.
+
+===
+JUDUL: 22. Robot Tukang Sapu
+KATEGORI: SULIT
+CERITA: Robot sekolah tidak mau bergerak sebelum sandinya benar. Susun enam huruf!
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 45
+KARTU: 2|G_LAS|E
+KARTU: 6|RUMA_|H
+KARTU: 3|_OTI|R
+KARTU: 1|_EBEK|B
+KARTU: 5|P_SANG|I
+KARTU: 4|_APU|S
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk BERSIH.
+
+===
+JUDUL: 23. Misteri di Pasar
+KATEGORI: MENENGAH
+CERITA: Suara pengeras pasar terhenti. Lima kartu harus dipulihkan agar pengumuman terdengar.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 45
+KARTU: 3|_OBIL|M
+KARTU: 2|B_JU|A
+KARTU: 1|_UMAH|R
+KARTU: 4|N_SI|A
+KARTU: 5|_KAN|I
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk RAMAI.
+
+===
+JUDUL: 24. Surat Tanpa Nama
+KATEGORI: SULIT
+CERITA: Surat dari seorang detektif berisi tujuh kartu teracak. Temukan pesan tersembunyinya.
+PETUNJUK: Lengkapi setiap kata, lalu baca huruf sesuai nomor kartu dari kecil ke besar.
+WAKTU: 40
+KARTU: 2|S_YUR|A
+KARTU: 3|_UTAN|H
+KARTU: 5|_USU|S
+KARTU: 4|P_GI|A
+KARTU: 7|K_PAL|A
+KARTU: 6|_BU|I
+KARTU: 1|_ODA|R
+PENJELASAN: Huruf yang hilang sesuai urutan nomor membentuk RAHASIA.
+
+===
+JUDUL: 25. Pintu Kemenangan
+KATEGORI: BOSS LEVEL
+CERITA: Ini tantangan terakhir! Urutan pembacaan kartu berbeda dari biasanya. Jangan asal membaca 1 sampai 7.
+PETUNJUK: Baca kartu dengan urutan: 4, 1, 7, 3, 6, 5, 2.
+WAKTU: 50
+URUTAN: 4,1,7,3,6,5,2
+KARTU: 7|GE_AS|L
+KARTU: 2|_OPI|T
+KARTU: 1|_MBER|E
+KARTU: 6|_EJA|M
+KARTU: 5|N_SI|A
+KARTU: 3|P_GI|A
+KARTU: 4|_API|S
+PENJELASAN: Urutan khusus 4-1-7-3-6-5-2 membentuk SELAMAT.

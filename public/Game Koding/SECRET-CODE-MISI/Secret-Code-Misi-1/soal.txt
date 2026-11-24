@@ -1,0 +1,55 @@
+# SECRET CODE — MISI 1: JEJAK KOTAK MISTERIUS
+# Semua soal menggunakan kode angka A=1, B=2, ... Z=26.
+# Ubah soal menggunakan Notepad, lalu unggah dari aplikasi HTML.
+# Gunakan tanda - untuk memisahkan angka, dan / untuk memisahkan kata.
+# JAWABAN harus sesuai dengan PESAN yang telah diterjemahkan.
+
+===
+JUDUL: 01. Catatan Pertama
+CERITA: Agen X menemukan secarik kertas. Pesan pertama memberi tahu benda tempat catatan berikutnya disimpan.
+PESAN: 2-21-11-21
+JAWABAN: BUKU
+PETUNJUK: Benda berisi banyak halaman untuk dibaca.
+TEMUAN: Bagus! Di dalam BUKU ditemukan sebuah gambar meja dengan simbol rahasia.
+PENJELASAN: 2=B, 21=U, 11=K, 21=U. Pesannya adalah BUKU.
+WAKTU: 90
+
+===
+JUDUL: 02. Pesan di Halaman 7
+CERITA: Di balik halaman buku, ada angka-angka yang menunjukkan tempat catatan berikutnya.
+PESAN: 13-5-10-1
+JAWABAN: MEJA
+PETUNJUK: Biasanya dipakai untuk meletakkan buku dan pensil.
+TEMUAN: Di bawah MEJA, para agen menemukan kartu akses berwarna biru.
+PENJELASAN: 13=M, 5=E, 10=J, 1=A. Pesannya adalah MEJA.
+WAKTU: 90
+
+===
+JUDUL: 03. Kartu Akses Biru
+CERITA: Kartu biru menyimpan lokasi berikutnya. Pecahkan kode sebelum jejaknya hilang!
+PESAN: 11-5-12-1-19
+JAWABAN: KELAS
+PETUNJUK: Ruangan tempat murid belajar bersama guru.
+TEMUAN: Di KELAS, agen melihat tanda X besar di dekat pintu.
+PENJELASAN: 11=K, 5=E, 12=L, 1=A, 19=S. Pesannya adalah KELAS.
+WAKTU: 95
+
+===
+JUDUL: 04. Tanda X Misterius
+CERITA: Ada kertas kecil di samping tanda X. Ternyata ini menunjukkan tempat mencari kunci selanjutnya.
+PESAN: 16-9-14-20-21
+JAWABAN: PINTU
+PETUNJUK: Bagian ruangan yang dibuka saat kita masuk atau keluar.
+TEMUAN: Di balik PINTU, ada peta sekolah dan satu pesan terakhir.
+PENJELASAN: 16=P, 9=I, 14=N, 20=T, 21=U. Pesannya adalah PINTU.
+WAKTU: 95
+
+===
+JUDUL: 05. Lokasi Kotak Rahasia
+CERITA: Ini pesan terakhir dari Agen X! Terjemahkan angkanya untuk menemukan lokasi kotak rahasia di sekolah.
+PESAN: 20-1-13-1-14
+JAWABAN: TAMAN
+PETUNJUK: Tempat terbuka yang biasanya memiliki tanaman, bunga, atau pepohonan.
+TEMUAN: MISI 1 SELESAI! Kotak rahasia ditemukan di TAMAN SEKOLAH. Kunci untuk misi berikutnya berhasil diamankan.
+PENJELASAN: 20=T, 1=A, 13=M, 1=A, 14=N. Pesannya adalah TAMAN.
+WAKTU: 100

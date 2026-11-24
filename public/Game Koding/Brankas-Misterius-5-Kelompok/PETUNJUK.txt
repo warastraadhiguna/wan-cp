@@ -1,0 +1,53 @@
+BRANKAS MISTERIUS — PANDUAN GURU
+================================
+
+1. Klik dua kali index.html (Chrome/Edge). Offline, tidak perlu internet.
+2. Ada 25 level bawaan. Soal-soal juga tersedia dalam soal.txt.
+3. Bagi anak menjadi 5 kelompok. Kelompok berdiskusi dan memberi kombinasi sakelar.
+4. Guru klik sakelar ON/OFF di kartu masing-masing kelompok sesuai jawaban mereka.
+5. Klik "Periksa 5 Kombinasi". Benar pertama kali = +10 poin.
+   Kalau dibantu atau setelah mencoba lagi = +5 poin.
+   Jawaban salah boleh diperbaiki. Jawaban benar tidak diberi poin ganda.
+6. Klik "Buka Jawaban & Penjelasan" setelah semua kelompok menjawab.
+7. Klik panah kanan untuk level berikutnya.
+
+CARA EDIT / UPLOAD SOAL
+- Buka soal.txt dengan Notepad dan edit.
+- Simpan sebagai UTF-8 jika diperlukan.
+- Klik "Unggah soal.txt" pada HTML, lalu pilih berkas.
+- Saat HTML dibuka langsung dari folder, browser tidak bisa otomatis mengambil TXT;
+  gunakan tombol upload. Game bawaan tetap bisa dibuka tanpa upload.
+
+FORMAT CONTOH
+===
+JUDUL: Peti Kelas
+TEMA: Sekolah
+CERITA: Peti kelas terkunci.
+SAKELAR: 3
+WAKTU: 90
+ATURAN:
+- S1 = ON
+- S2 = OFF
+- JUMLAH ON = 2
+
+ATURAN YANG DIDUKUNG
+- S1 = ON                   Sakelar 1 harus ON
+- S2 = OFF                  Sakelar 2 harus OFF
+- JUMLAH ON = 2             Tepat 2 sakelar ON
+- JUMLAH OFF = 1            Tepat 1 sakelar OFF
+- S1 = S2                   Dua sakelar sama
+- S1 != S2                  Dua sakelar berbeda
+- S1 DAN S2 = ON            Keduanya ON
+- S1 ATAU S2 = ON           Minimal satu ON (keduanya boleh ON)
+- TEPAT SATU: S1, S2        Tepat satu ON
+
+PENTING
+Aplikasi memeriksa agar setiap soal memiliki tepat satu jawaban benar.
+Bila ada lebih dari satu, ia akan menolak TXT dan menampilkan pesan error.
+Jumlah sakelar: 3, 4, atau 5. Waktu: 15–600 detik. Aturan: 2–7.
+
+FOKUS BELAJAR
+- Logika Boolean ON/OFF (benar/salah)
+- Semua aturan berlaku bersamaan (AND)
+- Membuat, menguji, dan memperbaiki kombinasi
+- Strategi sistematis, bukan sekadar menebak

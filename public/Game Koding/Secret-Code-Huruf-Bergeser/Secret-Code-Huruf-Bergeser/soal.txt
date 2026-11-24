@@ -1,0 +1,127 @@
+# SECRET CODE — MISI 2: HURUF BERGESER
+# Cocok untuk anak 10–11 tahun. Terdapat 10 soal cerita berurutan.
+# GESER = jumlah langkah huruf yang DIPAKAI SAAT MEMBUAT SANDI (maju).
+# Untuk memecahkan sandi, anak harus menggeser huruf MUNDUR sesuai GESER.
+# Contoh: JAWABAN: BUKU, GESER: 1, PESAN: CVLV
+# Jika PESAN tidak ditulis, aplikasi bisa membuatnya otomatis dari JAWABAN.
+# Pisahkan setiap soal dengan baris ===.
+
+===
+JUDUL: 01. Surat di Dalam Kotak
+TEMA: Jejak Awal
+CERITA: Kotak yang ditemukan di taman ternyata berisi surat berisi kode huruf bergeser. Pesan pertama menunjukkan benda yang harus dicari.
+GESER: 1
+PESAN: QFUB
+JAWABAN: PETA
+PETUNJUK: Gambar yang menunjukkan arah atau lokasi.
+TEMUAN: Di dalam kotak ada PETA sekolah dengan tanda silang dekat sebuah pohon.
+PENJELASAN: Setiap huruf sandi digeser mundur 1 langkah. Q→P, F→E, U→T, B→A. Hasilnya PETA.
+WAKTU: 80
+
+===
+JUDUL: 02. Tanda di Peta
+TEMA: Taman Sekolah
+CERITA: Pada peta, Agen X menggambar tempat yang rindang. Pecahkan kata rahasia untuk mengetahui tujuannya.
+GESER: 1
+PESAN: QPIPO
+JAWABAN: POHON
+PETUNJUK: Tanaman besar yang memiliki batang dan daun.
+TEMUAN: Di dekat POHON ditemukan sebuah batu dengan gambar bintang.
+PENJELASAN: Setiap huruf sandi digeser mundur 1 langkah. Q→P, P→O, I→H, P→O, O→N. Hasilnya POHON.
+WAKTU: 80
+
+===
+JUDUL: 03. Gambar Bintang
+TEMA: Di Bawah Pohon
+CERITA: Agen melihat pesan pada tanah. Kata ini menunjukkan benda yang harus diperiksa di dekat pohon.
+GESER: 1
+PESAN: CBUV
+JAWABAN: BATU
+PETUNJUK: Benda keras yang biasa ditemukan di tanah.
+TEMUAN: Di bawah BATU ada sebuah amplop kecil berisi kode berikutnya.
+PENJELASAN: Setiap huruf sandi digeser mundur 1 langkah. C→B, B→A, U→T, V→U. Hasilnya BATU.
+WAKTU: 75
+
+===
+JUDUL: 04. Amplop Kecil
+TEMA: Taman Sekolah
+CERITA: Di dalam amplop tertulis kata sandi yang menunjukkan benda pembuka sesuatu.
+GESER: 1
+PESAN: LVODJ
+JAWABAN: KUNCI
+PETUNJUK: Benda kecil untuk membuka pintu atau lemari.
+TEMUAN: KUNCI ini mempunyai label bertuliskan ruang kelas.
+PENJELASAN: Setiap huruf sandi digeser mundur 1 langkah. L→K, V→U, O→N, D→C, J→I. Hasilnya KUNCI.
+WAKTU: 80
+
+===
+JUDUL: 05. Pintu Kelas
+TEMA: Kembali ke Sekolah
+CERITA: Agen menemukan petunjuk baru. Kali ini setiap huruf digeser dua langkah maju!
+GESER: 2
+PESAN: NGOCTK
+JAWABAN: LEMARI
+PETUNJUK: Tempat menyimpan buku atau barang; biasanya mempunyai pintu.
+TEMUAN: Agen membuka LEMARI dan menemukan buku berwarna biru.
+PENJELASAN: Setiap huruf sandi digeser mundur 2 langkah. N→L, G→E, O→M, C→A, T→R, K→I. Hasilnya LEMARI.
+WAKTU: 90
+
+===
+JUDUL: 06. Buku Biru
+TEMA: Ruang Kelas
+CERITA: Ada pesan kedua dengan pergeseran dua huruf. Barang apa yang harus dibuka sekarang?
+GESER: 2
+PESAN: DWMW
+JAWABAN: BUKU
+PETUNJUK: Benda yang memiliki halaman dan bisa dibaca.
+TEMUAN: Di dalam BUKU ada gambar rak kecil di perpustakaan.
+PENJELASAN: Setiap huruf sandi digeser mundur 2 langkah. D→B, W→U, M→K, W→U. Hasilnya BUKU.
+WAKTU: 80
+
+===
+JUDUL: 07. Foto Misterius
+TEMA: Perpustakaan
+CERITA: Gambar dalam buku menunjukkan tempat tertentu. Terjemahkan sandinya untuk mengetahui di mana mencarinya.
+GESER: 2
+PESAN: TCM
+JAWABAN: RAK
+PETUNJUK: Tempat untuk menyusun buku agar rapi.
+TEMUAN: Di atas RAK ada selembar kertas yang terlipat.
+PENJELASAN: Setiap huruf sandi digeser mundur 2 langkah. T→R, C→A, M→K. Hasilnya RAK.
+WAKTU: 75
+
+===
+JUDUL: 08. Kertas Terlipat
+TEMA: Perpustakaan
+CERITA: Agen menemukan kertas penuh tulisan. Apa nama benda yang mereka temukan?
+GESER: 2
+PESAN: UWTCV
+JAWABAN: SURAT
+PETUNJUK: Pesan tertulis yang biasa dikirim kepada seseorang.
+TEMUAN: Di dalam SURAT ada petunjuk menuju kotak kecil yang tersembunyi.
+PENJELASAN: Setiap huruf sandi digeser mundur 2 langkah. U→S, W→U, T→R, C→A, V→T. Hasilnya SURAT.
+WAKTU: 85
+
+===
+JUDUL: 09. Jejak Terakhir
+TEMA: Ruang Rahasia
+CERITA: Agen X membuat sandi lebih sulit! Semua huruf sekarang digeser tiga langkah maju.
+GESER: 3
+PESAN: NRWDN
+JAWABAN: KOTAK
+PETUNJUK: Benda untuk menyimpan sesuatu, bentuknya biasanya persegi.
+TEMUAN: Sebuah KOTAK kecil ditemukan. Di atasnya ada teka-teki terakhir.
+PENJELASAN: Setiap huruf sandi digeser mundur 3 langkah. N→K, R→O, W→T, D→A, N→K. Hasilnya KOTAK.
+WAKTU: 100
+
+===
+JUDUL: 10. Password Penutup
+TEMA: Final Misi 2
+CERITA: Untuk membuka kotak, terjemahkan sandi terakhir yang digeser tiga langkah maju.
+GESER: 3
+PESAN: EXND
+JAWABAN: BUKA
+PETUNJUK: Perintah saat ingin melihat isi kotak.
+TEMUAN: MISI 2 SELESAI! Kotak terbuka dan lima kelompok memperoleh lencana AGEN RAHASIA.
+PENJELASAN: Setiap huruf sandi digeser mundur 3 langkah. E→B, X→U, N→K, D→A. Hasilnya BUKA.
+WAKTU: 95

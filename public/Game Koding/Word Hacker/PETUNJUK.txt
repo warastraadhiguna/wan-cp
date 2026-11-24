@@ -1,0 +1,87 @@
+WORD HACKER — GAME COMPUTATIONAL THINKING
+Untuk SD usia 10–11 tahun | 5 kelompok | 1 komputer + proyektor
+
+ISI PAKET
+1. index.html : game lengkap, bisa dimainkan tanpa internet
+2. soal.txt   : 25 misi dengan 200 contoh kata yang sudah diperiksa susunan hurufnya
+3. PETUNJUK.txt : panduan ini
+4. pratinjau.png: contoh tampilan
+
+CARA PAKAI
+1. Ekstrak ZIP.
+2. Klik dua kali index.html (Chrome atau Edge).
+3. Secara bawaan, 25 misi sudah bisa dimainkan walaupun belum upload TXT.
+4. Jika ingin mengubah soal, edit soal.txt dengan Notepad, simpan UTF-8.
+5. Di game klik "Unggah TXT" dan pilih soal.txt dari folder yang sama.
+   Browser membatasi pembacaan file lokal otomatis, jadi perlu memilih berkas.
+6. Tekan "Layar penuh" atau F11 untuk mode proyektor.
+
+CARA MAIN DENGAN 5 KELOMPOK
+1. Klik nama tim yang memberi jawaban (Merah, Biru, Hijau, Ungu, Kuning).
+2. Mulai timer: anak bisa mencari kata pada kertas atau berdiskusi.
+3. Guru mengetik kata atau mengeklik kartu huruf sesuai pilihan siswa.
+4. KATA yang sudah didaftarkan di TXT dan memakai huruf yang sesuai
+   akan otomatis mendapat poin.
+5. Kata yang secara susunan huruf benar tetapi belum didaftarkan akan
+   ditanyakan kepada guru: Terima atau Tolak.
+6. Jawaban yang sudah ditemukan tim lain tidak bisa mendapat poin lagi
+   dalam misi yang sama. Setiap huruf hanya bisa digunakan sesuai jumlahnya.
+7. Setelah timer habis, anak BERHENTI mencari kata baru. Guru masih
+   bisa memasukkan kata yang SUDAH dicatat oleh tim untuk dinilai.
+8. Lihat kata-kata yang ditemukan dan beri bonus +5 jika kelompok dapat
+   menjelaskan strategi pencariannya. Pilih misi berikutnya.
+
+SKOR
+3 huruf = 5 poin; 4 atau 5 huruf = 10 poin; 6 huruf atau lebih = 15 poin.
+Bonus strategi = +5 melalui tombol pada kartu kelompok.
+"Batalkan kata terakhir" mengembalikan poin dari kata tersebut.
+"Ulangi misi" menghapus kata misi itu dan mengembalikan poin terkait.
+Reset semua skor akan menghapus skor dan koleksi kata seluruh misi.
+
+PENTING
+Daftar KATA pada TXT adalah contoh kata yang otomatis dikenali,
+BUKAN kamus Bahasa Indonesia lengkap. Guru sebaiknya memeriksa jika ada
+kata baru yang belum masuk daftar. Kata serapan/slang/nama diri bisa
+mengikuti aturan kelas yang disepakati sebelum bermain.
+
+FORMAT TXT
+===
+JUDUL: 01. Kantin Ceria
+TEMA: Kantin Sekolah
+CERITA: Robot kantin kehilangan huruf.
+HURUF: M A K A N
+WAKTU: 120
+MIN: 3
+KATA: MAKAN, ANAK, NAMA, AMAN, MANA, AKAN, MAKNA, MAKA
+
+===
+JUDUL: 02. Taman Bermain
+TEMA: Halaman Sekolah
+CERITA: Siapa bisa menemukan kata-kata baru?
+HURUF: T A M A N
+WAKTU: 120
+MIN: 3
+KATA: TAMAN, MATA, NAMA, MANA, AMAN
+
+Aturan format:
+- Pisahkan antarsoal dengan === pada baris tersendiri.
+- HURUF dapat ditulis "MAKAN" atau "M A K A N" (4–12 huruf).
+- WAKTU menggunakan satuan detik, disarankan 120–150.
+- MIN adalah panjang minimal kata, biasanya 3.
+- KATA dipisah dengan koma; boleh memakai beberapa baris KATA.
+- Kata dari daftar yang memerlukan huruf di luar HURUF akan dilewati.
+- Semua berlangsung offline, tidak ada data yang dikirim ke internet.
+
+TARGET BELAJAR (60 MENIT)
+05 menit: pembukaan dan contoh strategi pencarian kata.
+10 menit: misi pemanasan 1–4 (pilih 2–3).
+15 menit: misi 5–13 (pilih 3–4).
+20 menit: misi 14–23 (pilih 3–4).
+05 menit: satu misi final.
+05 menit: refleksi—bagaimana algoritma pencarian mempermudah tugas?
+
+PERTANYAAN GURU
+- "Bagaimana kalian memastikan huruf tidak dipakai dua kali?"
+- "Kalau mencoba 3 huruf dulu lalu 4 huruf, apakah lebih teratur?"
+- "Mengapa kata yang sudah disebut tim lain ditolak?"
+- "Apa yang kalian ubah saat strategi pertama tidak berhasil?"

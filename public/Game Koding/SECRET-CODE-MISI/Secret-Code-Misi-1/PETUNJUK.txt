@@ -1,0 +1,37 @@
+SECRET CODE: MISI 1 - TEMUKAN LOKASI RAHASIA
+========================================
+
+1. Buka index.html di Chrome/Edge (tanpa internet).
+2. Siapkan 5 kelompok, ubah nama tim bila perlu di papan skor.
+3. Tekan Mulai Timer. Anak menulis jawabannya di kertas masing-masing.
+4. Guru memasukkan jawaban dari kelima kelompok pada kolom yang tersedia.
+5. Tekan Periksa 5 Jawaban. Jawaban benar mendapatkan +10 poin otomatis.
+6. Beri +5 poin secara manual jika tim bisa menjelaskan cara mengubah kode.
+7. Lanjut ke pesan berikutnya sampai kotak ditemukan.
+
+UPLOAD SOAL
+-----------
+- Klik Unggah soal.txt lalu pilih file teks UTF-8.
+- Soal akan mengganti soal bawaan.
+- Kolom PESAN berisi kode angka, misalnya 2-21-11-21 untuk BUKU.
+- Pisahkan kata dengan /, misalnya 2-21-11-1 / 16-9-14-20-21.
+- Kolom JAWABAN harus cocok dengan kode PESAN.
+- JUDUL, CERITA, PETUNJUK, TEMUAN, PENJELASAN, WAKTU bisa disunting.
+- Format 1 soal dimulai dengan tanda ===, seperti contoh soal.txt.
+- Tombol Soal Bawaan mengembalikan lima pesan bawaan.
+
+PENILAIAN DAN ATURAN
+-------------------
+- +10 per jawaban benar (hanya sekali per soal).
+- +5 bonus penjelasan (diatur guru).
+- Jawaban kosong atau salah mendapat 0 poin.
+- Tiap soal hanya dinilai satu kali sehingga tidak ada poin ganda.
+- Papan skor serta progres disimpan dalam browser yang sama.
+- Tombol Reset Permainan menghapus skor dan riwayat penilaian.
+
+TUJUAN BELAJAR
+--------------
+Representasi data, pemetaan angka-huruf, algoritma decoding,
+memeriksa hasil, dan kerja sama tim. Ajak siswa menjelaskan:
+1) baca satu angka; 2) cari huruf sesuai tabel; 3) tulis huruf;
+4) ulangi sampai selesai; 5) gabungkan menjadi kata.

@@ -1,0 +1,232 @@
+# WORD HACKER - BANK SOAL 25 MISI (anak 10-11 tahun)
+# Simpan sebagai UTF-8; upload melalui tombol Unggah TXT.
+# Format tiap misi dipisah dengan ===
+# HURUF bisa ditulis dengan spasi atau tanpa spasi.
+# KATA adalah daftar contoh jawaban yang otomatis dinilai benar.
+# Kata baru yang belum ada di daftar dapat disetujui guru di aplikasi.
+# Setiap huruf hanya boleh dipakai sejumlah kemunculannya.
+
+===
+JUDUL: 01. Kantin Ceria
+TEMA: Kantin Sekolah
+CERITA: Robot kantin menumpahkan kotak huruf! Temukan kata sebanyak mungkin sebelum jam istirahat selesai.
+HURUF: M A K A N
+WAKTU: 120
+MIN: 3
+KATA: MAKAN, ANAK, NAMA, AMAN, MANA, AKAN, MAKNA, MAKA
+
+===
+JUDUL: 02. Taman Bermain
+TEMA: Halaman Sekolah
+CERITA: Angin meniup papan huruf di taman. Bisakah tim kalian menyusunnya kembali?
+HURUF: T A M A N
+WAKTU: 120
+MIN: 3
+KATA: TAMAN, MATA, NAMA, MANA, AMAN
+
+===
+JUDUL: 03. Belanja Seru
+TEMA: Pasar
+CERITA: Pak pedagang kehilangan label! Cari kata-kata tersembunyi dari huruf pasar.
+HURUF: P A S A R
+WAKTU: 120
+MIN: 3
+KATA: PASAR, RASA, PARA, SAPA, ASAP, RAP
+
+===
+JUDUL: 04. Kebun Bunga
+TEMA: Alam
+CERITA: Kupu-kupu mengacak huruf pada papan kebun bunga. Cari semua kemungkinan katanya!
+HURUF: B U N G A
+WAKTU: 120
+MIN: 3
+KATA: BUNGA, UANG, GUNA, BUANG, BANG, BAU, ABU, BAN
+
+===
+JUDUL: 05. Kartu Misterius
+TEMA: Permainan
+CERITA: Kartu-kartu terjatuh dari kotak mainan. Susun kata untuk mendapat poin.
+HURUF: K A R T U
+WAKTU: 120
+MIN: 3
+KATA: KARTU, TUKAR, RATU, RAK, AKU, TAK, TUA, KUAT
+
+===
+JUDUL: 06. Kelas Rahasia
+TEMA: Sekolah
+CERITA: Pintu kelas hanya mau terbuka jika kalian bisa membuat beberapa kata.
+HURUF: K E L A S
+WAKTU: 120
+MIN: 3
+KATA: KELAS, KESAL, SEKA, LES, SEL, LAS, SELA
+
+===
+JUDUL: 07. Lampu Padam
+TEMA: Rumah
+CERITA: Lampu di ruang tamu mati. Temukan kata untuk mengaktifkan robot teknisi!
+HURUF: L A M P U
+WAKTU: 120
+MIN: 3
+KATA: LAMPU, MALU, PALU, LUPA, MAU, PULA, LAP
+
+===
+JUDUL: 08. Rumah Robot
+TEMA: Rumah
+CERITA: Robot baru pindah rumah dan butuh bantuan mengurutkan huruf.
+HURUF: R U M A H
+WAKTU: 120
+MIN: 3
+KATA: RUMAH, HARUM, RAMU, MAU
+
+===
+JUDUL: 09. Siapa yang Lapar?
+TEMA: Makanan
+CERITA: Robot dapur menunggu pesanan. Ubah huruf yang sama menjadi kata berbeda!
+HURUF: L A P A R
+WAKTU: 120
+MIN: 3
+KATA: LAPAR, PARA, LARA, RAP, APA, ALA
+
+===
+JUDUL: 10. Harta Tepi Laut
+TEMA: Pantai
+CERITA: Peti di tepi pantai penuh kartu huruf. Tim mana paling cepat menemukan katanya?
+HURUF: P A N T A I
+WAKTU: 130
+MIN: 3
+KATA: PANTAI, TANI, TAPI, PITA, PINTA, TIAP, APA, API
+
+===
+JUDUL: 11. Kereta Berangkat
+TEMA: Transportasi
+CERITA: Pengumuman stasiun mendadak rusak. Susun kata dari huruf kereta!
+HURUF: K E R E T A
+WAKTU: 130
+MIN: 3
+KATA: KERETA, KARET, KERA, RAKET, ERAT
+
+===
+JUDUL: 12. Bengkel Sepeda
+TEMA: Transportasi
+CERITA: Huruf dari papan bengkel tertiup angin. Temukan kata yang dapat dibentuk!
+HURUF: S E P E D A
+WAKTU: 130
+MIN: 3
+KATA: SEPEDA, PEDAS, SEDAP, DESA
+
+===
+JUDUL: 13. Kelapa Jatuh
+TEMA: Kebun
+CERITA: Kelapa jatuh dan membuat huruf berhamburan. Kumpulkan kata baru!
+HURUF: K E L A P A
+WAKTU: 130
+MIN: 3
+KATA: KELAPA, KEPALA, LAPAK, PEKA, KALA, ALA, APA, PALA, PAK
+
+===
+JUDUL: 14. Kode Sekolah
+TEMA: Sekolah
+CERITA: Mesin sekolah terkunci. Pecahkan lebih banyak kata dari huruf yang tersedia.
+HURUF: S E K O L A H
+WAKTU: 135
+MIN: 3
+KATA: SEKOLAH, KELAS, SOAL, KAOS, HALO, OLEH, SEKA, SELA, SAH
+
+===
+JUDUL: 15. Bunga Melati
+TEMA: Taman
+CERITA: Kebun melati menyimpan kata tersembunyi. Cari dengan strategi dari 3 huruf dulu.
+HURUF: M E L A T I
+WAKTU: 135
+MIN: 3
+KATA: MELATI, METAL, LIMA, TALI, MATI, TEMA, TIM, ALIM, ITEM
+
+===
+JUDUL: 16. Kantin Otomatis
+TEMA: Kantin
+CERITA: Kantin hari ini dibantu robot. Banyak kata bisa ditemukan dari satu kotak huruf.
+HURUF: K A N T I N
+WAKTU: 135
+MIN: 3
+KATA: KANTIN, KAIN, TANI, IKAN, NANTI, ANTI, KITA, NAIK, NIAT
+
+===
+JUDUL: 17. Waktunya Bermain
+TEMA: Bermain
+CERITA: Permainan dimulai! Carilah kata pendek, lalu gabungkan menjadi kata panjang.
+HURUF: B E R M A I N
+WAKTU: 135
+MIN: 3
+KATA: BERMAIN, MAIN, MARI, AMIN, BERANI, BINA, IMAN
+
+===
+JUDUL: 18. Langit Berbintang
+TEMA: Luar Angkasa
+CERITA: Bintang-bintang berubah menjadi huruf. Berapa banyak kata yang terlihat?
+HURUF: B I N T A N G
+WAKTU: 140
+MIN: 3
+KATA: BINTANG, BANTING, BANG, TANG, TANI, NANTI, GANTI, ANGIN, INGAT, BAN, BAGI
+
+===
+JUDUL: 19. Menu Sarapan
+TEMA: Makanan
+CERITA: Robot sarapan membutuhkan lebih banyak kata agar bisa menyiapkan meja makan.
+HURUF: S A R A P A N
+WAKTU: 140
+MIN: 3
+KATA: SARAPAN, SAPA, ASAP, RASA, PARA, PANAS, PASAR, SANA, PAS, RAP
+
+===
+JUDUL: 20. Pelangi Muncul
+TEMA: Cuaca
+CERITA: Setelah hujan, muncul pelangi! Ubah setiap hurufnya menjadi kata baru.
+HURUF: P E L A N G I
+WAKTU: 140
+MIN: 3
+KATA: PELANGI, PAGI, LAGI, PIL, LAIN, GELAP, PENA, GELI, LAP, GALI, LIPAN, LEGA
+
+===
+JUDUL: 21. Pesan Sahabat
+TEMA: Persahabatan
+CERITA: Sahabat mengirim huruf rahasia. Temukan kata sebanyak mungkin!
+HURUF: S A H A B A T
+WAKTU: 140
+MIN: 3
+KATA: SAHABAT, BAHAS, BATAS, TABAH, ASAH, SAAT, ABAH, BASAH
+
+===
+JUDUL: 22. Minuman Segar
+TEMA: Dapur
+CERITA: Mesin pembuat jus perlu bantuan mencari kata dari susunan huruf baru.
+HURUF: M I N U M A N
+WAKTU: 145
+MIN: 3
+KATA: MINUMAN, MINUM, AMIN, MAIN, IMAN, MUMI, MAU
+
+===
+JUDUL: 23. Komputer Pintar
+TEMA: Teknologi
+CERITA: Komputer sekolah menantang kalian membentuk kata dari huruf teknologi.
+HURUF: K O M P U T E R
+WAKTU: 150
+MIN: 3
+KATA: KOMPUTER, KOPER, RUTE, TEPUK, TEMPO, ROKET, REM, MUR, POT, PER
+
+===
+JUDUL: 24. Pesta Selamat!
+TEMA: Perayaan
+CERITA: Tim hampir menang! Temukan berbagai kata dari satu pesan istimewa.
+HURUF: S E L A M A T
+WAKTU: 150
+MIN: 3
+KATA: SELAMAT, ALAT, ASAM, SAMA, SALAM, LEMAS, MALAS, MATA, TES, SATE, LAMA, ATAS, MASA, LAS
+
+===
+JUDUL: 25. Final: Papan Pelajaran
+TEMA: FINAL
+CERITA: Ini misi terakhir! Susun sebanyak mungkin kata dari huruf yang lebih panjang.
+HURUF: P E L A J A R A N
+WAKTU: 160
+MIN: 3
+KATA: PELAJARAN, AJAR, JALAN, RAJA, PARA, JERA, PENA, LAPAR, PERAN
