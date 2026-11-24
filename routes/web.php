@@ -7,6 +7,8 @@ use App\Http\Controllers\KoKiMeetingTwoController;
 use App\Http\Controllers\KoKiMeetingThreeController;
 use App\Http\Controllers\KoKiMeetingFourController;
 use App\Http\Controllers\KoKiMeetingFiveController;
+use App\Http\Controllers\QuizBankController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/uploads/{path}', [HomeController::class, 'showUpload'])
@@ -19,6 +21,18 @@ Route::post('/contact-messages', [ContactMessageController::class, 'store'])
 
 Route::view('/tools/image-editor', 'tools.image-editor')->name('tools.image-editor');
 Route::view('/tools/game', 'tools.game')->name('tools.game');
+
+Route::prefix('/tools/game/kuis')->name('tools.quiz.')->controller(QuizController::class)->group(function (): void {
+    Route::get('/', 'index')->name('index');
+    Route::post('/gabung', 'join')->name('join');
+    Route::get('/main/{attempt}', 'play')->whereNumber('attempt')->name('play');
+    Route::post('/main/{attempt}/lanjut', 'next')->whereNumber('attempt')->name('next');
+    Route::post('/main/{attempt}/jawab', 'answer')->whereNumber('attempt')->name('answer');
+    Route::get('/hasil/{attempt}', 'results')->whereNumber('attempt')->name('results');
+});
+
+Route::get('/admin/quiz-banks/contoh-txt', [QuizBankController::class, 'example'])->name('admin.quiz-banks.example');
+Route::post('/admin/quiz-banks/{meeting}', [QuizBankController::class, 'store'])->whereNumber('meeting')->name('admin.quiz-banks.store');
 
 Route::prefix('/tools/wan-ko-ki')->name('tools.ko-ki.')->controller(KoKiController::class)->group(function (): void {
     Route::get('/', 'index')->name('index');

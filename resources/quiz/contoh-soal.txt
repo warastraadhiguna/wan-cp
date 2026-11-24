@@ -1,0 +1,15 @@
+# Simpan sebagai TXT dengan encoding UTF-8.
+# Pisahkan setiap soal dengan === di baris sendiri.
+SOAL: Apa yang sebaiknya dilakukan saat instruksi robot terlalu rumit?
+A: Mematikan robot
+B: Membagi tugas menjadi langkah-langkah kecil
+C: Menekan semua tombol sekaligus
+D: Melewati semua langkah
+JAWABAN: B
+===
+SOAL: Apa nama kesalahan dalam sebuah program?
+A: File
+B: Layar
+C: Folder
+D: Bug
+JAWABAN: D

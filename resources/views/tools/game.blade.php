@@ -89,6 +89,12 @@
 
     <main class="container">
         <ul class="games">
+            <li>
+                <a class="game" href="{{ route('tools.quiz.index') }}">
+                    <span>Kuis Koding Online</span>
+                    <span aria-hidden="true">→</span>
+                </a>
+            </li>
             @foreach ($games as $title => $path)
                 @php($encodedPath = implode('/', array_map('rawurlencode', explode('/', 'Game Koding/'.$path))))
                 <li>
